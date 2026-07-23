@@ -1,0 +1,455 @@
+openapi: 3.1.0
+info:
+  title: DFlow Aggregator admin intent API
+  description: DFlow Aggregator API
+  license:
+    name: BUSL-1.1
+  version: 0.1.0
+servers:
+- url: https://quote-api.dflow.net
+security:
+- api_key: []
+tags:
+- name: intent
+  description: Intent trading endpoints
+paths:
+  /intent:
+    get:
+      tags:
+      - intent
+      summary: Returns a quote for a declarative swap
+      operationId: intent_handler
+      parameters:
+      - name: userPublicKey
+        in: query
+        description: 'Base58-encoded address of the swapper''s wallet. If specified, the response will include a
+
+          transaction allowing the user to submit the intent.'
+        required: false
+        schema:
+          type: string
+      - name: inputMint
+        in: query
+        description: Base58-encoded input mint address
+        required: true
+        schema:
+          type: string
+      - name: outputMint
+        in: query
+        description: Base58-encoded output mint address
+        required: true
+        schema:
+          type: string
+      - name: amount
+        in: query
+        description: Input amount as a scaled integer. For example, 1 SOL is 1000000000.
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+      - name: slippageBps
+        in: query
+        description: "Max allowed slippage for the swap. Allowed values are:\n- a u16 which specifies the maximum allowed slippage in basis points\n- the string value \"auto\", where the server determines the maximum allowed slippage\n  automatically"
+        required: false
+        schema:
+          $ref: '#/components/schemas/SlippageTolerance'
+      - name: priceImpactTolerancePct
+        in: query
+        description: 'If specified, the API will return an error if the price impact of the route is greater than
+
+          the specified percentage. If unspecified, the server will determine the threshold. For
+
+          example, 10 is 10% and 100 is 100%.'
+        required: false
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: platformFeeBps
+        in: query
+        description: Optional platform fee in basis points. This is taken out of the output of the swap.
+        required: false
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: feeAccount
+        in: query
+        description: 'Base58-encoded address of the token account that will receive the platform fee if a platform
+
+          fee applies to the swap. If specified, this account''s mint must match the output mint for
+
+          the swap.'
+        required: false
+        schema:
+          type: string
+      - name: referralAccount
+        in: query
+        description: 'Base58-encoded address of the referral account associated with the fee account.
+
+          If the fee account isn''t a referral token account derived from the seeds
+
+          `["referral_ata", referral_account, mint]` and the Referral program ID
+
+          `REFER4ZgmyYx9c6He5XfaTMiGfdLwRnkV4RPp9t9iF3`, this should be unspecified. If specified, the
+
+          the intent opening transaction will create the `fee_account` if it doesn''t already exist.
+
+          The user pays for the creation of the fee account. Ignored if `fee_account` is unspecified.'
+        required: false
+        schema:
+          type: string
+      - name: wrapAndUnwrapSol
+        in: query
+        description: If false, the intent will use wrapped SOL
+        required: false
+        schema:
+          type: boolean
+      - name: feeBudget
+        in: query
+        description: 'Maximum amount that the user is willing to pay to have the intent processed in lamports.
+
+          This includes all transaction fees and tips for the open transaction and all transaction
+
+          fees and tips for the fill and close transactions. If unspecified, the server will determine
+
+          the fee budget.'
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+      - name: maxAutoFeeBudget
+        in: query
+        description: 'Limit on the automatically-determined maximum fee budget in lamports. If the `fee_budget` is
+
+          unspecified, then the server''s automatically-determined fee budget will be capped at this
+
+          value. If unspecified, the limit defaults to 0.002 SOL. The final fee budget used is
+
+          `min(max_auto_fee_budget, auto_fee_budget_determined_by_server)`.'
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+      responses:
+        '200':
+          description: Declarative swap quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntentQuoteResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntentBadRequestResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntentInternalServerErrorResponse'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntentServiceUnavailableResponse'
+  /submit-intent:
+    post:
+      tags:
+      - intent
+      summary: Submits a declarative swap transaction for processing
+      operationId: submit_intent_handler
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntentSwapRequest'
+        required: true
+      responses:
+        '200':
+          description: Declarative swap submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntentSwapResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmitIntentBadRequestResponse'
+components:
+  schemas:
+    IntentServiceUnavailableResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/IntentServiceUnavailableCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    IntentSwapRequest:
+      type: object
+      required:
+      - quoteResponse
+      - signedOpenTransaction
+      properties:
+        quoteResponse:
+          $ref: '#/components/schemas/IntentQuoteResponse'
+          description: The response from the quote endpoint
+        signedOpenTransaction:
+          type: string
+          description: Base64-encoded intent opening transaction, signed by the user
+    SubmitIntentBadRequestResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/SubmitIntentBadRequestCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    IntentInternalServerErrorResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/IntentInternalServerErrorCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    IntentExpiry:
+      oneOf:
+      - type: object
+        description: 'The intent will expire after the specified number of slots have passed since the open
+
+          transaction was processed. For example, if the open transaction was processed in slot 100, a
+
+          value of 10 means the intent will be fillable through slot 110. After slot 110, the intent
+
+          will no longer be fillable.'
+        required:
+        - slotsAfterOpen
+        properties:
+          slotsAfterOpen:
+            type: integer
+            format: int32
+            description: 'The intent will expire after the specified number of slots have passed since the open
+
+              transaction was processed. For example, if the open transaction was processed in slot 100, a
+
+              value of 10 means the intent will be fillable through slot 110. After slot 110, the intent
+
+              will no longer be fillable.'
+            minimum: 0
+    IntentInternalServerErrorCode:
+      type: string
+      enum:
+      - failed_to_compute_route
+      - failed_to_construct_intent
+    IntentSwapResponse:
+      type: object
+      required:
+      - programId
+      - orderAddress
+      - openTransactionSignature
+      properties:
+        openTransactionSignature:
+          type: string
+          description: Base58-encoded open transaction signature
+        orderAddress:
+          type: string
+          description: Base58-encoded order address
+        programId:
+          type: string
+          description: Base58-encoded program ID of the program that facilitates the swap
+    IntentBadRequestResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/IntentBadRequestCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    IntentServiceUnavailableCode:
+      type: string
+      enum:
+      - amm_map_not_initialized
+      - amm_map_lagging
+    IntentPlatformFee:
+      type: object
+      required:
+      - amount
+      - feeBps
+      - segmenterFeeAmount
+      - segmenterFeePct
+      - feeAccount
+      properties:
+        amount:
+          type: string
+          description: Platform fee as a scaled integer. For example, 1 SOL is 1000000000.
+        feeAccount:
+          type: string
+          description: Token account that will receive the platform fee
+        feeBps:
+          type: integer
+          format: int32
+          description: Platform fee in basis points
+          minimum: 0
+        segmenterFeeAmount:
+          type: string
+          description: Segmenter fee as a scaled integer. For example, 1 SOL is 1000000000.
+        segmenterFeePct:
+          type: integer
+          format: int32
+          description: Segmenter fee in percent
+          minimum: 0
+    SubmitIntentBadRequestCode:
+      type: string
+      enum:
+      - invalid_input_mint
+      - invalid_output_mint
+      - same_input_and_output_mint
+      - invalid_in_amount
+      - invalid_out_amount
+      - invalid_fee_account
+      - invalid_open_instruction_fee_budget_too_low
+      - invalid_open_transaction
+      - invalid_open_instruction_data
+      - failed_to_simulate_open_transaction
+      - open_transaction_simulation_failed
+    IntentQuoteResponse:
+      type: object
+      required:
+      - inputMint
+      - inAmount
+      - outputMint
+      - outAmount
+      - otherAmountThreshold
+      - minOutAmount
+      - slippageBps
+      - feeBudget
+      - priceImpactPct
+      properties:
+        expiry:
+          $ref: '#/components/schemas/IntentExpiry'
+          description: 'The expiry of the intent. After expiry, the intent cannot be filled and can only be closed.
+
+            Specified if and only if the request included the user''s public key.'
+        feeBudget:
+          type: integer
+          format: int64
+          description: 'Maximum amount that the user is willing to pay to have the intent processed in lamports.
+
+            This includes all transaction fees and tips for the open transaction and all transaction
+
+            fees and tips for the fill and close transactions.'
+          minimum: 0
+        inAmount:
+          type: string
+          description: Maximum input amount as a scaled integer. For example, 1 SOL is 1000000000.
+        inputMint:
+          type: string
+          description: Base58-encoded input mint address
+        lastValidBlockHeight:
+          type: integer
+          format: int64
+          description: 'The last block height at which the blockhash assigned to the open transaction is valid.
+
+            Useful to determine whether the open transaction has expired. Specified if and only if the
+
+            request included the user''s public key.'
+          minimum: 0
+        minOutAmount:
+          type: string
+          description: Same as `other_amount_threshold`
+        openTransaction:
+          type: string
+          description: 'Base64-encoded intent opening transaction. The user must sign before sending it via the
+
+            swap endpoint. Specified if and only if the request included the user''s public key.'
+        otherAmountThreshold:
+          type: string
+          description: 'Minimum output amount after all fees as a scaled integer. If the swap transaction doesn''t
+
+            produce at least this amount of the output token, the transaction will fail.'
+        outAmount:
+          type: string
+          description: Expected output amount after all fees as a scaled integer. For example, 1 SOL is 1000000000.
+        outputMint:
+          type: string
+          description: Base58-encoded output mint address
+        platformFee:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/IntentPlatformFee'
+            description: Platform fee that was applied to the quote, if any
+        priceImpactPct:
+          type: string
+          description: 'Price impact of the swap. This is an estimate of the percentage difference between the
+
+            expected price for the swap and the price for the same swap with the smallest input amount
+
+            possible. For example, "0.01" means 1% price impact.'
+        slippageBps:
+          type: integer
+          format: int32
+          description: Max allowed slippage % in basis points
+          minimum: 0
+    SlippageTolerance:
+      oneOf:
+      - type: integer
+        format: int32
+        description: Slippage tolerance specified in basis points
+        minimum: 0
+      - type: string
+        description: Slippage tolerance will be determined by the server
+        enum:
+        - auto
+    IntentBadRequestCode:
+      type: string
+      enum:
+      - requested_input_amount_is_zero
+      - invalid_input_mint
+      - invalid_output_mint
+      - invalid_slippage_bps
+      - invalid_platform_fee_bps
+      - invalid_user_public_key
+      - same_input_and_output_mint
+      - invalid_fee_account
+      - invalid_referral_account
+      - requested_fee_budget_too_low
+      - invalid_max_auto_fee_budget
+      - route_not_found
+      - price_impact_too_high
+      - invalid_price_impact_tolerance_pct
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API key for authentication. Contact hello@dflow.net to obtain an API key.

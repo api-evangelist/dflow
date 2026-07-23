@@ -1,0 +1,40 @@
+openapi: 3.1.0
+info:
+  title: DFlow Aggregator admin venues API
+  description: DFlow Aggregator API
+  license:
+    name: BUSL-1.1
+  version: 0.1.0
+servers:
+- url: https://quote-api.dflow.net
+security:
+- api_key: []
+tags:
+- name: venues
+  description: Venue endpoints
+paths:
+  /venues:
+    get:
+      tags:
+      - venues
+      summary: Returns a list of venues supported for swapping.
+      operationId: venues_handler
+      responses:
+        '200':
+          description: List of supported venues
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vec'
+components:
+  schemas:
+    Vec:
+      type: array
+      items:
+        type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API key for authentication. Contact hello@dflow.net to obtain an API key.
