@@ -1,0 +1,34 @@
+generated: '2026-07-18'
+method: searched
+source: https://pond.dflow.net/ai/agent-cli
+notes: >-
+  DFlow does not publish a first-party client-library SDK on npm/PyPI/etc. Its
+  official distributables are the `dflow` agent CLI binary (script installer) and
+  the Claude Code Skills packages (installed via the `skills` CLI). Integration is
+  otherwise via direct HTTPS calls to the Trading API (see the DFlow Cookbook,
+  https://github.com/DFlowProtocol/cookbook). No `SDKs` pointer is emitted because
+  no client library is shipped.
+packages:
+- language: binary
+  registry: script-installer
+  name: dflow
+  url: https://cli.dflow.net
+  install: curl -fsS https://cli.dflow.net | sh
+  official: true
+  kind: cli
+  see: cli/dflow-cli.yml
+- language: markdown
+  registry: skills
+  name: DFlowProtocol/dflow-skills
+  url: https://github.com/DFlowProtocol/dflow-skills
+  install: npx skills add DFlowProtocol/dflow-skills
+  official: true
+  kind: agent-skills
+  see: skills/_index.yml
+- language: markdown
+  registry: skills
+  name: DFlowProtocol/dflow_phantom-connect-skill
+  url: https://github.com/DFlowProtocol/dflow_phantom-connect-skill
+  install: npx skills add https://github.com/DFlowProtocol/dflow_phantom-connect-skill
+  official: true
+  kind: agent-skills

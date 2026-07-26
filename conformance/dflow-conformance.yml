@@ -1,0 +1,29 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/dflow-openapi-original.json
+docs: https://pond.dflow.net/resources/introduction
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: openapi/dflow-openapi-original.json is OpenAPI 3.1.0
+- id: apikey-auth
+  conforms: true
+  evidence: components.securitySchemes.api_key type apiKey in header (x-api-key)
+- id: rfc9421-http-message-signatures
+  conforms: true
+  evidence: >-
+    Responses can be signed on request (x-sign-request) using ed25519 per RFC 9421;
+    see conventions/dflow-conventions.yml and https://pond.dflow.net/resources/request-signing
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 security schemes; API-key auth only.
+- id: openid-connect
+  conforms: false
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Error responses use application/json with a string `code`, not application/problem+json.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No deprecation/sunset policy published.
+- id: json-api
+  conforms: false

@@ -1,0 +1,33 @@
+generated: '2026-07-18'
+method: searched
+source: https://pond.dflow.net/get-started/endpoints
+description: >-
+  DFlow separates keyless, rate-limited developer (sandbox) endpoints from
+  higher-limit production endpoints gated by an API key. There is no separate
+  test network or fake-money mode — the developer endpoints route real Solana
+  mainnet liquidity but are intended for testing/integration and are rate limited.
+modes:
+- name: developer
+  api_key_required: false
+  purpose: Testing and integration only; rate limited.
+  endpoints:
+    trade_api: https://dev-quote-api.dflow.net
+    trade_api_ws: wss://dev-quote-api.dflow.net
+- name: production
+  api_key_required: true
+  purpose: Live applications; higher rate limits.
+  endpoints:
+    trade_api: https://quote-api.dflow.net
+    trade_api_ws: wss://quote-api.dflow.net
+  ws_stream_paths: [/quote-stream, /book-stream, /priority-fees/stream]
+api_key_request: https://forms.gle/eX3cghbMF8VBB9qa9
+reference_mints:
+  # Common Solana mainnet mints used verbatim in the DFlow docs examples.
+  SOL: So11111111111111111111111111111111111111112
+  USDC: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+example_request: >-
+  curl "https://dev-quote-api.dflow.net/order?inputMint=So11111111111111111111111111111111111111112&outputMint=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&amount=100000000"
+notes: >-
+  `amount` is always in atomic units of inputMint (scaled by decimals). Request
+  signing (x-sign-request) can be exercised against the developer endpoint with
+  no API key. See conventions/dflow-conventions.yml.

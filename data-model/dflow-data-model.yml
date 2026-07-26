@@ -1,0 +1,69 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/dflow-openapi-original.json
+description: >-
+  Entity model derived from the DFlow Aggregator OpenAPI component schemas and
+  endpoint surface. DFlow is a stateless trading aggregator: most "entities" are
+  request/response value objects (quotes, orders, routes) rather than persisted,
+  addressable resources. The only server-retrievable resource is order status,
+  keyed by the onchain transaction signature.
+entities:
+- name: Quote
+  source_schema: QuoteResponse
+  produced_by: [quote_handler, order_handler, intent_handler]
+  description: Price quote for a swap (in/out amounts, price impact, slippage, route plan).
+- name: Order
+  source_schema: OrderResponse
+  produced_by: [order_handler]
+  description: A quote plus a base64 signed-ready VersionedTransaction bound to a blockhash.
+  relationships:
+  - has_one: Quote
+    via: response body (combined)
+  - has_many: RoutePlanLeg
+    via: routePlan
+- name: OrderStatus
+  source_schema: OrderStatusResponse
+  produced_by: [order_status_handler]
+  key: transaction signature
+  description: Settlement status for a submitted order, looked up by signature.
+- name: Swap
+  source_schema: SwapResponse
+  produced_by: [swap_handler]
+  description: Constructed swap transaction from a supplied quote/route.
+- name: SwapInstructions
+  source_schema: SwapInstructionsResponse
+  produced_by: [swap_instructions_handler]
+  description: Decomposed instruction set (for callers composing their own transaction).
+- name: Intent
+  source_schema: [IntentQuoteResponse, IntentSwapResponse]
+  produced_by: [intent_handler, submit_intent_handler]
+  description: Declarative (intent-based) swap; quote then submit.
+- name: RoutePlanLeg
+  source_schema: [RoutePlanLeg, SingleMarketRoutePlanLeg, DynamicRoutePlanLeg]
+  description: One hop of a computed route across venues.
+  relationships:
+  - belongs_to: Order
+    via: routePlan
+- name: Token
+  source_schema: TokensWithDecimalsDoc
+  produced_by: [tokens_handler, tokens_with_decimals_handler]
+  key: mint (base58 SPL / Token-2022 address)
+  description: Tradable token; identified by its Solana mint address.
+- name: Venue
+  produced_by: [venues_handler]
+  description: A liquidity venue (DEX/market) DFlow can route through.
+- name: PriorityFees
+  source_schema: PriorityFeesResponse
+  produced_by: [priority_fees_handler, priority_fee_stream_handler]
+  description: Priority-fee estimates for landing transactions.
+- name: PredictionMarketInit
+  source_schema: PredictionMarketInitResponse
+  produced_by: [prediction_market_init_handler]
+  description: Initialization transaction for a Solana prediction market.
+- name: PlatformFee
+  source_schema: [PlatformFee, IntentPlatformFee]
+  description: Builder-configured fee (platformFeeBps) captured on a swap.
+identifiers:
+  token: base58 SPL / Token-2022 mint address
+  order_status_key: transaction signature (base58)
+  wallet: userPublicKey (base58 Solana pubkey)

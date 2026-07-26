@@ -1,0 +1,25 @@
+generated: '2026-07-18'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: dflow.net
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 12 03:03:49 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: quote-api.dflow.net
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Nov 29 23:59:59 2026 GMT
+  hsts: null
+domains:
+- domain: dflow.net
+  dnssec: false
+  caa:
+  - 0 issue "amazon.com"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "letsencrypt.org;accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/54403714"
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine

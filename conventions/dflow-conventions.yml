@@ -1,0 +1,63 @@
+generated: '2026-07-18'
+method: searched
+source: https://pond.dflow.net/resources/introduction
+description: >-
+  Cross-cutting request/response semantics for the DFlow Trading API (Aggregator),
+  derived from the OpenAPI and the published docs. DFlow is a Solana spot-trading
+  aggregator: most "state change" happens onchain via a signed VersionedTransaction
+  that DFlow returns, not via server-side mutation, so several classic REST
+  conventions (idempotency keys, cursor pagination) do not apply.
+authentication:
+  style: api-key
+  header: x-api-key
+  applies_to: production endpoints (quote-api.dflow.net); developer endpoints are keyless but rate-limited
+  docs: https://pond.dflow.net/resources/recipes/api-keys
+  see: authentication/dflow-authentication.yml
+idempotency:
+  request_level_key: false
+  note: >-
+    DFlow does not expose an Idempotency-Key request header. Trade safety comes
+    from the blockchain layer: /order returns a signed-ready VersionedTransaction
+    bound to a specific recentBlockhash + lastValidBlockHeight, so a submitted
+    transaction can only land once. The swap instruction can `idempotently`
+    initialize the output token account (no-op if it already exists), but that is
+    onchain-instruction idempotency, not API request idempotency.
+request_signing:
+  supported: true
+  standard: RFC 9421 (HTTP Message Signatures)
+  algorithm: ed25519
+  request_header: 'x-sign-request: true'
+  correlation_header: x-request-id   # echoed back; guards against replay
+  response_headers: [signature-input, signature, content-digest, x-request-id]
+  public_key: EZKxYr7bbXHaKAGw2MEpVUU9He3hwXGejSpCsdsZCmiF
+  scope: REST only (not WebSocket)
+  docs: https://pond.dflow.net/resources/request-signing
+tracing:
+  request_id_header: x-request-id
+  model_header: X-Dflow-Model   # set by the CLI `dflow agent --model`, cached 48h
+pagination:
+  supported: false
+  note: Trading endpoints return single quotes/orders or full token/venue lists; no paged collections.
+versioning:
+  scheme: unversioned-host
+  api_version: 0.1.0   # info.version in the OpenAPI
+  note: No version prefix in the path; base host is quote-api.dflow.net.
+error_envelope:
+  media_type: application/json
+  fields: [code]
+  see: errors/dflow-problem-types.yml
+rate_limiting:
+  developer_endpoints: rate-limited, testing only, keyless
+  production_endpoints: higher limits with an API key
+  signal: HTTP 429 (Rate limit exceeded)
+trading_controls:
+  slippage: slippageBps parameter (basis points)
+  price_impact: priceImpactTolerancePct parameter
+  priority_fees: presets auto | medium | high | veryHigh, or explicit lamports
+  platform_fees: platformFeeBps (builder cut); see skills/dflow-platform-fees.md
+  sponsored_swaps: gasless swaps where a sponsor covers transaction fees
+cors:
+  browser_direct: false
+  note: The Trading API serves no CORS; browser apps must proxy HTTP through their own backend.
+websockets:
+  see: asyncapi/dflow-trading-asyncapi.yml

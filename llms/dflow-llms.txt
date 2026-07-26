@@ -1,0 +1,58 @@
+# DFlow
+
+## Docs
+
+- [Agent CLI](https://pond.dflow.net/ai/agent-cli.md): Agent-first CLI for executing trades on Solana via DFlow
+- [Agent Skills](https://pond.dflow.net/ai/agent-skills.md): Pre-built Claude Code Skills for DFlow
+- [Introduction](https://pond.dflow.net/ai/introduction.md): Tools and files for building with and for AI agents on DFlow
+- [llms-full.txt](https://pond.dflow.net/ai/llms-full-txt.md)
+- [llms.txt](https://pond.dflow.net/ai/llms-txt.md)
+- [MCP Server](https://pond.dflow.net/ai/mcp.md): Connect AI tools to DFlow documentation and API references with our hosted MCP server.
+- [skill.md](https://pond.dflow.net/ai/skill-md.md)
+- [API Keys](https://pond.dflow.net/get-started/api-key.md): How to request an API key for production use
+- [Endpoints](https://pond.dflow.net/get-started/endpoints.md): DFlow endpoints for the Trading API
+- [Get Started](https://pond.dflow.net/get-started/what-is-dflow.md): Overview of DFlow's trading infrastructure on Solana
+- [Welcome to DFlow](https://pond.dflow.net/introduction.md): DFlow is a trading protocol for spot trading natively on Solana.
+- [Dev Notifications](https://pond.dflow.net/resources/dev-notifications.md): Stay in the loop on new DFlow features and announcements
+- [Error Codes](https://pond.dflow.net/resources/error-codes.md): Understanding and resolving error codes
+- [FAQs](https://pond.dflow.net/resources/faqs.md): Answers to common questions about building with DFlow
+- [Introduction](https://pond.dflow.net/resources/introduction.md): APIs, wallet integration guides, and troubleshooting
+- [Authenticate Requests](https://pond.dflow.net/resources/recipes/api-keys.md): How to authenticate requests with DFlow API keys
+- [Phantom Connect](https://pond.dflow.net/resources/recipes/wallets/phantom-connect.md): How to add Phantom Connect to a Next.js + React app
+- [Privy](https://pond.dflow.net/resources/recipes/wallets/privy.md): How to add Privy to a Next.js + React app
+- [Turnkey](https://pond.dflow.net/resources/recipes/wallets/turnkey.md): How to add Turnkey to a Next.js + React app
+- [Request Signing](https://pond.dflow.net/resources/request-signing.md): Ask DFlow to cryptographically sign its API responses
+- [Get Intent Quote](https://pond.dflow.net/resources/trading-api/declarative/quote.md): API reference for GET /intent
+- [Submit Intent Swap](https://pond.dflow.net/resources/trading-api/declarative/submit.md): API reference for POST /submit-intent
+- [Get Quote](https://pond.dflow.net/resources/trading-api/imperative/quote.md): API reference for GET /quote
+- [Create Swap](https://pond.dflow.net/resources/trading-api/imperative/swap.md): API reference for POST /swap
+- [Create Swap Instructions](https://pond.dflow.net/resources/trading-api/imperative/swap-instructions.md): API reference for POST /swap-instructions
+- [Introduction](https://pond.dflow.net/resources/trading-api/introduction.md): How to use the Trading API to trade crypto on Solana.
+- [Get Order](https://pond.dflow.net/resources/trading-api/order/order.md): API reference for GET /order
+- [Get Order Status](https://pond.dflow.net/resources/trading-api/order/order-status.md): API reference for GET /order-status
+- [Get Priority Fees](https://pond.dflow.net/resources/trading-api/priority-fees/priority-fees.md): API reference for GET /priority-fees
+- [Get Token List](https://pond.dflow.net/resources/trading-api/token/tokens.md): API reference for GET /tokens
+- [Get Token List with Decimals](https://pond.dflow.net/resources/trading-api/token/tokens-with-decimals.md): API reference for GET /tokens-with-decimals
+- [Get Venue List](https://pond.dflow.net/resources/trading-api/venues/venues.md): API reference for GET /venues
+- [Book Stream](https://pond.dflow.net/resources/trading-api/websockets/book-stream.md): Stream ten levels of order book depth for token pairs over WebSocket
+- [Websockets Overview](https://pond.dflow.net/resources/trading-api/websockets/overview.md): Stream real-time Trading API updates via WebSocket
+- [Priority Fees Stream](https://pond.dflow.net/resources/trading-api/websockets/priority-fees-stream.md): Stream Trading API priority fee estimates over WebSocket
+- [Quote Stream](https://pond.dflow.net/resources/trading-api/websockets/quote-stream.md): Stream live bid/ask quotes for token pairs over WebSocket
+- [Spot Trading](https://pond.dflow.net/spot/introduction.md): How spot trading on DFlow works: request an order, sign, submit
+- [JIT Routing](https://pond.dflow.net/spot/jit-routing.md): How JIT routing updates trade execution onchain
+- [Liquidity and Venues](https://pond.dflow.net/spot/liquidity-venues.md): How DFlow routes liquidity across venues
+- [Add Platform Fees](https://pond.dflow.net/spot/recipes/platform-fees.md): How to implement platform fees with the DFlow Trading API
+- [Add Priority Fees](https://pond.dflow.net/spot/recipes/priority-fees.md): How to set priority fees for Trading API requests
+- [Send Orders](https://pond.dflow.net/spot/recipes/quickstart.md): Send a spot order with the DFlow Trading API: request, sign, and submit
+- [Stream Order Book Depth](https://pond.dflow.net/spot/recipes/stream-order-book.md): Connect to the book stream and read ten levels of order book depth
+- [Stream Top-of-Book Quotes](https://pond.dflow.net/spot/recipes/stream-quotes.md): Connect to the quote stream and read live bid/ask updates for a token pair
+- [Market Data Streams](https://pond.dflow.net/spot/trading/market-data-streams.md): Stream live top-of-book quotes and order book depth over WebSocket
+- [Platform Fees](https://pond.dflow.net/spot/trading/platform-fees.md): How to apply platform fees to trades
+- [Priority Fees](https://pond.dflow.net/spot/trading/priority-fees.md): How priority fees affect trade execution
+- [Slippage Tolerance](https://pond.dflow.net/spot/trading/slippage-tolerance.md): How slippage works and how to control it in Trading API requests
+- [Sponsored Swaps](https://pond.dflow.net/spot/trading/sponsored-swaps.md): How to implement gasless swaps where a sponsor covers transaction fees
+- [Trading Data Model](https://pond.dflow.net/spot/trading/trade-api-data-model.md): How trading data is structured around `/order` requests
+
+## OpenAPI Specs
+
+- [openapi](https://pond.dflow.net/resources/trading-api/openapi.json)

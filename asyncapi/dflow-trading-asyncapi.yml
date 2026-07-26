@@ -1,0 +1,60 @@
+asyncapi: 3.0.0
+info:
+  title: DFlow Trading API WebSocket Streams
+  version: 0.1.0
+  description: >-
+    DERIVED event surface for the DFlow Trading API real-time WebSocket streams.
+    Modeled by API Evangelist from the published DFlow docs
+    (https://pond.dflow.net/resources/trading-api/websockets/overview and the
+    /spot/recipes/stream-* recipes); DFlow does not publish a native AsyncAPI
+    document. Channels stream live market data (top-of-book quotes, order-book
+    depth, and priority-fee estimates) over WebSocket. Not a webhook/callback
+    surface — these are client-subscribed read streams.
+  x-provenance:
+    generated: '2026-07-18'
+    method: derived
+    source: https://pond.dflow.net/resources/trading-api/websockets/overview
+servers:
+  production:
+    host: quote-api.dflow.net
+    protocol: wss
+    description: Production WebSocket host (API key via x-api-key for higher limits).
+  developer:
+    host: dev-quote-api.dflow.net
+    protocol: wss
+    description: Keyless, rate-limited developer WebSocket host for testing.
+channels:
+  quoteStream:
+    address: /quote-stream
+    description: Stream live bid/ask (top-of-book) quotes for a token pair.
+    messages:
+      quoteUpdate:
+        name: quoteUpdate
+        summary: A top-of-book bid/ask update for the subscribed token pair.
+  bookStream:
+    address: /book-stream
+    description: Stream ten levels of order-book depth for a token pair.
+    messages:
+      bookUpdate:
+        name: bookUpdate
+        summary: Ten-level order-book depth snapshot/update for the subscribed pair.
+  priorityFeesStream:
+    address: /priority-fees/stream
+    description: Stream Trading API priority-fee estimates.
+    messages:
+      priorityFeesUpdate:
+        name: priorityFeesUpdate
+        summary: Updated priority-fee estimate for landing transactions under congestion.
+operations:
+  subscribeQuotes:
+    action: receive
+    channel:
+      $ref: '#/channels/quoteStream'
+  subscribeBook:
+    action: receive
+    channel:
+      $ref: '#/channels/bookStream'
+  subscribePriorityFees:
+    action: receive
+    channel:
+      $ref: '#/channels/priorityFeesStream'

@@ -1,0 +1,93 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/dflow-openapi-original.json
+docs: https://pond.dflow.net/resources/error-codes
+format: json
+notes: >-
+  The DFlow Trading API returns errors as application/json (not RFC 9457
+  problem+json). Each error response carries a machine-readable string `code`
+  drawn from a per-endpoint enum plus an HTTP status. Codes below are the
+  verbatim enum values from the OpenAPI error schemas; the general HTTP 429
+  rate-limit and the two most common trading errors are enriched from the
+  published error-codes reference.
+envelope:
+  fields:
+  - code        # machine-readable string, e.g. route_not_found
+  status_source: HTTP status code
+general_http:
+- status: 429
+  title: Rate limit exceeded
+  when: Too many requests in a short window on the rate-limited developer endpoints.
+  remediation: Retry with backoff, reduce request rate, or use a production API key.
+problems:
+- status: 400
+  title: Bad request
+  source_operations:
+  - openapi/dflow-openapi-original.json#quote_handler
+  - openapi/dflow-openapi-original.json#order_handler
+  - openapi/dflow-openapi-original.json#intent_handler
+  - openapi/dflow-openapi-original.json#swap_handler
+  - openapi/dflow-openapi-original.json#swap_instructions_handler
+  - openapi/dflow-openapi-original.json#submit_intent_handler
+  - openapi/dflow-openapi-original.json#order_status_handler
+  - openapi/dflow-openapi-original.json#prediction_market_init_handler
+  codes:
+  - code: route_not_found
+    meaning: No viable route between inputMint and outputMint.
+    remediation: >-
+      Most often caused by passing human-readable instead of atomic `amount`
+      units, or an illiquid pair / trade size beyond available liquidity. Use
+      atomic units, try a smaller amount or a different pair.
+  - code: price_impact_too_high
+    meaning: Effective routing price is worse than the allowed threshold.
+    remediation: Set your own threshold via priceImpactTolerancePct.
+  - code: requested_input_amount_is_zero
+  - code: invalid_input_mint
+  - code: invalid_output_mint
+  - code: same_input_and_output_mint
+  - code: invalid_slippage_bps
+  - code: invalid_platform_fee_bps
+  - code: invalid_user_public_key
+  - code: invalid_fee_account
+  - code: invalid_referral_account
+  - code: invalid_dex
+  - code: invalid_price_impact_tolerance_pct
+  - code: invalid_signature          # order-status
+  - code: zero_out_amount
+  - code: route_too_long
+  - code: route_is_empty
+  - code: invalid_sponsor
+  - code: prediction_market_already_initialized   # prediction-market-init
+- status: 404
+  title: Not found
+  source_operations:
+  - openapi/dflow-openapi-original.json#order_status_handler
+  codes:
+  - code: not_found
+    meaning: No order matches the supplied signature.
+- status: 500
+  title: Internal server error
+  source_operations:
+  - openapi/dflow-openapi-original.json#quote_handler
+  - openapi/dflow-openapi-original.json#order_handler
+  - openapi/dflow-openapi-original.json#swap_handler
+  codes:
+  - code: failed_to_compute_route
+  - code: failed_to_construct_order
+  - code: failed_to_construct_intent
+  - code: failed_to_compute_swap
+  - code: failed_to_construct_transaction
+- status: 503
+  title: Service unavailable
+  source_operations:
+  - openapi/dflow-openapi-original.json#quote_handler
+  - openapi/dflow-openapi-original.json#order_handler
+  - openapi/dflow-openapi-original.json#tokens_handler
+  - openapi/dflow-openapi-original.json#handler_health_check
+  codes:
+  - code: amm_map_not_initialized
+  - code: amm_map_lagging
+  - code: mint_info_not_initialized
+  - code: reference_price_map_not_initialized
+  - code: blockhash_unavailable
+  - code: internal

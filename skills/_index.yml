@@ -1,0 +1,23 @@
+generated: '2026-07-18'
+method: searched
+source: https://pond.dflow.net/ai/agent-skills
+description: >-
+  Provider-published Claude Code Skills for DFlow, saved verbatim from the
+  DFlowProtocol/dflow-skills repository. These teach an agent to use the `dflow`
+  CLI and the Trading API correctly. A third skill (Phantom Connect, for full-stack
+  web apps) lives in DFlowProtocol/dflow_phantom-connect-skill and is catalogued
+  in packages/dflow-packages.yml.
+install: npx skills add DFlowProtocol/dflow-skills
+skills:
+- file: dflow-spot-trading.md
+  name: dflow-spot-trading
+  description: Swap any pair of Solana tokens via the DFlow CLI or Trading API.
+  api: openapi/dflow-openapi-original.json
+  operations: [order_handler, quote_handler, swap_handler, priority_fees_handler]
+  source: https://github.com/DFlowProtocol/dflow-skills/blob/main/skills/dflow-spot-trading/SKILL.md
+- file: dflow-platform-fees.md
+  name: dflow-platform-fees
+  description: Take a builder cut on swaps using platformFeeBps.
+  api: openapi/dflow-openapi-original.json
+  operations: [order_handler, swap_handler]
+  source: https://github.com/DFlowProtocol/dflow-skills/blob/main/skills/dflow-platform-fees/SKILL.md

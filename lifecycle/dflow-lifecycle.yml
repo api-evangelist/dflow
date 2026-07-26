@@ -1,0 +1,23 @@
+generated: '2026-07-18'
+method: searched
+source: https://pond.dflow.net/resources/introduction
+versioning:
+  scheme: unversioned-host
+  current: 0.1.0   # OpenAPI info.version
+  docs: https://pond.dflow.net/get-started/endpoints
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No formal deprecation/sunset policy published; the docs note /quote is the older surface and redirects back to /order.
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+announcements:
+  channel: telegram
+  url: https://t.me/+GubbVyulzDFjZTkx
+  docs: https://pond.dflow.net/resources/dev-notifications
+deprecated_operations: []
+notes: >-
+  DFlow publishes no dated status page, SLA, or deprecation policy as of this pass.
+  Feature/change announcements are broadcast via the Dev Notifications Telegram group.

@@ -1,0 +1,38 @@
+generated: '2026-07-18'
+method: probed
+source: live probes of DFlow website + API hosts
+description: >-
+  Probed the /.well-known/ discovery surface on the website and Trading API hosts.
+  No real well-known documents are published. The website (dflow.net) is a
+  single-page app on Netlify that returns HTTP 200 with the SPA HTML shell for any
+  path, so its 200s are catch-all false positives (not real documents) and are
+  recorded as such. API hosts return 403/404. No WellKnown or SecurityTxt pointer
+  is emitted.
+hosts:
+- host: https://dflow.net
+  note: SPA catch-all — every path returns 200 with the app HTML shell, not a real document.
+  documents:
+  - {path: /.well-known/security.txt, status: 200, real: false, reason: spa-html-catch-all}
+  - {path: /.well-known/openid-configuration, status: 200, real: false, reason: spa-html-catch-all}
+  - {path: /.well-known/api-catalog, status: 200, real: false, reason: spa-html-catch-all}
+- host: https://quote-api.dflow.net
+  documents:
+  - {path: /.well-known/security.txt, status: 403}
+  - {path: /.well-known/openid-configuration, status: 403}
+  - {path: /.well-known/oauth-authorization-server, status: 403}
+  - {path: /.well-known/api-catalog, status: 403}
+  - {path: /.well-known/ai-plugin.json, status: 403}
+- host: https://dev-quote-api.dflow.net
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://pond.dflow.net
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}

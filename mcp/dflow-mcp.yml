@@ -1,0 +1,33 @@
+generated: '2026-07-18'
+method: searched
+status: published
+source: https://pond.dflow.net/ai/mcp
+server:
+  name: DFlow
+  transport: http
+  url: https://pond.dflow.net/mcp
+  auth: none
+  description: >-
+    Hosted documentation MCP server. Gives AI tools (Claude, Claude Code, Cursor,
+    VS Code, Windsurf) direct search access to DFlow's documentation, Trading API
+    specs, code recipes, and FAQ library so they generate accurate, current
+    integration code. Automatically generated from the docs and kept in sync.
+install:
+  claude_code: claude mcp add --transport http DFlow https://pond.dflow.net/mcp
+  mcp_json: |
+    {
+      "mcpServers": {
+        "DFlow": { "type": "http", "url": "https://pond.dflow.net/mcp" }
+      }
+    }
+tools:
+  # Documentation-search tools exposed by the hosted server (names referenced in the
+  # published dflow-skills SKILL.md files).
+- name: search_d_flow
+  description: Search DFlow documentation, API specs, and recipes.
+- name: query_docs_filesystem_d_flow
+  description: Query the DFlow docs filesystem for endpoint shapes, parameters, and error codes.
+notes: >-
+  This is a docs/reference MCP server (it teaches agents how to call the Trading
+  API), not a trade-execution MCP. Agent-side trade execution is handled by the
+  `dflow` CLI (see cli/dflow-cli.yml) and the published Agent Skills.

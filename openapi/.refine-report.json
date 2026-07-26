@@ -1,0 +1,26 @@
+{
+  "provider": "dflow",
+  "sources": [
+    "dflow-admin-api-openapi.yml",
+    "dflow-intent-api-openapi.yml",
+    "dflow-order-api-openapi.yml",
+    "dflow-prediction-market-api-openapi.yml",
+    "dflow-swap-api-openapi.yml",
+    "dflow-tokens-api-openapi.yml",
+    "dflow-venues-api-openapi.yml"
+  ],
+  "outputs": [
+    "dflow-admin-api-openapi.yml",
+    "dflow-intent-api-openapi.yml",
+    "dflow-order-api-openapi.yml",
+    "dflow-prediction-market-api-openapi.yml",
+    "dflow-swap-api-openapi.yml",
+    "dflow-tokens-api-openapi.yml",
+    "dflow-venues-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

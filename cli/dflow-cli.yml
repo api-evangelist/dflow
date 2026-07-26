@@ -1,0 +1,66 @@
+generated: '2026-07-18'
+method: searched
+source: https://pond.dflow.net/ai/agent-cli
+name: dflow
+tagline: Agent-first CLI that gives an AI agent a Solana wallet and lets it trade via DFlow.
+binary: single self-contained binary (macOS, Linux); zero dependencies
+agent_native: every command returns JSON; every error includes a machine-readable code and a recovery suggestion.
+install:
+- method: script
+  command: curl -fsS https://cli.dflow.net | sh
+config:
+  setup_command: dflow setup
+  config_path: ~/.config/dflow/config.json
+  prompts: [wallet_name, vault_password (min 12 chars), solana_rpc, dflow_api_key]
+global_flags:
+- flag: --rpc-url <url>
+  description: Override Solana RPC.
+- flag: --wallet <name>
+  description: Vault wallet name (default `default`).
+command_groups:
+- group: setup-identity-balances
+  commands:
+  - dflow setup
+  - dflow whoami
+  - dflow positions
+  - dflow agent --model <name>   # sets X-Dflow-Model header, cached 48h
+- group: skills
+  commands:
+  - dflow skills install
+  - dflow skills update
+- group: wallet
+  commands:
+  - dflow wallet list
+  - dflow wallet import --name <n> --keypair <path>
+  - dflow wallet import --name <n> --mnemonic "..."
+  - dflow wallet export --name <n> --out <path>
+  - dflow wallet delete --name <n> [--yes]
+  - dflow wallet rename --from <n> --to <n>
+  - dflow wallet keychain-sync --name <n>
+- group: trading
+  commands:
+  - dflow quote <amount> <from> <to> [--slippage <bps>]
+  - dflow trade <amount> <from> <to> [--slippage <bps>] [--confirm]
+- group: transfers-funding
+  commands:
+  - dflow send <amount> <token> <recipient>
+  - dflow fund <USDC|SOL>   # buy crypto with fiat via MoonPay CLI
+- group: guardrails
+  commands:
+  - dflow guardrails show
+  - dflow guardrails set <key> [value]
+  - dflow guardrails remove <key>
+  - dflow guardrails reset
+guardrail_keys: [max_trade_size_usd, max_daily_volume_usd, max_wallet_value_usd, allowed_tokens, rate_limit, sweep_address]
+key_management:
+  standard: Open Wallet Standard (OWS), ows-lib
+  storage: encrypted wallet files under ~/.ows/wallets/ (600), dirs 700
+  password_sources: [os_keychain, DFLOW_PASSPHRASE_env, prompt]
+  audit_log: ~/.ows/logs/audit.jsonl
+output_format:
+  success: '{ "ok": true, "data": { ... } }'
+  error: '{ "ok": false, "error": "...", "error_code": "MACHINE_CODE", "category": "...", "recoverable": bool, "suggestion": "..." }'
+notes: >-
+  The MoonPay CLI (`@moonpay/cli`) is an optional separate install required only
+  for `dflow fund`. The Claude Code Skills library (see skills/) teaches agents to
+  drive this CLI.

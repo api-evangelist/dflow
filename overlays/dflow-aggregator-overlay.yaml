@@ -1,0 +1,35 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for DFlow Aggregator (Trading API)
+  version: 1.0.0
+extends: openapi/dflow-openapi-original.json
+x-provenance:
+  generated: '2026-07-18'
+  method: generated
+  source: openapi/dflow-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: true
+    x-apievangelist-provider: dflow
+    x-apievangelist-category: solana-spot-trading-aggregator
+    x-apievangelist-docs: https://pond.dflow.net
+    x-apievangelist-request-signing: RFC 9421 (ed25519), opt-in via x-sign-request
+- target: $.servers
+  update:
+    x-apievangelist-developer-server: https://dev-quote-api.dflow.net
+    x-apievangelist-note: >-
+      Keyless developer host is rate-limited and for testing only; production host
+      quote-api.dflow.net requires an x-api-key.
+- target: $.info
+  update:
+    x-apievangelist-websocket-streams:
+    - wss://quote-api.dflow.net/quote-stream
+    - wss://quote-api.dflow.net/book-stream
+    - wss://quote-api.dflow.net/priority-fees/stream
+    x-apievangelist-asyncapi: asyncapi/dflow-trading-asyncapi.yml
+- target: $.info
+  update:
+    x-apievangelist-error-catalog: errors/dflow-problem-types.yml
+    x-apievangelist-conventions: conventions/dflow-conventions.yml
+    x-apievangelist-agentic-access: agentic-access/dflow-agentic-access.yml

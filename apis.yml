@@ -1,8 +1,16 @@
 aid: dflow
 name: DFlow
-description: 'DFlow is a company surfaced as a portfolio company of multicoin-capital and added to the
-  API Evangelist network as a stub for enrichment. Sector: crypto-web3. This profile is a lead awaiting
-  the enrichment pipeline.'
+description: >-
+  DFlow is a trading protocol and aggregator for spot trading natively on Solana, offering a
+  Trading API that powers tens of billions of dollars in transacted value for traders, applications,
+  and financial institutions. It provides imperative and declarative (intent-based) swaps, JIT
+  routing across liquidity venues, MEV / sandwich protection, priority-fee and slippage controls,
+  builder platform-fee monetization (platformFeeBps), sponsored (gasless) swaps, WebSocket
+  market-data streams (quotes, order-book depth, priority fees), and prediction-market
+  initialization. DFlow is agent-native: a single-binary agent CLI with an encrypted local wallet,
+  published Claude Code Skills, and a hosted documentation MCP server. Authentication is via an
+  x-api-key header; REST responses can be cryptographically signed with ed25519 per RFC 9421.
+  Backed by Multicoin Capital.
 url: https://raw.githubusercontent.com/api-evangelist/dflow/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,18 +18,191 @@ x-backed-by:
 - multicoin-capital
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
+image: https://dflow.net/og-image.png
 tags:
 - Company
 - Crypto Web3
-apis: []
+- Solana
+- Trading API
+- DeFi
+- DEX Aggregator
+- Token Swap
+- Blockchain
+- MEV Protection
+- Prediction Markets
+- Agent Ready
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: dflow:dflow-admin-api
+  name: DFlow admin API
+  description: The admin API from DFlow — 1 operation(s) for admin.
+  humanURL: https://pond.dflow.net/resources/trading-api/introduction
+  baseURL: https://quote-api.dflow.net
+  tags:
+  - admin
+  properties:
+  - type: OpenAPI
+    url: openapi/dflow-admin-api-openapi.yml
+  - type: Documentation
+    url: https://pond.dflow.net/resources/trading-api/introduction
+  - type: AsyncAPI
+    url: asyncapi/dflow-trading-asyncapi.yml
+- aid: dflow:dflow-intent-api
+  name: DFlow intent API
+  description: Intent trading endpoints
+  humanURL: https://pond.dflow.net/resources/trading-api/introduction
+  baseURL: https://quote-api.dflow.net
+  tags:
+  - intent
+  properties:
+  - type: OpenAPI
+    url: openapi/dflow-intent-api-openapi.yml
+  - type: Documentation
+    url: https://pond.dflow.net/resources/trading-api/introduction
+  - type: AsyncAPI
+    url: asyncapi/dflow-trading-asyncapi.yml
+- aid: dflow:dflow-order-api
+  name: DFlow order API
+  description: Order API endpoints
+  humanURL: https://pond.dflow.net/resources/trading-api/introduction
+  baseURL: https://quote-api.dflow.net
+  tags:
+  - order
+  properties:
+  - type: OpenAPI
+    url: openapi/dflow-order-api-openapi.yml
+  - type: Documentation
+    url: https://pond.dflow.net/resources/trading-api/introduction
+  - type: AsyncAPI
+    url: asyncapi/dflow-trading-asyncapi.yml
+- aid: dflow:dflow-prediction-market-api
+  name: DFlow prediction_market API
+  description: Prediction market endpoints
+  humanURL: https://pond.dflow.net/resources/trading-api/introduction
+  baseURL: https://quote-api.dflow.net
+  tags:
+  - prediction_market
+  properties:
+  - type: OpenAPI
+    url: openapi/dflow-prediction-market-api-openapi.yml
+  - type: Documentation
+    url: https://pond.dflow.net/resources/trading-api/introduction
+  - type: AsyncAPI
+    url: asyncapi/dflow-trading-asyncapi.yml
+- aid: dflow:dflow-swap-api
+  name: DFlow swap API
+  description: Swap API endpoints
+  humanURL: https://pond.dflow.net/resources/trading-api/introduction
+  baseURL: https://quote-api.dflow.net
+  tags:
+  - swap
+  properties:
+  - type: OpenAPI
+    url: openapi/dflow-swap-api-openapi.yml
+  - type: Documentation
+    url: https://pond.dflow.net/resources/trading-api/introduction
+  - type: AsyncAPI
+    url: asyncapi/dflow-trading-asyncapi.yml
+- aid: dflow:dflow-tokens-api
+  name: DFlow tokens API
+  description: Token endpoints
+  humanURL: https://pond.dflow.net/resources/trading-api/introduction
+  baseURL: https://quote-api.dflow.net
+  tags:
+  - tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/dflow-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://pond.dflow.net/resources/trading-api/introduction
+  - type: AsyncAPI
+    url: asyncapi/dflow-trading-asyncapi.yml
+- aid: dflow:dflow-venues-api
+  name: DFlow venues API
+  description: Venue endpoints
+  humanURL: https://pond.dflow.net/resources/trading-api/introduction
+  baseURL: https://quote-api.dflow.net
+  tags:
+  - venues
+  properties:
+  - type: OpenAPI
+    url: openapi/dflow-venues-api-openapi.yml
+  - type: Documentation
+    url: https://pond.dflow.net/resources/trading-api/introduction
+  - type: AsyncAPI
+    url: asyncapi/dflow-trading-asyncapi.yml
 common:
+# --- Identity / link properties (searched) ---
 - type: Website
   url: https://dflow.net
+- type: DeveloperPortal
+  url: https://pond.dflow.net
+- type: Documentation
+  url: https://pond.dflow.net/resources/introduction
+- type: APIReference
+  url: https://pond.dflow.net/resources/trading-api/introduction
+- type: GettingStarted
+  url: https://pond.dflow.net/get-started/what-is-dflow
+- type: GitHubOrganization
+  url: https://github.com/DFlowProtocol
+- type: Support
+  url: https://t.me/+GubbVyulzDFjZTkx
+- type: SignUp
+  url: https://forms.gle/eX3cghbMF8VBB9qa9
+# --- Artifacts (this enrichment pass) ---
+- type: LLMsTxt
+  url: llms/dflow-llms.txt
+- type: MCPServer
+  url: mcp/dflow-mcp.yml
+- type: AgentSkill
+  name: dflow-spot-trading
+  url: skills/dflow-spot-trading.md
+- type: AgentSkill
+  name: dflow-platform-fees
+  url: skills/dflow-platform-fees.md
+- type: CLI
+  url: cli/dflow-cli.yml
+- type: Packages
+  url: packages/dflow-packages.yml
+- type: Authentication
+  url: authentication/dflow-authentication.yml
+- type: Conventions
+  url: conventions/dflow-conventions.yml
+- type: ErrorCatalog
+  url: errors/dflow-problem-types.yml
+- type: Conformance
+  url: conformance/dflow-conformance.yml
+- type: Lifecycle
+  url: lifecycle/dflow-lifecycle.yml
+- type: Sandbox
+  url: sandbox/dflow-sandbox.yml
+- type: DataModel
+  url: data-model/dflow-data-model.yml
+- type: AgenticAccess
+  url: agentic-access/dflow-agentic-access.yml
+- type: DomainSecurity
+  url: security/dflow-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
