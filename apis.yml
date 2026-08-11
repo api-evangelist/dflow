@@ -151,6 +151,8 @@ apis:
   - type: AsyncAPI
     url: asyncapi/dflow-trading-asyncapi.yml
 common:
+- type: Overlay
+  url: overlays/dflow-aggregator-overlay.yaml
 # --- Identity / link properties (searched) ---
 - type: Website
   url: https://dflow.net
