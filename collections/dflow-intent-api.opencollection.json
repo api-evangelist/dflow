@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "DFlow Aggregator admin intent API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "intent",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a quote for a declarative swap",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://quote-api.dflow.net/intent",
+            "params": [
+              {
+                "name": "userPublicKey",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the swapper's wallet. If specified, the response will include a\ntransaction allowing the user to submit the intent."
+              },
+              {
+                "name": "inputMint",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded input mint address"
+              },
+              {
+                "name": "outputMint",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded output mint address"
+              },
+              {
+                "name": "amount",
+                "value": "",
+                "type": "query",
+                "description": "Input amount as a scaled integer. For example, 1 SOL is 1000000000."
+              },
+              {
+                "name": "slippageBps",
+                "value": "",
+                "type": "query",
+                "description": "Max allowed slippage for the swap. Allowed values are:\n- a u16 which specifies the maximum allowed slippage in basis points\n- the string value \"auto\", where the server determines the maximum allowed slippage\n  automatically"
+              },
+              {
+                "name": "priceImpactTolerancePct",
+                "value": "",
+                "type": "query",
+                "description": "If specified, the API will return an error if the price impact of the route is greater than\nthe specified percentage. If unspecified, the server will determine the threshold. For\nexample, 10 is 10% and 100 is 100%."
+              },
+              {
+                "name": "platformFeeBps",
+                "value": "",
+                "type": "query",
+                "description": "Optional platform fee in basis points. This is taken out of the output of the swap."
+              },
+              {
+                "name": "feeAccount",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the token account that will receive the platform fee if a platform\nfee applies to the swap. If specified, this account's mint must match the output mint for\nthe swap."
+              },
+              {
+                "name": "referralAccount",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the referral account associated with the fee account.\nIf the fee account isn't a referral token account derived from the seeds\n`[\"referral_ata\", referral_account, mint]` and the Referral program ID\n`REFER4ZgmyYx9c6He5XfaTMiGfdLwRnkV4RPp9t9iF3`, this should be unspecified. If specified, the\nthe intent opening transaction will create the `fee_account` if it doesn't already exist.\nThe user pays for the creation of the fee account. Ignored if `fee_account` is unspecified."
+              },
+              {
+                "name": "wrapAndUnwrapSol",
+                "value": "",
+                "type": "query",
+                "description": "If false, the intent will use wrapped SOL"
+              },
+              {
+                "name": "feeBudget",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount that the user is willing to pay to have the intent processed in lamports.\nThis includes all transaction fees and tips for the open transaction and all transaction\nfees and tips for the fill and close transactions. If unspecified, the server will determine\nthe fee budget."
+              },
+              {
+                "name": "maxAutoFeeBudget",
+                "value": "",
+                "type": "query",
+                "description": "Limit on the automatically-determined maximum fee budget in lamports. If the `fee_budget` is\nunspecified, then the server's automatically-determined fee budget will be capped at this\nvalue. If unspecified, the limit defaults to 0.002 SOL. The final fee budget used is\n`min(max_auto_fee_budget, auto_fee_budget_determined_by_server)`."
+              }
+            ]
+          },
+          "docs": "Returns a quote for a declarative swap"
+        },
+        {
+          "info": {
+            "name": "Submits a declarative swap transaction for processing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://quote-api.dflow.net/submit-intent",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits a declarative swap transaction for processing"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

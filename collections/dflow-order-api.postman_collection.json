@@ -1,0 +1,1479 @@
+{
+  "item": [
+    {
+      "id": "8e11128e-3cb4-4bcb-bb1f-6c55e8ce16ab",
+      "name": "order",
+      "description": {
+        "content": "Order API endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "36bd475b-ef96-4e98-8933-53e958e7853e",
+          "name": "Returns a quote and optionally a transaction",
+          "request": {
+            "name": "Returns a quote and optionally a transaction",
+            "description": {},
+            "url": {
+              "path": [
+                "order"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "userPublicKey",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the swapper's wallet. If specified, the response will include a\ntransaction allowing the user to submit the order."
+                },
+                {
+                  "disabled": false,
+                  "key": "inputMint",
+                  "value": "<string>",
+                  "description": "(Required) Base58-encoded input mint address"
+                },
+                {
+                  "disabled": false,
+                  "key": "outputMint",
+                  "value": "<string>",
+                  "description": "(Required) Base58-encoded output mint address"
+                },
+                {
+                  "disabled": false,
+                  "key": "amount",
+                  "value": "<long>",
+                  "description": "(Required) Input amount as a scaled integer. For example, 1 SOL is 1000000000."
+                },
+                {
+                  "disabled": false,
+                  "key": "slippageBps",
+                  "value": "<integer>",
+                  "description": "Max allowed slippage for the swap. Default is \"auto\". Allowed values are:\n- a u16 which specifies the maximum allowed slippage in basis points\n- the string value \"auto\", where the server determines the maximum allowed slippage\n  automatically"
+                },
+                {
+                  "disabled": false,
+                  "key": "perLegSlippage",
+                  "value": "<boolean>",
+                  "description": "If true or unspecified, per-leg slippage checks are enabled. If false, per-leg slippage\nchecks are disabled."
+                },
+                {
+                  "disabled": false,
+                  "key": "predictionMarketSlippageBps",
+                  "value": "<integer>",
+                  "description": "Max allowed slippage for prediction market orders. Allowed values are:\n- a u16 which specifies the maximum allowed slippage in basis points\n- the string value \"auto\", where the server determines the maximum allowed slippage\n  automatically\n\nIf specified as a u16:\n - must be greater than or equal to `slippage_bps`\n - this value will be used as the slippage for prediction market orders\n\nIf unspecified or \"auto\":\n - the server determines the maximum allowed slippage for prediction market orders\n\nThis will be the slippage value included in the created Prediction Order. This parameter is\nnot used in routing, but only affects the minimum amount of Outcome mint that a prediction\norder must produce to fill successfully."
+                },
+                {
+                  "disabled": false,
+                  "key": "priceImpactTolerancePct",
+                  "value": "<integer>",
+                  "description": "If specified, the API will return an error if the price impact of the route is greater than\nthe specified percentage. If unspecified, the server will determine the threshold. For\nexample, 10 is 10% and 100 is 100%."
+                },
+                {
+                  "disabled": false,
+                  "key": "dexes",
+                  "value": "<string>",
+                  "description": "Comma-separated list of DEXes to include. If not specified, all DEXes will be included."
+                },
+                {
+                  "disabled": false,
+                  "key": "excludeDexes",
+                  "value": "<string>",
+                  "description": "Comma-separated list of DEXes to exclude. If not specified, all DEXes will be included."
+                },
+                {
+                  "disabled": false,
+                  "key": "onlyDirectRoutes",
+                  "value": "<boolean>",
+                  "description": "If true, only use single-leg routes"
+                },
+                {
+                  "disabled": false,
+                  "key": "maxRouteLength",
+                  "value": "<integer>",
+                  "description": "If specified, the route will be limited to the specified number of legs. Ignored if\n`only_direct_routes` is true."
+                },
+                {
+                  "disabled": false,
+                  "key": "onlyJitRoutes",
+                  "value": "<boolean>",
+                  "description": "If true, only use JIT routes. Every leg in the route will use the JIT router."
+                },
+                {
+                  "disabled": false,
+                  "key": "forJitoBundle",
+                  "value": "<boolean>",
+                  "description": "If true, only use routes that are compatible with Jito bundles. This should only be\nspecified as true if the swap will be executed in a Jito bundle. Default is false."
+                },
+                {
+                  "disabled": false,
+                  "key": "allowSyncExec",
+                  "value": "<boolean>",
+                  "description": "If true, allow synchronous execution. Default is true."
+                },
+                {
+                  "disabled": false,
+                  "key": "allowAsyncExec",
+                  "value": "<boolean>",
+                  "description": "If true, allow asynchronous execution. Default is true."
+                },
+                {
+                  "disabled": false,
+                  "key": "restrictRevertMint",
+                  "value": "<boolean>",
+                  "description": "If true, enforces that the input mint must be the revert mint for orders that use\nasynchronous execution.\nDefault is false."
+                },
+                {
+                  "disabled": false,
+                  "key": "platformFeeMode",
+                  "value": "<string>",
+                  "description": "Optional platform fee mode. If not specified, the default is `outputMint`. For async\nprediction market swaps, this is ignored, and the platform fee is paid in the stablecoin\nmint."
+                },
+                {
+                  "disabled": false,
+                  "key": "platformFeeBps",
+                  "value": "<integer>",
+                  "description": "Optional platform fee in basis points. This should only be nonzero if the swap will collect\nthe platform fee. The fee account must be able to collect the fee mint at execution time."
+                },
+                {
+                  "disabled": false,
+                  "key": "platformFeeScale",
+                  "value": "<integer>",
+                  "description": "Optional platform fee scale for native prediction market swaps and async prediction market\nswaps, with 3 decimals. This should only be nonzero if the swap will collect the platform\nfee. The fee account must be able to collect the fee mint at fill time. Must be\n>= 0 and < 1000. For example, a value of 50 means 0.050."
+                },
+                {
+                  "disabled": false,
+                  "key": "feeAccount",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the token account that will receive the platform fee if a platform\nfee applies to the swap. If specified, this account's mint must match the fee mint for the\nswap. This must be specified if the platform fee is nonzero."
+                },
+                {
+                  "disabled": false,
+                  "key": "positiveSlippageFeeAccount",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the token account that will receive the positive slippage fee.\nThis must be a token account for the output mint, regardless of the platform fee mode. If at\nswap execution time this account can't receive the positive slippage fee, then the positive\nslippage fee transfer is skipped. If the platform fee mode is `outputMint` and the platform\nfee account is specified, then this must be unspecified (in which case the platform fee\naccount will be used) or match the platform fee account. Otherwise, this must be specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "positiveSlippageLimitPct",
+                  "value": "<integer>",
+                  "description": "Limit on the positive slippage fee in percent. The positive slippage fee is limited to the\nlesser of (1) the excess actual out amount above the quoted amount and (2) this percentage\nof the actual out amount after platform fee."
+                },
+                {
+                  "disabled": false,
+                  "key": "sponsor",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the sponsor's wallet. If specified, the sponsor will pay the\ntransaction fee and for token account creation, and both the user and the sponsor must sign\nthe swap transaction. This can be used to implement gasless swaps.\n\nCannot be specified alongside `predictionMarketInitPayer` parameter."
+                },
+                {
+                  "disabled": false,
+                  "key": "sponsorExec",
+                  "value": "<boolean>",
+                  "description": "If true, the sponsor will be the executor of the swap for sponsored swaps. If false, the\nuser will be the executor of the swap for sponsored swaps. Default is true."
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationTokenAccount",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the account that will receive the output token. This is either the\naddress of the destination token account, or, if the output is native SOL, the address of\nthe destination wallet. If both `destinationTokenAccount` and `destinationWallet` are\nunspecified, the user's associated token account for the output mint will be used if the\noutput isn't native SOL, and the user's wallet will be used if the output is native SOL.\nIf the output isn't native SOL, the specified account must exist before the swap executes,\nor else the swap will fail.\nMutually exclusive with `destinationWallet`."
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationWallet",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the wallet that will receive the output token. Mutually exclusive\nwith `destinationTokenAccount`. If specified:\n1. If the swap outputs native SOL, the transaction will output native SOL to the specified\n   wallet.\n2. If the swap outputs wrapped SOL or an SPL token, the transaction will send output to the\n   specified wallet's associated token account for the output mint, creating the associated\n   token account if it doesn't exist at execution time."
+                },
+                {
+                  "disabled": false,
+                  "key": "outputCloseAuthority",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the close authority to assign to the output token account. If\nspecified, the swap instruction will idempotently initialize the output token account and\nset its close authority to the specified address. The action is a no-op if the output\ntoken account already exists at execution time.\n\nCannot be used when the output mint is SOL (wrapped or native). Cannot be used with\n`destinationTokenAccount` or `destinationWallet`."
+                },
+                {
+                  "disabled": false,
+                  "key": "revertWallet",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the wallet that will receive the revert mint if the order is an\nasynchronous order and it reverts."
+                },
+                {
+                  "disabled": false,
+                  "key": "wrapAndUnwrapSol",
+                  "value": "<boolean>",
+                  "description": "If false, the order will use wrapped SOL"
+                },
+                {
+                  "disabled": false,
+                  "key": "prioritizationFeeLamports",
+                  "value": "<string>",
+                  "description": "Prioritization fee in lamports. Mutually exclusive with `computeUnitPriceMicroLamports`.\nIf both `prioritizationFeeLamports` and `computeUnitPriceMicroLamports` are unspecified, the\ndefault of `prioritizationFeeLamports=\"auto\"` will be used.\nAllowed values are:\n- an unsigned 32-bit integer which specifies the prioritization fee in lamports\n- the string value \"auto\", where the server determines the fee automatically\n- the string value \"medium\", where the server determines the fee automatically\n- the string value \"high\", where the server determines the fee automatically\n- the string value \"veryHigh\", where the server determines the fee automatically\n- the string value \"disabled\", where the server leaves the prioritization fee unspecified"
+                },
+                {
+                  "disabled": false,
+                  "key": "prioritizationFeeMaxLamports",
+                  "value": "<integer>",
+                  "description": "Maximum lamports to cap the prioritization fee determined by the server"
+                },
+                {
+                  "disabled": false,
+                  "key": "computeUnitPriceMicroLamports",
+                  "value": "<long>",
+                  "description": "Compute unit price in micro-lamports. Mutually exclusive with `prioritizationFeeLamports`."
+                },
+                {
+                  "disabled": false,
+                  "key": "dynamicComputeUnitLimit",
+                  "value": "<boolean>",
+                  "description": "If true, the server will simulate the transaction to determine its compute unit limit. If\nunspecified or false, the transaction will use the default compute unit limit."
+                },
+                {
+                  "disabled": false,
+                  "key": "includeJitoSandwichMitigationAccount",
+                  "value": "<boolean>",
+                  "description": "If specified, the transaction will include a Jito sandwich mitigation account in the swap\ninstruction. Allowed values are:\n- `true` - uses the default Jito sandwich mitigation account\n- `false` - does not include the account\n- A base58-encoded account address - uses the specified account\n\nIf unspecified, the account is not included.\nSee https://docs.jito.wtf/lowlatencytxnsend/#sandwich-mitigation for more details."
+                },
+                {
+                  "disabled": false,
+                  "key": "predictionMarketInitPayer",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the account that will pay for market initialization if the market\nis uninitialized. If specified and the market is uninitialized, this account must sign the\ntransaction, and the transaction will initialize the market if it is uninitialized at\nexecution time. If this account differs from `userPublicKey`, the transaction will have\ntwo signers.\n\nCannot be specified alongside `sponsor` parameter."
+                },
+                {
+                  "disabled": false,
+                  "key": "outcomeAccountRentRecipient",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the account that will receive the rent from closing the outcome\ntoken account if it is empty after sale/redemption. If unspecified, the user's public key\nwill be used."
+                },
+                {
+                  "disabled": false,
+                  "key": "skipPumpfunCashbackClaim",
+                  "value": "<boolean>",
+                  "description": "If true, Pump.fun cashback will not be claimed for cashback-eligible coins. When set, sell\nquotes include the full creator fee, and execution skips Pump.fun cashback claiming. Default\nis false. Cannot be used with sponsor-executed swaps (`sponsorExec` is true or defaulted to\ntrue)."
+                },
+                {
+                  "disabled": false,
+                  "key": "allowBondingCurveUnderconsumption",
+                  "value": "<boolean>",
+                  "description": "If true, allow buys on bonding curves to succeed even when the bonding curve cannot fully\nconsume the input (for example, when the curve is near completion). Default is false. Cannot\nbe used with sponsor-executed swaps (`sponsorExec` is true or defaulted to true)."
+                },
+                {
+                  "disabled": false,
+                  "key": "includeAddressLookupTables",
+                  "value": "<boolean>",
+                  "description": "If true, the response will include the address lookup tables used in the transaction,\nwith only the entries referenced by the transaction, enabling clients to deserialize and\nrecompile the transaction with additional instructions without fetching ALTs from RPC.\nDefault is false."
+                },
+                {
+                  "disabled": false,
+                  "key": "maxAccounts",
+                  "value": "<integer>",
+                  "description": "Maximum allowed number of accounts that the transaction can use. Mutually exclusive with\n`reserveAccounts`."
+                },
+                {
+                  "disabled": false,
+                  "key": "maxTransactionSize",
+                  "value": "<integer>",
+                  "description": "Maximum allowed size of the transaction in bytes. Mutually exclusive with\n`reserveTransactionSize`."
+                },
+                {
+                  "disabled": false,
+                  "key": "reserveAccounts",
+                  "value": "<integer>",
+                  "description": "Number of accounts to leave unused in the transaction. The server will ensure that\nthe transaction uses at most `TRANSACTION_MAX_ACCOUNTS - reserveAccounts` accounts. Mutually\nexclusive with `maxAccounts`. If you add instructions to the transaction, use this parameter\nto specify the number of unique accounts that you will add to the transaction. Note that you\nshould not count accounts that are already included in the transaction."
+                },
+                {
+                  "disabled": false,
+                  "key": "reserveTransactionSize",
+                  "value": "<integer>",
+                  "description": "Number of bytes to leave unused in the transaction. The server will ensure that the\ntransaction size is at most `TRANSACTION_MAX_SIZE - reserveTransactionSize` bytes. Mutually\nexclusive with `maxTransactionSize`. If you add instructions to the transaction, use this\nparameter to specify the number of bytes that your modifications will add to the\ntransaction."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3720d48b-ba47-4b35-8aeb-6057485aedf2",
+              "name": "Order response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "userPublicKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "inputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "slippageBps",
+                      "value": "2046"
+                    },
+                    {
+                      "key": "perLegSlippage",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "predictionMarketSlippageBps",
+                      "value": "2046"
+                    },
+                    {
+                      "key": "priceImpactTolerancePct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "dexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "excludeDexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "onlyDirectRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "maxRouteLength",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "onlyJitRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "forJitoBundle",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "allowSyncExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "allowAsyncExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "restrictRevertMint",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "platformFeeMode",
+                      "value": "inputMint"
+                    },
+                    {
+                      "key": "platformFeeBps",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "platformFeeScale",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "feeAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "positiveSlippageFeeAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "positiveSlippageLimitPct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "sponsor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sponsorExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "destinationTokenAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "destinationWallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputCloseAuthority",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "revertWallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wrapAndUnwrapSol",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "prioritizationFeeLamports",
+                      "value": "high"
+                    },
+                    {
+                      "key": "prioritizationFeeMaxLamports",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "computeUnitPriceMicroLamports",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "dynamicComputeUnitLimit",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeJitoSandwichMitigationAccount",
+                      "value": "true"
+                    },
+                    {
+                      "key": "predictionMarketInitPayer",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outcomeAccountRentRecipient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "skipPumpfunCashbackClaim",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "allowBondingCurveUnderconsumption",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeAddressLookupTables",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "maxAccounts",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "maxTransactionSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "reserveAccounts",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "reserveTransactionSize",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"inputMint\": \"string\",\n  \"inAmount\": \"string\",\n  \"outputMint\": \"string\",\n  \"outAmount\": \"string\",\n  \"otherAmountThreshold\": \"string\",\n  \"minOutAmount\": \"string\",\n  \"slippageBps\": 8743,\n  \"priceImpactPct\": \"string\",\n  \"contextSlot\": 5855,\n  \"executionMode\": \"async\",\n  \"addressLookupTables\": [\n    {\n      \"address\": \"string\",\n      \"addresses\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\",\n        \"key_4\": \"string\"\n      }\n    },\n    {\n      \"address\": \"string\",\n      \"addresses\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ],\n  \"computeUnitLimit\": 6948,\n  \"initPredictionMarketCost\": 7692,\n  \"isNativePredictionMarketOutput\": false,\n  \"lastValidBlockHeight\": 6709,\n  \"platformFee\": null,\n  \"predictionMarketInitPayerMustSign\": true,\n  \"predictionMarketSlippageBps\": 6974,\n  \"prioritizationFeeLamports\": 8566,\n  \"prioritizationType\": {\n    \"computeBudget\": {\n      \"microLamports\": 6460,\n      \"estimatedMicroLamports\": 3489\n    }\n  },\n  \"revertMint\": \"string\",\n  \"routePlan\": [\n    {\n      \"venue\": \"string\",\n      \"marketKey\": \"string\",\n      \"data\": \"string\",\n      \"inputMint\": \"string\",\n      \"outputMint\": \"string\",\n      \"inAmount\": \"string\",\n      \"outAmount\": \"string\",\n      \"inputMintDecimals\": 3696,\n      \"outputMintDecimals\": 9052\n    },\n    {\n      \"venue\": \"string\",\n      \"marketKey\": \"string\",\n      \"data\": \"string\",\n      \"inputMint\": \"string\",\n      \"outputMint\": \"string\",\n      \"inAmount\": \"string\",\n      \"outAmount\": \"string\",\n      \"inputMintDecimals\": 9144,\n      \"outputMintDecimals\": 8671\n    }\n  ],\n  \"transaction\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3193a3e9-95d4-47aa-853e-521cb06b273b",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "userPublicKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "inputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "slippageBps",
+                      "value": "2046"
+                    },
+                    {
+                      "key": "perLegSlippage",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "predictionMarketSlippageBps",
+                      "value": "2046"
+                    },
+                    {
+                      "key": "priceImpactTolerancePct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "dexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "excludeDexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "onlyDirectRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "maxRouteLength",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "onlyJitRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "forJitoBundle",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "allowSyncExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "allowAsyncExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "restrictRevertMint",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "platformFeeMode",
+                      "value": "inputMint"
+                    },
+                    {
+                      "key": "platformFeeBps",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "platformFeeScale",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "feeAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "positiveSlippageFeeAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "positiveSlippageLimitPct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "sponsor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sponsorExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "destinationTokenAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "destinationWallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputCloseAuthority",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "revertWallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wrapAndUnwrapSol",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "prioritizationFeeLamports",
+                      "value": "high"
+                    },
+                    {
+                      "key": "prioritizationFeeMaxLamports",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "computeUnitPriceMicroLamports",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "dynamicComputeUnitLimit",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeJitoSandwichMitigationAccount",
+                      "value": "true"
+                    },
+                    {
+                      "key": "predictionMarketInitPayer",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outcomeAccountRentRecipient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "skipPumpfunCashbackClaim",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "allowBondingCurveUnderconsumption",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeAddressLookupTables",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "maxAccounts",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "maxTransactionSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "reserveAccounts",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "reserveTransactionSize",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"invalid_output_mint\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7047a365-f194-4ca2-a9b3-7eba02a54098",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "userPublicKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "inputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "slippageBps",
+                      "value": "2046"
+                    },
+                    {
+                      "key": "perLegSlippage",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "predictionMarketSlippageBps",
+                      "value": "2046"
+                    },
+                    {
+                      "key": "priceImpactTolerancePct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "dexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "excludeDexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "onlyDirectRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "maxRouteLength",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "onlyJitRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "forJitoBundle",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "allowSyncExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "allowAsyncExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "restrictRevertMint",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "platformFeeMode",
+                      "value": "inputMint"
+                    },
+                    {
+                      "key": "platformFeeBps",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "platformFeeScale",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "feeAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "positiveSlippageFeeAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "positiveSlippageLimitPct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "sponsor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sponsorExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "destinationTokenAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "destinationWallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputCloseAuthority",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "revertWallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wrapAndUnwrapSol",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "prioritizationFeeLamports",
+                      "value": "high"
+                    },
+                    {
+                      "key": "prioritizationFeeMaxLamports",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "computeUnitPriceMicroLamports",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "dynamicComputeUnitLimit",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeJitoSandwichMitigationAccount",
+                      "value": "true"
+                    },
+                    {
+                      "key": "predictionMarketInitPayer",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outcomeAccountRentRecipient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "skipPumpfunCashbackClaim",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "allowBondingCurveUnderconsumption",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeAddressLookupTables",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "maxAccounts",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "maxTransactionSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "reserveAccounts",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "reserveTransactionSize",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"failed_to_compute_route\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e45bc53-71f2-401b-a557-49042017cc7e",
+              "name": "Service unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "userPublicKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "inputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "slippageBps",
+                      "value": "2046"
+                    },
+                    {
+                      "key": "perLegSlippage",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "predictionMarketSlippageBps",
+                      "value": "2046"
+                    },
+                    {
+                      "key": "priceImpactTolerancePct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "dexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "excludeDexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "onlyDirectRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "maxRouteLength",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "onlyJitRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "forJitoBundle",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "allowSyncExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "allowAsyncExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "restrictRevertMint",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "platformFeeMode",
+                      "value": "inputMint"
+                    },
+                    {
+                      "key": "platformFeeBps",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "platformFeeScale",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "feeAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "positiveSlippageFeeAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "positiveSlippageLimitPct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "sponsor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sponsorExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "destinationTokenAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "destinationWallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputCloseAuthority",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "revertWallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wrapAndUnwrapSol",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "prioritizationFeeLamports",
+                      "value": "high"
+                    },
+                    {
+                      "key": "prioritizationFeeMaxLamports",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "computeUnitPriceMicroLamports",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "dynamicComputeUnitLimit",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeJitoSandwichMitigationAccount",
+                      "value": "true"
+                    },
+                    {
+                      "key": "predictionMarketInitPayer",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outcomeAccountRentRecipient",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "skipPumpfunCashbackClaim",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "allowBondingCurveUnderconsumption",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeAddressLookupTables",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "maxAccounts",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "maxTransactionSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "reserveAccounts",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "reserveTransactionSize",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"amm_map_not_initialized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9b27418b-55ed-49cf-b6a1-a16e2c9930ad",
+          "name": "Returns the status of an order. Only prediction market orders are supported.",
+          "request": {
+            "name": "Returns the status of an order. Only prediction market orders are supported.",
+            "description": {},
+            "url": {
+              "path": [
+                "order-status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) Base58-encoded transaction signature of the transaction received from the order endpoint.\nOnly prediction market order signatures are supported."
+                },
+                {
+                  "disabled": false,
+                  "key": "lastValidBlockHeight",
+                  "value": "<integer,null-int64>",
+                  "description": "Last block height at which the transaction is valid"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d223db27-876d-480c-a353-5a797efa75c1",
+              "name": "Order status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "order-status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "lastValidBlockHeight",
+                      "value": "<integer,null-int64>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"open\",\n  \"inAmount\": \"string\",\n  \"outAmount\": \"string\",\n  \"fills\": [\n    {\n      \"signature\": \"string\",\n      \"inputMint\": \"string\",\n      \"inAmount\": \"string\",\n      \"outputMint\": \"string\",\n      \"outAmount\": \"string\"\n    },\n    {\n      \"signature\": \"string\",\n      \"inputMint\": \"string\",\n      \"inAmount\": \"string\",\n      \"outputMint\": \"string\",\n      \"outAmount\": \"string\"\n    }\n  ],\n  \"reverts\": [\n    {\n      \"signature\": \"string\",\n      \"mint\": \"string\",\n      \"amount\": \"string\"\n    },\n    {\n      \"signature\": \"string\",\n      \"mint\": \"string\",\n      \"amount\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab423831-7b1e-460e-80ec-a5a56a8ef458",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "order-status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "lastValidBlockHeight",
+                      "value": "<integer,null-int64>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"invalid_signature\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fdedf1ca-8e58-4715-b716-69fc674e561d",
+              "name": "Order not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "order-status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "lastValidBlockHeight",
+                      "value": "<integer,null-int64>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"not_found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04fa69f4-1fe1-4e13-85c8-29db39f7c3bb",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "order-status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "lastValidBlockHeight",
+                      "value": "<integer,null-int64>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"internal_server_error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://quote-api.dflow.net",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2410f514-f4d4-455a-b6ba-95848b057320",
+    "name": "DFlow Aggregator admin order API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "DFlow Aggregator API",
+      "type": "text/plain"
+    }
+  }
+}

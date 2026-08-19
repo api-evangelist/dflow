@@ -1,0 +1,328 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "DFlow Aggregator admin order API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "order",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a quote and optionally a transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://quote-api.dflow.net/order",
+            "params": [
+              {
+                "name": "userPublicKey",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the swapper's wallet. If specified, the response will include a\ntransaction allowing the user to submit the order."
+              },
+              {
+                "name": "inputMint",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded input mint address"
+              },
+              {
+                "name": "outputMint",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded output mint address"
+              },
+              {
+                "name": "amount",
+                "value": "",
+                "type": "query",
+                "description": "Input amount as a scaled integer. For example, 1 SOL is 1000000000."
+              },
+              {
+                "name": "slippageBps",
+                "value": "",
+                "type": "query",
+                "description": "Max allowed slippage for the swap. Default is \"auto\". Allowed values are:\n- a u16 which specifies the maximum allowed slippage in basis points\n- the string value \"auto\", where the server determines the maximum allowed slippage\n  automatically"
+              },
+              {
+                "name": "perLegSlippage",
+                "value": "",
+                "type": "query",
+                "description": "If true or unspecified, per-leg slippage checks are enabled. If false, per-leg slippage\nchecks are disabled."
+              },
+              {
+                "name": "predictionMarketSlippageBps",
+                "value": "",
+                "type": "query",
+                "description": "Max allowed slippage for prediction market orders. Allowed values are:\n- a u16 which specifies the maximum allowed slippage in basis points\n- the string value \"auto\", where the server determines the maximum allowed slippage\n  automatically\n\nIf specified as a u16:\n - must be greater than or equal to `slippage_bps`\n - this value will be used as the slippage for prediction market orders\n\nIf unspecified or \"auto\":\n - the server determines the maximum allowed slippage for prediction market orders\n\nThis will be the slippage value included in the created Prediction Order. This parameter is\nnot used in routing, but only affects the minimum amount of Outcome mint that a prediction\norder must produce to fill successfully."
+              },
+              {
+                "name": "priceImpactTolerancePct",
+                "value": "",
+                "type": "query",
+                "description": "If specified, the API will return an error if the price impact of the route is greater than\nthe specified percentage. If unspecified, the server will determine the threshold. For\nexample, 10 is 10% and 100 is 100%."
+              },
+              {
+                "name": "dexes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of DEXes to include. If not specified, all DEXes will be included."
+              },
+              {
+                "name": "excludeDexes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of DEXes to exclude. If not specified, all DEXes will be included."
+              },
+              {
+                "name": "onlyDirectRoutes",
+                "value": "",
+                "type": "query",
+                "description": "If true, only use single-leg routes"
+              },
+              {
+                "name": "maxRouteLength",
+                "value": "",
+                "type": "query",
+                "description": "If specified, the route will be limited to the specified number of legs. Ignored if\n`only_direct_routes` is true."
+              },
+              {
+                "name": "onlyJitRoutes",
+                "value": "",
+                "type": "query",
+                "description": "If true, only use JIT routes. Every leg in the route will use the JIT router."
+              },
+              {
+                "name": "forJitoBundle",
+                "value": "",
+                "type": "query",
+                "description": "If true, only use routes that are compatible with Jito bundles. This should only be\nspecified as true if the swap will be executed in a Jito bundle. Default is false."
+              },
+              {
+                "name": "allowSyncExec",
+                "value": "",
+                "type": "query",
+                "description": "If true, allow synchronous execution. Default is true."
+              },
+              {
+                "name": "allowAsyncExec",
+                "value": "",
+                "type": "query",
+                "description": "If true, allow asynchronous execution. Default is true."
+              },
+              {
+                "name": "restrictRevertMint",
+                "value": "",
+                "type": "query",
+                "description": "If true, enforces that the input mint must be the revert mint for orders that use\nasynchronous execution.\nDefault is false."
+              },
+              {
+                "name": "platformFeeMode",
+                "value": "",
+                "type": "query",
+                "description": "Optional platform fee mode. If not specified, the default is `outputMint`. For async\nprediction market swaps, this is ignored, and the platform fee is paid in the stablecoin\nmint."
+              },
+              {
+                "name": "platformFeeBps",
+                "value": "",
+                "type": "query",
+                "description": "Optional platform fee in basis points. This should only be nonzero if the swap will collect\nthe platform fee. The fee account must be able to collect the fee mint at execution time."
+              },
+              {
+                "name": "platformFeeScale",
+                "value": "",
+                "type": "query",
+                "description": "Optional platform fee scale for native prediction market swaps and async prediction market\nswaps, with 3 decimals. This should only be nonzero if the swap will collect the platform\nfee. The fee account must be able to collect the fee mint at fill time. Must be\n>= 0 and < 1000. For example, a value of 50 means 0.050."
+              },
+              {
+                "name": "feeAccount",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the token account that will receive the platform fee if a platform\nfee applies to the swap. If specified, this account's mint must match the fee mint for the\nswap. This must be specified if the platform fee is nonzero."
+              },
+              {
+                "name": "positiveSlippageFeeAccount",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the token account that will receive the positive slippage fee.\nThis must be a token account for the output mint, regardless of the platform fee mode. If at\nswap execution time this account can't receive the positive slippage fee, then the positive\nslippage fee transfer is skipped. If the platform fee mode is `outputMint` and the platform\nfee account is specified, then this must be unspecified (in which case the platform fee\naccount will be used) or match the platform fee account. Otherwise, this must be specified."
+              },
+              {
+                "name": "positiveSlippageLimitPct",
+                "value": "",
+                "type": "query",
+                "description": "Limit on the positive slippage fee in percent. The positive slippage fee is limited to the\nlesser of (1) the excess actual out amount above the quoted amount and (2) this percentage\nof the actual out amount after platform fee."
+              },
+              {
+                "name": "sponsor",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the sponsor's wallet. If specified, the sponsor will pay the\ntransaction fee and for token account creation, and both the user and the sponsor must sign\nthe swap transaction. This can be used to implement gasless swaps.\n\nCannot be specified alongside `predictionMarketInitPayer` parameter."
+              },
+              {
+                "name": "sponsorExec",
+                "value": "",
+                "type": "query",
+                "description": "If true, the sponsor will be the executor of the swap for sponsored swaps. If false, the\nuser will be the executor of the swap for sponsored swaps. Default is true."
+              },
+              {
+                "name": "destinationTokenAccount",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the account that will receive the output token. This is either the\naddress of the destination token account, or, if the output is native SOL, the address of\nthe destination wallet. If both `destinationTokenAccount` and `destinationWallet` are\nunspecified, the user's associated token account for the output mint will be used if the\noutput isn't native SOL, and the user's wallet will be used if the output is native SOL.\nIf the output isn't native SOL, the specified account must exist before the swap executes,\nor else the swap will fail.\nMutually exclusive with `destinationWallet`."
+              },
+              {
+                "name": "destinationWallet",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the wallet that will receive the output token. Mutually exclusive\nwith `destinationTokenAccount`. If specified:\n1. If the swap outputs native SOL, the transaction will output native SOL to the specified\n   wallet.\n2. If the swap outputs wrapped SOL or an SPL token, the transaction will send output to the\n   specified wallet's associated token account for the output mint, creating the associated\n   token account if it doesn't exist at execution time."
+              },
+              {
+                "name": "outputCloseAuthority",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the close authority to assign to the output token account. If\nspecified, the swap instruction will idempotently initialize the output token account and\nset its close authority to the specified address. The action is a no-op if the output\ntoken account already exists at execution time.\n\nCannot be used when the output mint is SOL (wrapped or native). Cannot be used with\n`destinationTokenAccount` or `destinationWallet`."
+              },
+              {
+                "name": "revertWallet",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the wallet that will receive the revert mint if the order is an\nasynchronous order and it reverts."
+              },
+              {
+                "name": "wrapAndUnwrapSol",
+                "value": "",
+                "type": "query",
+                "description": "If false, the order will use wrapped SOL"
+              },
+              {
+                "name": "prioritizationFeeLamports",
+                "value": "",
+                "type": "query",
+                "description": "Prioritization fee in lamports. Mutually exclusive with `computeUnitPriceMicroLamports`.\nIf both `prioritizationFeeLamports` and `computeUnitPriceMicroLamports` are unspecified, the\ndefault of `prioritizationFeeLamports=\"auto\"` will be used.\nAllowed values are:\n- an unsigned 32-bit integer which specifies the prioritization fee in lamports\n- the string value \"auto\", where the server determines the fee automatically\n- the string value \"medium\", where the server determines the fee automatically\n- the string value \"high\", where the server determines the fee automatically\n- the string value \"veryHigh\", where the server determines the fee automatically\n- the string value \"disabled\", where the server leaves the prioritization fee unspecified"
+              },
+              {
+                "name": "prioritizationFeeMaxLamports",
+                "value": "",
+                "type": "query",
+                "description": "Maximum lamports to cap the prioritization fee determined by the server"
+              },
+              {
+                "name": "computeUnitPriceMicroLamports",
+                "value": "",
+                "type": "query",
+                "description": "Compute unit price in micro-lamports. Mutually exclusive with `prioritizationFeeLamports`."
+              },
+              {
+                "name": "dynamicComputeUnitLimit",
+                "value": "",
+                "type": "query",
+                "description": "If true, the server will simulate the transaction to determine its compute unit limit. If\nunspecified or false, the transaction will use the default compute unit limit."
+              },
+              {
+                "name": "includeJitoSandwichMitigationAccount",
+                "value": "",
+                "type": "query",
+                "description": "If specified, the transaction will include a Jito sandwich mitigation account in the swap\ninstruction. Allowed values are:\n- `true` - uses the default Jito sandwich mitigation account\n- `false` - does not include the account\n- A base58-encoded account address - uses the specified account\n\nIf unspecified, the account is not included.\nSee https://docs.jito.wtf/lowlatencytxnsend/#sandwich-mitigation for more details."
+              },
+              {
+                "name": "predictionMarketInitPayer",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the account that will pay for market initialization if the market\nis uninitialized. If specified and the market is uninitialized, this account must sign the\ntransaction, and the transaction will initialize the market if it is uninitialized at\nexecution time. If this account differs from `userPublicKey`, the transaction will have\ntwo signers.\n\nCannot be specified alongside `sponsor` parameter."
+              },
+              {
+                "name": "outcomeAccountRentRecipient",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the account that will receive the rent from closing the outcome\ntoken account if it is empty after sale/redemption. If unspecified, the user's public key\nwill be used."
+              },
+              {
+                "name": "skipPumpfunCashbackClaim",
+                "value": "",
+                "type": "query",
+                "description": "If true, Pump.fun cashback will not be claimed for cashback-eligible coins. When set, sell\nquotes include the full creator fee, and execution skips Pump.fun cashback claiming. Default\nis false. Cannot be used with sponsor-executed swaps (`sponsorExec` is true or defaulted to\ntrue)."
+              },
+              {
+                "name": "allowBondingCurveUnderconsumption",
+                "value": "",
+                "type": "query",
+                "description": "If true, allow buys on bonding curves to succeed even when the bonding curve cannot fully\nconsume the input (for example, when the curve is near completion). Default is false. Cannot\nbe used with sponsor-executed swaps (`sponsorExec` is true or defaulted to true)."
+              },
+              {
+                "name": "includeAddressLookupTables",
+                "value": "",
+                "type": "query",
+                "description": "If true, the response will include the address lookup tables used in the transaction,\nwith only the entries referenced by the transaction, enabling clients to deserialize and\nrecompile the transaction with additional instructions without fetching ALTs from RPC.\nDefault is false."
+              },
+              {
+                "name": "maxAccounts",
+                "value": "",
+                "type": "query",
+                "description": "Maximum allowed number of accounts that the transaction can use. Mutually exclusive with\n`reserveAccounts`."
+              },
+              {
+                "name": "maxTransactionSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum allowed size of the transaction in bytes. Mutually exclusive with\n`reserveTransactionSize`."
+              },
+              {
+                "name": "reserveAccounts",
+                "value": "",
+                "type": "query",
+                "description": "Number of accounts to leave unused in the transaction. The server will ensure that\nthe transaction uses at most `TRANSACTION_MAX_ACCOUNTS - reserveAccounts` accounts. Mutually\nexclusive with `maxAccounts`. If you add instructions to the transaction, use this parameter\nto specify the number of unique accounts that you will add to the transaction. Note that you\nshould not count accounts that are already included in the transaction."
+              },
+              {
+                "name": "reserveTransactionSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of bytes to leave unused in the transaction. The server will ensure that the\ntransaction size is at most `TRANSACTION_MAX_SIZE - reserveTransactionSize` bytes. Mutually\nexclusive with `maxTransactionSize`. If you add instructions to the transaction, use this\nparameter to specify the number of bytes that your modifications will add to the\ntransaction."
+              }
+            ]
+          },
+          "docs": "Returns a quote and optionally a transaction"
+        },
+        {
+          "info": {
+            "name": "Returns the status of an order. Only prediction market orders are supported.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://quote-api.dflow.net/order-status",
+            "params": [
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded transaction signature of the transaction received from the order endpoint.\nOnly prediction market order signatures are supported."
+              },
+              {
+                "name": "lastValidBlockHeight",
+                "value": "",
+                "type": "query",
+                "description": "Last block height at which the transaction is valid"
+              }
+            ]
+          },
+          "docs": "Returns the status of an order. Only prediction market orders are supported."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

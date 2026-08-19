@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "DFlow Aggregator admin prediction_market API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "prediction_market",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a transaction to initialize a prediction market idempotently",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://quote-api.dflow.net/prediction-market-init",
+            "params": [
+              {
+                "name": "payer",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded address of the payer"
+              },
+              {
+                "name": "outcomeMint",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded mint address of either outcome mint for the market to be initialized"
+              }
+            ]
+          },
+          "docs": "Returns a transaction to initialize a prediction market idempotently"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,124 @@
+{
+  "item": [
+    {
+      "id": "f58eecb2-9b7e-4322-b5e0-e2c8b4e75a9e",
+      "name": "venues",
+      "description": {
+        "content": "Venue endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2d832c72-e407-43b7-aeb8-373dc82d3bbb",
+          "name": "Returns a list of venues supported for swapping.",
+          "request": {
+            "name": "Returns a list of venues supported for swapping.",
+            "description": {},
+            "url": {
+              "path": [
+                "venues"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d7ee9d96-594b-4d5e-bf67-be3c0bb1df8d",
+              "name": "List of supported venues",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "venues"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"string\",\n  \"string\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://quote-api.dflow.net",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f1797b85-69eb-4db9-83fc-dea554c0ae02",
+    "name": "DFlow Aggregator admin venues API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "DFlow Aggregator API",
+      "type": "text/plain"
+    }
+  }
+}

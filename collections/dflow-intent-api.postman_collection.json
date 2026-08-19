@@ -1,0 +1,669 @@
+{
+  "item": [
+    {
+      "id": "615bb901-e26f-4026-9858-0dbb804cbd4e",
+      "name": "intent",
+      "description": {
+        "content": "Intent trading endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f6d9824f-9e52-4a8c-94d7-a65bc47d2968",
+          "name": "Returns a quote for a declarative swap",
+          "request": {
+            "name": "Returns a quote for a declarative swap",
+            "description": {},
+            "url": {
+              "path": [
+                "intent"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "userPublicKey",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the swapper's wallet. If specified, the response will include a\ntransaction allowing the user to submit the intent."
+                },
+                {
+                  "disabled": false,
+                  "key": "inputMint",
+                  "value": "<string>",
+                  "description": "(Required) Base58-encoded input mint address"
+                },
+                {
+                  "disabled": false,
+                  "key": "outputMint",
+                  "value": "<string>",
+                  "description": "(Required) Base58-encoded output mint address"
+                },
+                {
+                  "disabled": false,
+                  "key": "amount",
+                  "value": "<long>",
+                  "description": "(Required) Input amount as a scaled integer. For example, 1 SOL is 1000000000."
+                },
+                {
+                  "disabled": false,
+                  "key": "slippageBps",
+                  "value": "<integer>",
+                  "description": "Max allowed slippage for the swap. Allowed values are:\n- a u16 which specifies the maximum allowed slippage in basis points\n- the string value \"auto\", where the server determines the maximum allowed slippage\n  automatically"
+                },
+                {
+                  "disabled": false,
+                  "key": "priceImpactTolerancePct",
+                  "value": "<integer>",
+                  "description": "If specified, the API will return an error if the price impact of the route is greater than\nthe specified percentage. If unspecified, the server will determine the threshold. For\nexample, 10 is 10% and 100 is 100%."
+                },
+                {
+                  "disabled": false,
+                  "key": "platformFeeBps",
+                  "value": "<integer>",
+                  "description": "Optional platform fee in basis points. This is taken out of the output of the swap."
+                },
+                {
+                  "disabled": false,
+                  "key": "feeAccount",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the token account that will receive the platform fee if a platform\nfee applies to the swap. If specified, this account's mint must match the output mint for\nthe swap."
+                },
+                {
+                  "disabled": false,
+                  "key": "referralAccount",
+                  "value": "<string>",
+                  "description": "Base58-encoded address of the referral account associated with the fee account.\nIf the fee account isn't a referral token account derived from the seeds\n`[\"referral_ata\", referral_account, mint]` and the Referral program ID\n`REFER4ZgmyYx9c6He5XfaTMiGfdLwRnkV4RPp9t9iF3`, this should be unspecified. If specified, the\nthe intent opening transaction will create the `fee_account` if it doesn't already exist.\nThe user pays for the creation of the fee account. Ignored if `fee_account` is unspecified."
+                },
+                {
+                  "disabled": false,
+                  "key": "wrapAndUnwrapSol",
+                  "value": "<boolean>",
+                  "description": "If false, the intent will use wrapped SOL"
+                },
+                {
+                  "disabled": false,
+                  "key": "feeBudget",
+                  "value": "<long>",
+                  "description": "Maximum amount that the user is willing to pay to have the intent processed in lamports.\nThis includes all transaction fees and tips for the open transaction and all transaction\nfees and tips for the fill and close transactions. If unspecified, the server will determine\nthe fee budget."
+                },
+                {
+                  "disabled": false,
+                  "key": "maxAutoFeeBudget",
+                  "value": "<long>",
+                  "description": "Limit on the automatically-determined maximum fee budget in lamports. If the `fee_budget` is\nunspecified, then the server's automatically-determined fee budget will be capped at this\nvalue. If unspecified, the limit defaults to 0.002 SOL. The final fee budget used is\n`min(max_auto_fee_budget, auto_fee_budget_determined_by_server)`."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5b6e7576-cbe2-4efc-a616-b197e0a10b60",
+              "name": "Declarative swap quote",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "intent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "userPublicKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "inputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "slippageBps",
+                      "value": "3110"
+                    },
+                    {
+                      "key": "priceImpactTolerancePct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "platformFeeBps",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "feeAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "referralAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wrapAndUnwrapSol",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "feeBudget",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "maxAutoFeeBudget",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"inputMint\": \"string\",\n  \"inAmount\": \"string\",\n  \"outputMint\": \"string\",\n  \"outAmount\": \"string\",\n  \"otherAmountThreshold\": \"string\",\n  \"minOutAmount\": \"string\",\n  \"slippageBps\": 1681,\n  \"feeBudget\": 5306,\n  \"priceImpactPct\": \"string\",\n  \"expiry\": {\n    \"slotsAfterOpen\": 6048\n  },\n  \"lastValidBlockHeight\": 4281,\n  \"openTransaction\": \"string\",\n  \"platformFee\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "54545491-fd37-4cd9-b3bc-8fc261d7facc",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "intent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "userPublicKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "inputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "slippageBps",
+                      "value": "3110"
+                    },
+                    {
+                      "key": "priceImpactTolerancePct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "platformFeeBps",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "feeAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "referralAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wrapAndUnwrapSol",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "feeBudget",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "maxAutoFeeBudget",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"invalid_output_mint\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09234619-2100-4842-ba98-d0db11c3f381",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "intent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "userPublicKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "inputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "slippageBps",
+                      "value": "3110"
+                    },
+                    {
+                      "key": "priceImpactTolerancePct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "platformFeeBps",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "feeAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "referralAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wrapAndUnwrapSol",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "feeBudget",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "maxAutoFeeBudget",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"failed_to_construct_intent\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "82b6c790-8e03-402f-8712-5586dac6d702",
+              "name": "Service unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "intent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "userPublicKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "inputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "slippageBps",
+                      "value": "3110"
+                    },
+                    {
+                      "key": "priceImpactTolerancePct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "platformFeeBps",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "feeAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "referralAccount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wrapAndUnwrapSol",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "feeBudget",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "maxAutoFeeBudget",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"amm_map_not_initialized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1427ec29-9387-4080-a9b7-0c79b416c93c",
+          "name": "Submits a declarative swap transaction for processing",
+          "request": {
+            "name": "Submits a declarative swap transaction for processing",
+            "description": {},
+            "url": {
+              "path": [
+                "submit-intent"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quoteResponse\": {\n    \"inputMint\": \"<string>\",\n    \"inAmount\": \"<string>\",\n    \"outputMint\": \"<string>\",\n    \"outAmount\": \"<string>\",\n    \"otherAmountThreshold\": \"<string>\",\n    \"minOutAmount\": \"<string>\",\n    \"slippageBps\": \"<integer>\",\n    \"feeBudget\": \"<long>\",\n    \"priceImpactPct\": \"<string>\",\n    \"expiry\": {\n      \"slotsAfterOpen\": \"<integer>\"\n    },\n    \"lastValidBlockHeight\": \"<long>\",\n    \"openTransaction\": \"<string>\",\n    \"platformFee\": \"<null>\"\n  },\n  \"signedOpenTransaction\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6127f1f2-003e-4670-acbe-91848eb62388",
+              "name": "Declarative swap submitted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "submit-intent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quoteResponse\": {\n    \"inputMint\": \"string\",\n    \"inAmount\": \"string\",\n    \"outputMint\": \"string\",\n    \"outAmount\": \"string\",\n    \"otherAmountThreshold\": \"string\",\n    \"minOutAmount\": \"string\",\n    \"slippageBps\": 1952,\n    \"feeBudget\": 4433,\n    \"priceImpactPct\": \"string\",\n    \"expiry\": {\n      \"slotsAfterOpen\": 6072\n    },\n    \"lastValidBlockHeight\": 5623,\n    \"openTransaction\": \"string\",\n    \"platformFee\": null\n  },\n  \"signedOpenTransaction\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"programId\": \"string\",\n  \"orderAddress\": \"string\",\n  \"openTransactionSignature\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2225312-3764-4e38-9213-a6d0cf84d2d4",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "submit-intent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quoteResponse\": {\n    \"inputMint\": \"string\",\n    \"inAmount\": \"string\",\n    \"outputMint\": \"string\",\n    \"outAmount\": \"string\",\n    \"otherAmountThreshold\": \"string\",\n    \"minOutAmount\": \"string\",\n    \"slippageBps\": 1952,\n    \"feeBudget\": 4433,\n    \"priceImpactPct\": \"string\",\n    \"expiry\": {\n      \"slotsAfterOpen\": 6072\n    },\n    \"lastValidBlockHeight\": 5623,\n    \"openTransaction\": \"string\",\n    \"platformFee\": null\n  },\n  \"signedOpenTransaction\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"invalid_open_instruction_data\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://quote-api.dflow.net",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c02fecd0-58ac-47f3-bc39-bdba4acaea9b",
+    "name": "DFlow Aggregator admin intent API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "DFlow Aggregator API",
+      "type": "text/plain"
+    }
+  }
+}

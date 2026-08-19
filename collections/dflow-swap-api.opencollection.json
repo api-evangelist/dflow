@@ -1,0 +1,193 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "DFlow Aggregator admin swap API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "swap",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns the latest global priority fee estimates for each priority level",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://quote-api.dflow.net/priority-fees"
+          },
+          "docs": "Returns the latest global priority fee estimates for each priority level"
+        },
+        {
+          "info": {
+            "name": "Streams priority fee estimate updates over a WebSocket connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://quote-api.dflow.net/priority-fees/stream"
+          },
+          "docs": "Streams priority fee estimate updates over a WebSocket connection"
+        },
+        {
+          "info": {
+            "name": "Returns a quote for an imperative swap",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://quote-api.dflow.net/quote",
+            "params": [
+              {
+                "name": "inputMint",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded input mint address"
+              },
+              {
+                "name": "outputMint",
+                "value": "",
+                "type": "query",
+                "description": "Base58-encoded output mint address"
+              },
+              {
+                "name": "amount",
+                "value": "",
+                "type": "query",
+                "description": "Input amount as a scaled integer. For example, 1 SOL is 1000000000."
+              },
+              {
+                "name": "slippageBps",
+                "value": "",
+                "type": "query",
+                "description": "Max allowed slippage for the swap. Allowed values are:\n- a u16 which specifies the maximum allowed slippage in basis points\n- the string value \"auto\", where the server determines the maximum allowed slippage\n  automatically"
+              },
+              {
+                "name": "priceImpactTolerancePct",
+                "value": "",
+                "type": "query",
+                "description": "If specified, the API will return an error if the price impact of the route is greater than\nthe specified percentage. If unspecified, the server will determine the threshold. For\nexample, 10 is 10% and 100 is 100%."
+              },
+              {
+                "name": "dexes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of DEXes to include. If not specified, all DEXes will be included."
+              },
+              {
+                "name": "excludeDexes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of DEXes to exclude. If not specified, all DEXes will be included."
+              },
+              {
+                "name": "platformFeeBps",
+                "value": "",
+                "type": "query",
+                "description": "Optional platform fee in basis points. This should only be nonzero if the swap will collect\nthe platform fee. The swap must specify a valid fee account and that fee account must be\nable to collect the fee mint at execution time."
+              },
+              {
+                "name": "platformFeeMode",
+                "value": "",
+                "type": "query",
+                "description": "Optional platform fee mode. If not specified, the default is `outputMint`."
+              },
+              {
+                "name": "sponsoredSwap",
+                "value": "",
+                "type": "query",
+                "description": "This should be specified as true if and only if the quote will be used for a sponsored swap.\nIf true, then the quote will account for any additional token 2022 transfer fees that apply\nto the input and output mints for a sponsored swap."
+              },
+              {
+                "name": "sponsorExec",
+                "value": "",
+                "type": "query",
+                "description": "The execution mode that will be used for the sponsored swap. This parameter is only relevant\nwhen `sponsoredSwap` is true. True indicates that the sponsor will be the executor of the\nswap. False indicates that the user will be the executor of the swap. Default is true."
+              },
+              {
+                "name": "destinationSwap",
+                "value": "",
+                "type": "query",
+                "description": "This should be specified as true if and only if the quote will be used for a destination\ntoken account swap. If true, then the quote will account for any additional token 2022\ntransfer fees that apply to the output mint for a destination token account swap."
+              },
+              {
+                "name": "onlyDirectRoutes",
+                "value": "",
+                "type": "query",
+                "description": "If true, only use single-leg routes"
+              },
+              {
+                "name": "maxRouteLength",
+                "value": "",
+                "type": "query",
+                "description": "If specified, the route will be limited to the specified number of legs. Ignored if\n`only_direct_routes` is true."
+              },
+              {
+                "name": "onlyJitRoutes",
+                "value": "",
+                "type": "query",
+                "description": "If true, only use JIT routes. Every leg in the route will use the JIT router."
+              },
+              {
+                "name": "forJitoBundle",
+                "value": "",
+                "type": "query",
+                "description": "If true, only use routes that are compatible with Jito bundles. This should only be\nspecified as true if the swap will be executed in a Jito bundle. Default is false."
+              },
+              {
+                "name": "skipPumpfunCashbackClaim",
+                "value": "",
+                "type": "query",
+                "description": "If true, Pump.fun cashback will not be claimed for cashback-eligible coins. When set, sell\nquotes include the full creator fee, and execution skips Pump.fun cashback claiming. Default\nis false. Cannot be used with sponsor-executed swaps (`sponsorExec` is true or defaulted to\ntrue)."
+              }
+            ]
+          },
+          "docs": "Returns a quote for an imperative swap"
+        },
+        {
+          "info": {
+            "name": "Returns an imperative swap transaction for the given quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://quote-api.dflow.net/swap",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns an imperative swap transaction for the given quote"
+        },
+        {
+          "info": {
+            "name": "Returns an imperative swap transaction for the given quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://quote-api.dflow.net/swap-instructions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns an imperative swap transaction for the given quote"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

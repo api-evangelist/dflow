@@ -1,0 +1,1170 @@
+{
+  "item": [
+    {
+      "id": "1b0d6042-797a-4fb9-8c34-0c533dce19df",
+      "name": "swap",
+      "description": {
+        "content": "Swap API endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7488e6e7-1c5a-433c-832e-3e79cec62b84",
+          "name": "Returns the latest global priority fee estimates for each priority level",
+          "request": {
+            "name": "Returns the latest global priority fee estimates for each priority level",
+            "description": {},
+            "url": {
+              "path": [
+                "priority-fees"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "87167592-b72a-4df5-9668-532f46b2bec4",
+              "name": "Priority fee estimates",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "priority-fees"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"mediumMicroLamports\": 3566,\n  \"highMicroLamports\": 3770,\n  \"veryHighMicroLamports\": 9364\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "55b23978-577c-4cfb-8ea4-596135c5d76b",
+          "name": "Streams priority fee estimate updates over a WebSocket connection",
+          "request": {
+            "name": "Streams priority fee estimate updates over a WebSocket connection",
+            "description": {},
+            "url": {
+              "path": [
+                "priority-fees",
+                "stream"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1fa2c663-846a-4630-b30a-1cd64ae3c838",
+              "name": "WebSocket upgrade",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "priority-fees",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Switching Protocols",
+              "code": 101,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6ee737ae-1f3e-4168-a0e0-c0f05d631e64",
+          "name": "Returns a quote for an imperative swap",
+          "request": {
+            "name": "Returns a quote for an imperative swap",
+            "description": {},
+            "url": {
+              "path": [
+                "quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "inputMint",
+                  "value": "<string>",
+                  "description": "(Required) Base58-encoded input mint address"
+                },
+                {
+                  "disabled": false,
+                  "key": "outputMint",
+                  "value": "<string>",
+                  "description": "(Required) Base58-encoded output mint address"
+                },
+                {
+                  "disabled": false,
+                  "key": "amount",
+                  "value": "<long>",
+                  "description": "(Required) Input amount as a scaled integer. For example, 1 SOL is 1000000000."
+                },
+                {
+                  "disabled": false,
+                  "key": "slippageBps",
+                  "value": "<integer>",
+                  "description": "Max allowed slippage for the swap. Allowed values are:\n- a u16 which specifies the maximum allowed slippage in basis points\n- the string value \"auto\", where the server determines the maximum allowed slippage\n  automatically"
+                },
+                {
+                  "disabled": false,
+                  "key": "priceImpactTolerancePct",
+                  "value": "<integer>",
+                  "description": "If specified, the API will return an error if the price impact of the route is greater than\nthe specified percentage. If unspecified, the server will determine the threshold. For\nexample, 10 is 10% and 100 is 100%."
+                },
+                {
+                  "disabled": false,
+                  "key": "dexes",
+                  "value": "<string>",
+                  "description": "Comma-separated list of DEXes to include. If not specified, all DEXes will be included."
+                },
+                {
+                  "disabled": false,
+                  "key": "excludeDexes",
+                  "value": "<string>",
+                  "description": "Comma-separated list of DEXes to exclude. If not specified, all DEXes will be included."
+                },
+                {
+                  "disabled": false,
+                  "key": "platformFeeBps",
+                  "value": "<integer>",
+                  "description": "Optional platform fee in basis points. This should only be nonzero if the swap will collect\nthe platform fee. The swap must specify a valid fee account and that fee account must be\nable to collect the fee mint at execution time."
+                },
+                {
+                  "disabled": false,
+                  "key": "platformFeeMode",
+                  "value": "<string>",
+                  "description": "Optional platform fee mode. If not specified, the default is `outputMint`."
+                },
+                {
+                  "disabled": false,
+                  "key": "sponsoredSwap",
+                  "value": "<boolean>",
+                  "description": "This should be specified as true if and only if the quote will be used for a sponsored swap.\nIf true, then the quote will account for any additional token 2022 transfer fees that apply\nto the input and output mints for a sponsored swap."
+                },
+                {
+                  "disabled": false,
+                  "key": "sponsorExec",
+                  "value": "<boolean>",
+                  "description": "The execution mode that will be used for the sponsored swap. This parameter is only relevant\nwhen `sponsoredSwap` is true. True indicates that the sponsor will be the executor of the\nswap. False indicates that the user will be the executor of the swap. Default is true."
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationSwap",
+                  "value": "<boolean>",
+                  "description": "This should be specified as true if and only if the quote will be used for a destination\ntoken account swap. If true, then the quote will account for any additional token 2022\ntransfer fees that apply to the output mint for a destination token account swap."
+                },
+                {
+                  "disabled": false,
+                  "key": "onlyDirectRoutes",
+                  "value": "<boolean>",
+                  "description": "If true, only use single-leg routes"
+                },
+                {
+                  "disabled": false,
+                  "key": "maxRouteLength",
+                  "value": "<integer>",
+                  "description": "If specified, the route will be limited to the specified number of legs. Ignored if\n`only_direct_routes` is true."
+                },
+                {
+                  "disabled": false,
+                  "key": "onlyJitRoutes",
+                  "value": "<boolean>",
+                  "description": "If true, only use JIT routes. Every leg in the route will use the JIT router."
+                },
+                {
+                  "disabled": false,
+                  "key": "forJitoBundle",
+                  "value": "<boolean>",
+                  "description": "If true, only use routes that are compatible with Jito bundles. This should only be\nspecified as true if the swap will be executed in a Jito bundle. Default is false."
+                },
+                {
+                  "disabled": false,
+                  "key": "skipPumpfunCashbackClaim",
+                  "value": "<boolean>",
+                  "description": "If true, Pump.fun cashback will not be claimed for cashback-eligible coins. When set, sell\nquotes include the full creator fee, and execution skips Pump.fun cashback claiming. Default\nis false. Cannot be used with sponsor-executed swaps (`sponsorExec` is true or defaulted to\ntrue)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2aef0d26-0c0a-4ead-b6e6-58cca551fcce",
+              "name": "Imperative swap quote",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "inputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "slippageBps",
+                      "value": "6796"
+                    },
+                    {
+                      "key": "priceImpactTolerancePct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "dexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "excludeDexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "platformFeeBps",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "platformFeeMode",
+                      "value": "inputMint"
+                    },
+                    {
+                      "key": "sponsoredSwap",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "sponsorExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "destinationSwap",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "onlyDirectRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "maxRouteLength",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "onlyJitRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "forJitoBundle",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "skipPumpfunCashbackClaim",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"inputMint\": \"string\",\n  \"inAmount\": \"string\",\n  \"outputMint\": \"string\",\n  \"outAmount\": \"string\",\n  \"otherAmountThreshold\": \"string\",\n  \"minOutAmount\": \"string\",\n  \"slippageBps\": 7335,\n  \"priceImpactPct\": \"string\",\n  \"routePlan\": [\n    {\n      \"venue\": \"string\",\n      \"marketKey\": \"string\",\n      \"data\": \"string\",\n      \"inputMint\": \"string\",\n      \"outputMint\": \"string\",\n      \"inAmount\": \"string\",\n      \"outAmount\": \"string\",\n      \"inputMintDecimals\": 9953,\n      \"outputMintDecimals\": 3465\n    },\n    {\n      \"venue\": \"string\",\n      \"marketKey\": \"string\",\n      \"data\": \"string\",\n      \"inputMint\": \"string\",\n      \"outputMint\": \"string\",\n      \"inAmount\": \"string\",\n      \"outAmount\": \"string\",\n      \"inputMintDecimals\": 5113,\n      \"outputMintDecimals\": 3718\n    }\n  ],\n  \"contextSlot\": 1577,\n  \"forJitoBundle\": true,\n  \"outTransferFee\": \"string\",\n  \"platformFee\": null,\n  \"requestId\": \"string\",\n  \"routingSlot\": 1807,\n  \"simulatedComputeUnits\": 1633,\n  \"skipPumpfunCashbackClaim\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13d05f0d-c9d0-41d0-a8c8-a9345289ee70",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "inputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "slippageBps",
+                      "value": "6796"
+                    },
+                    {
+                      "key": "priceImpactTolerancePct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "dexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "excludeDexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "platformFeeBps",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "platformFeeMode",
+                      "value": "inputMint"
+                    },
+                    {
+                      "key": "sponsoredSwap",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "sponsorExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "destinationSwap",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "onlyDirectRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "maxRouteLength",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "onlyJitRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "forJitoBundle",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "skipPumpfunCashbackClaim",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"invalid_input_mint\",\n  \"contextSlot\": 21,\n  \"routingSlot\": 9616\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f014b29b-863d-40d7-b454-97fca6a94843",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "inputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "slippageBps",
+                      "value": "6796"
+                    },
+                    {
+                      "key": "priceImpactTolerancePct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "dexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "excludeDexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "platformFeeBps",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "platformFeeMode",
+                      "value": "inputMint"
+                    },
+                    {
+                      "key": "sponsoredSwap",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "sponsorExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "destinationSwap",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "onlyDirectRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "maxRouteLength",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "onlyJitRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "forJitoBundle",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "skipPumpfunCashbackClaim",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"failed_to_compute_route\",\n  \"contextSlot\": 925,\n  \"routingSlot\": 541\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43576942-eaa8-4d9a-ab4a-443462aab975",
+              "name": "Service unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "inputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "outputMint",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "slippageBps",
+                      "value": "6796"
+                    },
+                    {
+                      "key": "priceImpactTolerancePct",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "dexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "excludeDexes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "platformFeeBps",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "platformFeeMode",
+                      "value": "inputMint"
+                    },
+                    {
+                      "key": "sponsoredSwap",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "sponsorExec",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "destinationSwap",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "onlyDirectRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "maxRouteLength",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "onlyJitRoutes",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "forJitoBundle",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "skipPumpfunCashbackClaim",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"amm_map_lagging\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0ee15115-669f-4d14-a554-e39c39ff7269",
+          "name": "Returns an imperative swap transaction for the given quote",
+          "request": {
+            "name": "Returns an imperative swap transaction for the given quote",
+            "description": {},
+            "url": {
+              "path": [
+                "swap"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userPublicKey\": \"<string>\",\n  \"quoteResponse\": {\n    \"inputMint\": \"<string>\",\n    \"inAmount\": \"<string>\",\n    \"outputMint\": \"<string>\",\n    \"outAmount\": \"<string>\",\n    \"otherAmountThreshold\": \"<string>\",\n    \"minOutAmount\": \"<string>\",\n    \"slippageBps\": \"<integer>\",\n    \"priceImpactPct\": \"<string>\",\n    \"routePlan\": [\n      {\n        \"venue\": \"<string>\",\n        \"marketKey\": \"<string>\",\n        \"data\": \"<string>\",\n        \"inputMint\": \"<string>\",\n        \"outputMint\": \"<string>\",\n        \"inAmount\": \"<string>\",\n        \"outAmount\": \"<string>\",\n        \"inputMintDecimals\": \"<integer>\",\n        \"outputMintDecimals\": \"<integer>\"\n      },\n      {\n        \"venue\": \"<string>\",\n        \"marketKey\": \"<string>\",\n        \"data\": \"<string>\",\n        \"inputMint\": \"<string>\",\n        \"outputMint\": \"<string>\",\n        \"inAmount\": \"<string>\",\n        \"outAmount\": \"<string>\",\n        \"inputMintDecimals\": \"<integer>\",\n        \"outputMintDecimals\": \"<integer>\"\n      }\n    ],\n    \"contextSlot\": \"<long>\",\n    \"forJitoBundle\": \"<boolean>\",\n    \"outTransferFee\": \"<string>\",\n    \"platformFee\": \"<null>\",\n    \"requestId\": \"<string>\",\n    \"routingSlot\": \"<long>\",\n    \"simulatedComputeUnits\": \"<integer>\",\n    \"skipPumpfunCashbackClaim\": \"<boolean>\"\n  },\n  \"computeUnitPriceMicroLamports\": \"<long>\",\n  \"createFeeAccount\": {\n    \"referralAccount\": \"<string>\"\n  },\n  \"destinationTokenAccount\": {\n    \"associatedTokenAccount\": {\n      \"owner\": \"<string>\"\n    }\n  },\n  \"dynamicComputeUnitLimit\": \"<boolean>\",\n  \"feeAccount\": \"<string>\",\n  \"includeJitoSandwichMitigationAccount\": \"<boolean>\",\n  \"outputCloseAuthority\": \"<string>\",\n  \"perLegSlippage\": \"<boolean>\",\n  \"positiveSlippage\": {\n    \"limitPct\": \"<integer>\",\n    \"feeAccount\": \"<string>\"\n  },\n  \"prioritizationFeeLamports\": {\n    \"autoMultiplier\": \"<integer>\"\n  },\n  \"sponsor\": \"<string>\",\n  \"sponsorExec\": \"<boolean>\",\n  \"wrapAndUnwrapSol\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3e016f10-1482-4e50-86fc-650e41c3219e",
+              "name": "Imperative swap transaction",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userPublicKey\": \"<string>\",\n  \"quoteResponse\": {\n    \"inputMint\": \"string\",\n    \"inAmount\": \"string\",\n    \"outputMint\": \"string\",\n    \"outAmount\": \"string\",\n    \"otherAmountThreshold\": \"string\",\n    \"minOutAmount\": \"string\",\n    \"slippageBps\": 3481,\n    \"priceImpactPct\": \"string\",\n    \"routePlan\": [\n      {\n        \"venue\": \"string\",\n        \"marketKey\": \"string\",\n        \"data\": \"string\",\n        \"inputMint\": \"string\",\n        \"outputMint\": \"string\",\n        \"inAmount\": \"string\",\n        \"outAmount\": \"string\",\n        \"inputMintDecimals\": 9942,\n        \"outputMintDecimals\": 1549\n      },\n      {\n        \"venue\": \"string\",\n        \"marketKey\": \"string\",\n        \"data\": \"string\",\n        \"inputMint\": \"string\",\n        \"outputMint\": \"string\",\n        \"inAmount\": \"string\",\n        \"outAmount\": \"string\",\n        \"inputMintDecimals\": 86,\n        \"outputMintDecimals\": 8719\n      }\n    ],\n    \"contextSlot\": 8369,\n    \"forJitoBundle\": false,\n    \"outTransferFee\": \"string\",\n    \"platformFee\": null,\n    \"requestId\": \"string\",\n    \"routingSlot\": 4307,\n    \"simulatedComputeUnits\": 2428,\n    \"skipPumpfunCashbackClaim\": true\n  },\n  \"computeUnitPriceMicroLamports\": \"<long>\",\n  \"createFeeAccount\": {\n    \"referralAccount\": \"string\"\n  },\n  \"destinationTokenAccount\": {\n    \"associatedTokenAccount\": {\n      \"owner\": \"string\"\n    }\n  },\n  \"dynamicComputeUnitLimit\": \"<boolean>\",\n  \"feeAccount\": \"<string>\",\n  \"includeJitoSandwichMitigationAccount\": true,\n  \"outputCloseAuthority\": \"<string>\",\n  \"perLegSlippage\": \"<boolean>\",\n  \"positiveSlippage\": {\n    \"limitPct\": 2820,\n    \"feeAccount\": \"string\"\n  },\n  \"prioritizationFeeLamports\": {\n    \"autoMultiplier\": 1392\n  },\n  \"sponsor\": \"<string>\",\n  \"sponsorExec\": \"<boolean>\",\n  \"wrapAndUnwrapSol\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"swapTransaction\": \"string\",\n  \"lastValidBlockHeight\": 3865,\n  \"prioritizationFeeLamports\": 3510,\n  \"computeUnitLimit\": 4999,\n  \"prioritizationType\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f6d7482-708a-46e4-921c-a1dd51097698",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userPublicKey\": \"<string>\",\n  \"quoteResponse\": {\n    \"inputMint\": \"string\",\n    \"inAmount\": \"string\",\n    \"outputMint\": \"string\",\n    \"outAmount\": \"string\",\n    \"otherAmountThreshold\": \"string\",\n    \"minOutAmount\": \"string\",\n    \"slippageBps\": 3481,\n    \"priceImpactPct\": \"string\",\n    \"routePlan\": [\n      {\n        \"venue\": \"string\",\n        \"marketKey\": \"string\",\n        \"data\": \"string\",\n        \"inputMint\": \"string\",\n        \"outputMint\": \"string\",\n        \"inAmount\": \"string\",\n        \"outAmount\": \"string\",\n        \"inputMintDecimals\": 9942,\n        \"outputMintDecimals\": 1549\n      },\n      {\n        \"venue\": \"string\",\n        \"marketKey\": \"string\",\n        \"data\": \"string\",\n        \"inputMint\": \"string\",\n        \"outputMint\": \"string\",\n        \"inAmount\": \"string\",\n        \"outAmount\": \"string\",\n        \"inputMintDecimals\": 86,\n        \"outputMintDecimals\": 8719\n      }\n    ],\n    \"contextSlot\": 8369,\n    \"forJitoBundle\": false,\n    \"outTransferFee\": \"string\",\n    \"platformFee\": null,\n    \"requestId\": \"string\",\n    \"routingSlot\": 4307,\n    \"simulatedComputeUnits\": 2428,\n    \"skipPumpfunCashbackClaim\": true\n  },\n  \"computeUnitPriceMicroLamports\": \"<long>\",\n  \"createFeeAccount\": {\n    \"referralAccount\": \"string\"\n  },\n  \"destinationTokenAccount\": {\n    \"associatedTokenAccount\": {\n      \"owner\": \"string\"\n    }\n  },\n  \"dynamicComputeUnitLimit\": \"<boolean>\",\n  \"feeAccount\": \"<string>\",\n  \"includeJitoSandwichMitigationAccount\": true,\n  \"outputCloseAuthority\": \"<string>\",\n  \"perLegSlippage\": \"<boolean>\",\n  \"positiveSlippage\": {\n    \"limitPct\": 2820,\n    \"feeAccount\": \"string\"\n  },\n  \"prioritizationFeeLamports\": {\n    \"autoMultiplier\": 1392\n  },\n  \"sponsor\": \"<string>\",\n  \"sponsorExec\": \"<boolean>\",\n  \"wrapAndUnwrapSol\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"sponsored_swap_cannot_create_fee_account\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a989f5ac-0303-4d27-847e-3dd0448cf1e0",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userPublicKey\": \"<string>\",\n  \"quoteResponse\": {\n    \"inputMint\": \"string\",\n    \"inAmount\": \"string\",\n    \"outputMint\": \"string\",\n    \"outAmount\": \"string\",\n    \"otherAmountThreshold\": \"string\",\n    \"minOutAmount\": \"string\",\n    \"slippageBps\": 3481,\n    \"priceImpactPct\": \"string\",\n    \"routePlan\": [\n      {\n        \"venue\": \"string\",\n        \"marketKey\": \"string\",\n        \"data\": \"string\",\n        \"inputMint\": \"string\",\n        \"outputMint\": \"string\",\n        \"inAmount\": \"string\",\n        \"outAmount\": \"string\",\n        \"inputMintDecimals\": 9942,\n        \"outputMintDecimals\": 1549\n      },\n      {\n        \"venue\": \"string\",\n        \"marketKey\": \"string\",\n        \"data\": \"string\",\n        \"inputMint\": \"string\",\n        \"outputMint\": \"string\",\n        \"inAmount\": \"string\",\n        \"outAmount\": \"string\",\n        \"inputMintDecimals\": 86,\n        \"outputMintDecimals\": 8719\n      }\n    ],\n    \"contextSlot\": 8369,\n    \"forJitoBundle\": false,\n    \"outTransferFee\": \"string\",\n    \"platformFee\": null,\n    \"requestId\": \"string\",\n    \"routingSlot\": 4307,\n    \"simulatedComputeUnits\": 2428,\n    \"skipPumpfunCashbackClaim\": true\n  },\n  \"computeUnitPriceMicroLamports\": \"<long>\",\n  \"createFeeAccount\": {\n    \"referralAccount\": \"string\"\n  },\n  \"destinationTokenAccount\": {\n    \"associatedTokenAccount\": {\n      \"owner\": \"string\"\n    }\n  },\n  \"dynamicComputeUnitLimit\": \"<boolean>\",\n  \"feeAccount\": \"<string>\",\n  \"includeJitoSandwichMitigationAccount\": true,\n  \"outputCloseAuthority\": \"<string>\",\n  \"perLegSlippage\": \"<boolean>\",\n  \"positiveSlippage\": {\n    \"limitPct\": 2820,\n    \"feeAccount\": \"string\"\n  },\n  \"prioritizationFeeLamports\": {\n    \"autoMultiplier\": 1392\n  },\n  \"sponsor\": \"<string>\",\n  \"sponsorExec\": \"<boolean>\",\n  \"wrapAndUnwrapSol\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"failed_to_compute_swap\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d4afb5bb-ad94-4aca-811f-4f2a17290a72",
+          "name": "Returns an imperative swap transaction for the given quote",
+          "request": {
+            "name": "Returns an imperative swap transaction for the given quote",
+            "description": {},
+            "url": {
+              "path": [
+                "swap-instructions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userPublicKey\": \"<string>\",\n  \"quoteResponse\": {\n    \"inputMint\": \"<string>\",\n    \"inAmount\": \"<string>\",\n    \"outputMint\": \"<string>\",\n    \"outAmount\": \"<string>\",\n    \"otherAmountThreshold\": \"<string>\",\n    \"minOutAmount\": \"<string>\",\n    \"slippageBps\": \"<integer>\",\n    \"priceImpactPct\": \"<string>\",\n    \"routePlan\": [\n      {\n        \"venue\": \"<string>\",\n        \"marketKey\": \"<string>\",\n        \"data\": \"<string>\",\n        \"inputMint\": \"<string>\",\n        \"outputMint\": \"<string>\",\n        \"inAmount\": \"<string>\",\n        \"outAmount\": \"<string>\",\n        \"inputMintDecimals\": \"<integer>\",\n        \"outputMintDecimals\": \"<integer>\"\n      },\n      {\n        \"venue\": \"<string>\",\n        \"marketKey\": \"<string>\",\n        \"data\": \"<string>\",\n        \"inputMint\": \"<string>\",\n        \"outputMint\": \"<string>\",\n        \"inAmount\": \"<string>\",\n        \"outAmount\": \"<string>\",\n        \"inputMintDecimals\": \"<integer>\",\n        \"outputMintDecimals\": \"<integer>\"\n      }\n    ],\n    \"contextSlot\": \"<long>\",\n    \"forJitoBundle\": \"<boolean>\",\n    \"outTransferFee\": \"<string>\",\n    \"platformFee\": \"<null>\",\n    \"requestId\": \"<string>\",\n    \"routingSlot\": \"<long>\",\n    \"simulatedComputeUnits\": \"<integer>\",\n    \"skipPumpfunCashbackClaim\": \"<boolean>\"\n  },\n  \"computeUnitPriceMicroLamports\": \"<long>\",\n  \"createFeeAccount\": {\n    \"referralAccount\": \"<string>\"\n  },\n  \"destinationTokenAccount\": {\n    \"associatedTokenAccount\": {\n      \"owner\": \"<string>\"\n    }\n  },\n  \"dynamicComputeUnitLimit\": \"<boolean>\",\n  \"feeAccount\": \"<string>\",\n  \"includeJitoSandwichMitigationAccount\": \"<boolean>\",\n  \"outputCloseAuthority\": \"<string>\",\n  \"perLegSlippage\": \"<boolean>\",\n  \"positiveSlippage\": {\n    \"limitPct\": \"<integer>\",\n    \"feeAccount\": \"<string>\"\n  },\n  \"prioritizationFeeLamports\": {\n    \"autoMultiplier\": \"<integer>\"\n  },\n  \"sponsor\": \"<string>\",\n  \"sponsorExec\": \"<boolean>\",\n  \"wrapAndUnwrapSol\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "34d2530f-34ed-4252-946a-e7bfd4c5b4ef",
+              "name": "Imperative swap transaction",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap-instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userPublicKey\": \"<string>\",\n  \"quoteResponse\": {\n    \"inputMint\": \"string\",\n    \"inAmount\": \"string\",\n    \"outputMint\": \"string\",\n    \"outAmount\": \"string\",\n    \"otherAmountThreshold\": \"string\",\n    \"minOutAmount\": \"string\",\n    \"slippageBps\": 3481,\n    \"priceImpactPct\": \"string\",\n    \"routePlan\": [\n      {\n        \"venue\": \"string\",\n        \"marketKey\": \"string\",\n        \"data\": \"string\",\n        \"inputMint\": \"string\",\n        \"outputMint\": \"string\",\n        \"inAmount\": \"string\",\n        \"outAmount\": \"string\",\n        \"inputMintDecimals\": 9942,\n        \"outputMintDecimals\": 1549\n      },\n      {\n        \"venue\": \"string\",\n        \"marketKey\": \"string\",\n        \"data\": \"string\",\n        \"inputMint\": \"string\",\n        \"outputMint\": \"string\",\n        \"inAmount\": \"string\",\n        \"outAmount\": \"string\",\n        \"inputMintDecimals\": 86,\n        \"outputMintDecimals\": 8719\n      }\n    ],\n    \"contextSlot\": 8369,\n    \"forJitoBundle\": false,\n    \"outTransferFee\": \"string\",\n    \"platformFee\": null,\n    \"requestId\": \"string\",\n    \"routingSlot\": 4307,\n    \"simulatedComputeUnits\": 2428,\n    \"skipPumpfunCashbackClaim\": true\n  },\n  \"computeUnitPriceMicroLamports\": \"<long>\",\n  \"createFeeAccount\": {\n    \"referralAccount\": \"string\"\n  },\n  \"destinationTokenAccount\": {\n    \"associatedTokenAccount\": {\n      \"owner\": \"string\"\n    }\n  },\n  \"dynamicComputeUnitLimit\": \"<boolean>\",\n  \"feeAccount\": \"<string>\",\n  \"includeJitoSandwichMitigationAccount\": true,\n  \"outputCloseAuthority\": \"<string>\",\n  \"perLegSlippage\": \"<boolean>\",\n  \"positiveSlippage\": {\n    \"limitPct\": 2820,\n    \"feeAccount\": \"string\"\n  },\n  \"prioritizationFeeLamports\": {\n    \"autoMultiplier\": 1392\n  },\n  \"sponsor\": \"<string>\",\n  \"sponsorExec\": \"<boolean>\",\n  \"wrapAndUnwrapSol\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"computeBudgetInstructions\": [\n    {\n      \"programId\": \"string\",\n      \"accounts\": [\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": true,\n          \"isWritable\": true\n        },\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": false,\n          \"isWritable\": false\n        }\n      ],\n      \"data\": \"string\"\n    },\n    {\n      \"programId\": \"string\",\n      \"accounts\": [\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": true,\n          \"isWritable\": false\n        },\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": false,\n          \"isWritable\": true\n        }\n      ],\n      \"data\": \"string\"\n    }\n  ],\n  \"setupInstructions\": [\n    {\n      \"programId\": \"string\",\n      \"accounts\": [\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": true,\n          \"isWritable\": false\n        },\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": true,\n          \"isWritable\": true\n        }\n      ],\n      \"data\": \"string\"\n    },\n    {\n      \"programId\": \"string\",\n      \"accounts\": [\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": false,\n          \"isWritable\": true\n        },\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": false,\n          \"isWritable\": false\n        }\n      ],\n      \"data\": \"string\"\n    }\n  ],\n  \"swapInstruction\": {\n    \"programId\": \"string\",\n    \"accounts\": [\n      {\n        \"pubkey\": \"string\",\n        \"isSigner\": false,\n        \"isWritable\": true\n      },\n      {\n        \"pubkey\": \"string\",\n        \"isSigner\": true,\n        \"isWritable\": true\n      }\n    ],\n    \"data\": \"string\"\n  },\n  \"cleanupInstructions\": [\n    {\n      \"programId\": \"string\",\n      \"accounts\": [\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": false,\n          \"isWritable\": false\n        },\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": false,\n          \"isWritable\": true\n        }\n      ],\n      \"data\": \"string\"\n    },\n    {\n      \"programId\": \"string\",\n      \"accounts\": [\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": true,\n          \"isWritable\": true\n        },\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": true,\n          \"isWritable\": true\n        }\n      ],\n      \"data\": \"string\"\n    }\n  ],\n  \"otherInstructions\": [\n    {\n      \"programId\": \"string\",\n      \"accounts\": [\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": true,\n          \"isWritable\": true\n        },\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": true,\n          \"isWritable\": true\n        }\n      ],\n      \"data\": \"string\"\n    },\n    {\n      \"programId\": \"string\",\n      \"accounts\": [\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": true,\n          \"isWritable\": false\n        },\n        {\n          \"pubkey\": \"string\",\n          \"isSigner\": true,\n          \"isWritable\": true\n        }\n      ],\n      \"data\": \"string\"\n    }\n  ],\n  \"addressLookupTableAddresses\": [\n    \"string\",\n    \"string\"\n  ],\n  \"prioritizationFeeLamports\": 5083,\n  \"computeUnitLimit\": 4209,\n  \"blockhashWithMetadata\": {\n    \"blockhash\": \"string\",\n    \"lastValidBlockHeight\": 1392\n  },\n  \"prioritizationType\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7234fe99-c6d4-4cf8-820a-5d3bb3f549ec",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap-instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userPublicKey\": \"<string>\",\n  \"quoteResponse\": {\n    \"inputMint\": \"string\",\n    \"inAmount\": \"string\",\n    \"outputMint\": \"string\",\n    \"outAmount\": \"string\",\n    \"otherAmountThreshold\": \"string\",\n    \"minOutAmount\": \"string\",\n    \"slippageBps\": 3481,\n    \"priceImpactPct\": \"string\",\n    \"routePlan\": [\n      {\n        \"venue\": \"string\",\n        \"marketKey\": \"string\",\n        \"data\": \"string\",\n        \"inputMint\": \"string\",\n        \"outputMint\": \"string\",\n        \"inAmount\": \"string\",\n        \"outAmount\": \"string\",\n        \"inputMintDecimals\": 9942,\n        \"outputMintDecimals\": 1549\n      },\n      {\n        \"venue\": \"string\",\n        \"marketKey\": \"string\",\n        \"data\": \"string\",\n        \"inputMint\": \"string\",\n        \"outputMint\": \"string\",\n        \"inAmount\": \"string\",\n        \"outAmount\": \"string\",\n        \"inputMintDecimals\": 86,\n        \"outputMintDecimals\": 8719\n      }\n    ],\n    \"contextSlot\": 8369,\n    \"forJitoBundle\": false,\n    \"outTransferFee\": \"string\",\n    \"platformFee\": null,\n    \"requestId\": \"string\",\n    \"routingSlot\": 4307,\n    \"simulatedComputeUnits\": 2428,\n    \"skipPumpfunCashbackClaim\": true\n  },\n  \"computeUnitPriceMicroLamports\": \"<long>\",\n  \"createFeeAccount\": {\n    \"referralAccount\": \"string\"\n  },\n  \"destinationTokenAccount\": {\n    \"associatedTokenAccount\": {\n      \"owner\": \"string\"\n    }\n  },\n  \"dynamicComputeUnitLimit\": \"<boolean>\",\n  \"feeAccount\": \"<string>\",\n  \"includeJitoSandwichMitigationAccount\": true,\n  \"outputCloseAuthority\": \"<string>\",\n  \"perLegSlippage\": \"<boolean>\",\n  \"positiveSlippage\": {\n    \"limitPct\": 2820,\n    \"feeAccount\": \"string\"\n  },\n  \"prioritizationFeeLamports\": {\n    \"autoMultiplier\": 1392\n  },\n  \"sponsor\": \"<string>\",\n  \"sponsorExec\": \"<boolean>\",\n  \"wrapAndUnwrapSol\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"sponsored_swap_cannot_create_fee_account\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc281cad-1737-4638-85ba-ff495f17615d",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap-instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userPublicKey\": \"<string>\",\n  \"quoteResponse\": {\n    \"inputMint\": \"string\",\n    \"inAmount\": \"string\",\n    \"outputMint\": \"string\",\n    \"outAmount\": \"string\",\n    \"otherAmountThreshold\": \"string\",\n    \"minOutAmount\": \"string\",\n    \"slippageBps\": 3481,\n    \"priceImpactPct\": \"string\",\n    \"routePlan\": [\n      {\n        \"venue\": \"string\",\n        \"marketKey\": \"string\",\n        \"data\": \"string\",\n        \"inputMint\": \"string\",\n        \"outputMint\": \"string\",\n        \"inAmount\": \"string\",\n        \"outAmount\": \"string\",\n        \"inputMintDecimals\": 9942,\n        \"outputMintDecimals\": 1549\n      },\n      {\n        \"venue\": \"string\",\n        \"marketKey\": \"string\",\n        \"data\": \"string\",\n        \"inputMint\": \"string\",\n        \"outputMint\": \"string\",\n        \"inAmount\": \"string\",\n        \"outAmount\": \"string\",\n        \"inputMintDecimals\": 86,\n        \"outputMintDecimals\": 8719\n      }\n    ],\n    \"contextSlot\": 8369,\n    \"forJitoBundle\": false,\n    \"outTransferFee\": \"string\",\n    \"platformFee\": null,\n    \"requestId\": \"string\",\n    \"routingSlot\": 4307,\n    \"simulatedComputeUnits\": 2428,\n    \"skipPumpfunCashbackClaim\": true\n  },\n  \"computeUnitPriceMicroLamports\": \"<long>\",\n  \"createFeeAccount\": {\n    \"referralAccount\": \"string\"\n  },\n  \"destinationTokenAccount\": {\n    \"associatedTokenAccount\": {\n      \"owner\": \"string\"\n    }\n  },\n  \"dynamicComputeUnitLimit\": \"<boolean>\",\n  \"feeAccount\": \"<string>\",\n  \"includeJitoSandwichMitigationAccount\": true,\n  \"outputCloseAuthority\": \"<string>\",\n  \"perLegSlippage\": \"<boolean>\",\n  \"positiveSlippage\": {\n    \"limitPct\": 2820,\n    \"feeAccount\": \"string\"\n  },\n  \"prioritizationFeeLamports\": {\n    \"autoMultiplier\": 1392\n  },\n  \"sponsor\": \"<string>\",\n  \"sponsorExec\": \"<boolean>\",\n  \"wrapAndUnwrapSol\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"string\",\n  \"code\": \"failed_to_compute_swap\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://quote-api.dflow.net",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "64d083f7-1ac7-43a8-b6b2-02b5176699a6",
+    "name": "DFlow Aggregator admin swap API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "DFlow Aggregator API",
+      "type": "text/plain"
+    }
+  }
+}
