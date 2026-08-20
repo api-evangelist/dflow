@@ -58,6 +58,8 @@ apis:
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
   tags:
+  - Admin
+  tags_raw:
   - admin
   properties:
   - type: OpenAPI
@@ -72,6 +74,8 @@ apis:
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
   tags:
+  - Intent
+  tags_raw:
   - intent
   properties:
   - type: OpenAPI
@@ -86,6 +90,8 @@ apis:
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
   tags:
+  - Order
+  tags_raw:
   - order
   properties:
   - type: OpenAPI
@@ -100,6 +106,8 @@ apis:
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
   tags:
+  - Prediction Market
+  tags_raw:
   - prediction_market
   properties:
   - type: OpenAPI
@@ -114,6 +122,8 @@ apis:
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
   tags:
+  - Swap
+  tags_raw:
   - swap
   properties:
   - type: OpenAPI
@@ -128,6 +138,8 @@ apis:
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
   tags:
+  - Tokens
+  tags_raw:
   - tokens
   properties:
   - type: OpenAPI
@@ -142,6 +154,8 @@ apis:
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
   tags:
+  - Venues
+  tags_raw:
   - venues
   properties:
   - type: OpenAPI
