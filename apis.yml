@@ -86,7 +86,7 @@ apis:
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
   tags:
-  - intent
+  - Intent
   tags_raw:
   - intent
   properties:
@@ -102,7 +102,7 @@ apis:
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
   tags:
-  - order
+  - Order
   tags_raw:
   - order
   properties:
@@ -117,7 +117,8 @@ apis:
   description: Prediction market endpoints
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
-  tags: []
+  tags:
+  - Prediction Market
   tags_raw:
   - prediction_market
   properties:
@@ -133,7 +134,7 @@ apis:
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
   tags:
-  - swap
+  - Swap
   tags_raw:
   - swap
   properties:
@@ -165,7 +166,7 @@ apis:
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
   tags:
-  - venues
+  - Venues
   tags_raw:
   - venues
   properties:
