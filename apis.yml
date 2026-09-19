@@ -88,7 +88,7 @@ apis:
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
   tags:
-  - Intent
+  - Intents
   tags_raw:
   - intent
   properties:
