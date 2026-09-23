@@ -1,13 +1,7 @@
 {
   "provider": "dflow",
   "sources": [
-    "dflow-admin-api-openapi.yml",
-    "dflow-intent-api-openapi.yml",
-    "dflow-order-api-openapi.yml",
-    "dflow-prediction-market-api-openapi.yml",
-    "dflow-swap-api-openapi.yml",
-    "dflow-tokens-api-openapi.yml",
-    "dflow-venues-api-openapi.yml"
+    "_original/dflow-openapi-original.json"
   ],
   "outputs": [
     "dflow-admin-api-openapi.yml",
@@ -21,6 +15,19 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "dflow-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "dflow-openapi-original.json: declared missing tag: admin",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "dflow-admin-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dflow-intent-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dflow-order-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dflow-prediction-market-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dflow-swap-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dflow-tokens-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dflow-venues-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

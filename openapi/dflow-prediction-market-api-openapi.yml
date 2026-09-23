@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: DFlow Aggregator admin prediction_market API
+  title: DFlow Aggregator Prediction Market API
   description: DFlow Aggregator API
   license:
     name: BUSL-1.1
@@ -10,13 +10,13 @@ servers:
 security:
 - api_key: []
 tags:
-- name: prediction_market
+- name: Prediction Market
   description: Prediction market endpoints
 paths:
   /prediction-market-init:
     get:
       tags:
-      - prediction_market
+      - Prediction Market
       summary: Returns a transaction to initialize a prediction market idempotently
       operationId: prediction_market_init_handler
       parameters:
@@ -59,18 +59,6 @@ paths:
                 $ref: '#/components/schemas/PredictionMarketInitServiceUnavailableResponse'
 components:
   schemas:
-    PredictionMarketInitBadRequestCode:
-      type: string
-      enum:
-      - invalid_payer
-      - invalid_outcome_mint
-      - prediction_market_already_initialized
-      - unknown_outcome_mint
-    PredictionMarketInitServiceUnavailableCode:
-      type: string
-      enum:
-      - not_ready
-      - lagging
     PredictionMarketInitServiceUnavailableResponse:
       type: object
       required:
@@ -79,6 +67,19 @@ components:
       properties:
         code:
           $ref: '#/components/schemas/PredictionMarketInitServiceUnavailableCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    PredictionMarketInitInternalServerErrorResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/PredictionMarketInitInternalServerErrorCode'
         msg:
           type: string
       example:
@@ -108,23 +109,18 @@ components:
           description: 'Base64-encoded transaction to initialize the market for the requested outcome mint. The
 
             payer must sign before sending it to Solana.'
-    PredictionMarketInitInternalServerErrorResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/PredictionMarketInitInternalServerErrorCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
-    PredictionMarketInitInternalServerErrorCode:
+    PredictionMarketInitBadRequestCode:
       type: string
       enum:
-      - failed_to_construct_transaction
+      - invalid_payer
+      - invalid_outcome_mint
+      - prediction_market_already_initialized
+      - unknown_outcome_mint
+    PredictionMarketInitServiceUnavailableCode:
+      type: string
+      enum:
+      - not_ready
+      - lagging
     PredictionMarketInitBadRequestResponse:
       type: object
       required:
@@ -138,6 +134,10 @@ components:
       example:
         code: <enum<string>>
         msg: <string>
+    PredictionMarketInitInternalServerErrorCode:
+      type: string
+      enum:
+      - failed_to_construct_transaction
   securitySchemes:
     api_key:
       type: apiKey

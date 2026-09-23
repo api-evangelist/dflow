@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: DFlow Aggregator admin API
+  title: DFlow Aggregator Admin API
   description: DFlow Aggregator API
   license:
     name: BUSL-1.1
@@ -10,12 +10,12 @@ servers:
 security:
 - api_key: []
 tags:
-- name: admin
+- name: Admin
 paths:
   /health-check:
     get:
       tags:
-      - admin
+      - Admin
       operationId: handler_health_check
       responses:
         '200':
@@ -30,17 +30,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckServiceUnavailableResponse'
+      summary: Handler health check
+      x-summary-source: derived
 components:
   schemas:
-    HealthCheckServiceUnavailableCode:
-      type: string
-      enum:
-      - amm_map_not_initialized
-      - amm_map_lagging
-      - mint_info_not_initialized
-      - reference_price_map_not_initialized
-      - blockhash_unavailable
-      - internal
     HealthCheckServiceUnavailableResponse:
       type: object
       required:
@@ -54,6 +47,15 @@ components:
       example:
         code: <enum<string>>
         msg: <string>
+    HealthCheckServiceUnavailableCode:
+      type: string
+      enum:
+      - amm_map_not_initialized
+      - amm_map_lagging
+      - mint_info_not_initialized
+      - reference_price_map_not_initialized
+      - blockhash_unavailable
+      - internal
   securitySchemes:
     api_key:
       type: apiKey

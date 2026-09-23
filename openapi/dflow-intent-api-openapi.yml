@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: DFlow Aggregator admin intent API
+  title: DFlow Aggregator Intent API
   description: DFlow Aggregator API
   license:
     name: BUSL-1.1
@@ -10,13 +10,13 @@ servers:
 security:
 - api_key: []
 tags:
-- name: intent
+- name: Intent
   description: Intent trading endpoints
 paths:
   /intent:
     get:
       tags:
-      - intent
+      - Intent
       summary: Returns a quote for a declarative swap
       operationId: intent_handler
       parameters:
@@ -162,7 +162,7 @@ paths:
   /submit-intent:
     post:
       tags:
-      - intent
+      - Intent
       summary: Submits a declarative swap transaction for processing
       operationId: submit_intent_handler
       requestBody:
@@ -186,31 +186,6 @@ paths:
                 $ref: '#/components/schemas/SubmitIntentBadRequestResponse'
 components:
   schemas:
-    IntentServiceUnavailableResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/IntentServiceUnavailableCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
-    IntentSwapRequest:
-      type: object
-      required:
-      - quoteResponse
-      - signedOpenTransaction
-      properties:
-        quoteResponse:
-          $ref: '#/components/schemas/IntentQuoteResponse'
-          description: The response from the quote endpoint
-        signedOpenTransaction:
-          type: string
-          description: Base64-encoded intent opening transaction, signed by the user
     SubmitIntentBadRequestResponse:
       type: object
       required:
@@ -224,124 +199,23 @@ components:
       example:
         code: <enum<string>>
         msg: <string>
-    IntentInternalServerErrorResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/IntentInternalServerErrorCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
-    IntentExpiry:
-      oneOf:
-      - type: object
-        description: 'The intent will expire after the specified number of slots have passed since the open
-
-          transaction was processed. For example, if the open transaction was processed in slot 100, a
-
-          value of 10 means the intent will be fillable through slot 110. After slot 110, the intent
-
-          will no longer be fillable.'
-        required:
-        - slotsAfterOpen
-        properties:
-          slotsAfterOpen:
-            type: integer
-            format: int32
-            description: 'The intent will expire after the specified number of slots have passed since the open
-
-              transaction was processed. For example, if the open transaction was processed in slot 100, a
-
-              value of 10 means the intent will be fillable through slot 110. After slot 110, the intent
-
-              will no longer be fillable.'
-            minimum: 0
-    IntentInternalServerErrorCode:
-      type: string
-      enum:
-      - failed_to_compute_route
-      - failed_to_construct_intent
-    IntentSwapResponse:
-      type: object
-      required:
-      - programId
-      - orderAddress
-      - openTransactionSignature
-      properties:
-        openTransactionSignature:
-          type: string
-          description: Base58-encoded open transaction signature
-        orderAddress:
-          type: string
-          description: Base58-encoded order address
-        programId:
-          type: string
-          description: Base58-encoded program ID of the program that facilitates the swap
-    IntentBadRequestResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/IntentBadRequestCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
     IntentServiceUnavailableCode:
       type: string
       enum:
       - amm_map_not_initialized
       - amm_map_lagging
-    IntentPlatformFee:
+    IntentSwapRequest:
       type: object
       required:
-      - amount
-      - feeBps
-      - segmenterFeeAmount
-      - segmenterFeePct
-      - feeAccount
+      - quoteResponse
+      - signedOpenTransaction
       properties:
-        amount:
+        quoteResponse:
+          $ref: '#/components/schemas/IntentQuoteResponse'
+          description: The response from the quote endpoint
+        signedOpenTransaction:
           type: string
-          description: Platform fee as a scaled integer. For example, 1 SOL is 1000000000.
-        feeAccount:
-          type: string
-          description: Token account that will receive the platform fee
-        feeBps:
-          type: integer
-          format: int32
-          description: Platform fee in basis points
-          minimum: 0
-        segmenterFeeAmount:
-          type: string
-          description: Segmenter fee as a scaled integer. For example, 1 SOL is 1000000000.
-        segmenterFeePct:
-          type: integer
-          format: int32
-          description: Segmenter fee in percent
-          minimum: 0
-    SubmitIntentBadRequestCode:
-      type: string
-      enum:
-      - invalid_input_mint
-      - invalid_output_mint
-      - same_input_and_output_mint
-      - invalid_in_amount
-      - invalid_out_amount
-      - invalid_fee_account
-      - invalid_open_instruction_fee_budget_too_low
-      - invalid_open_transaction
-      - invalid_open_instruction_data
-      - failed_to_simulate_open_transaction
-      - open_transaction_simulation_failed
+          description: Base64-encoded intent opening transaction, signed by the user
     IntentQuoteResponse:
       type: object
       required:
@@ -420,16 +294,66 @@ components:
           format: int32
           description: Max allowed slippage % in basis points
           minimum: 0
-    SlippageTolerance:
-      oneOf:
-      - type: integer
-        format: int32
-        description: Slippage tolerance specified in basis points
-        minimum: 0
-      - type: string
-        description: Slippage tolerance will be determined by the server
-        enum:
-        - auto
+    IntentServiceUnavailableResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/IntentServiceUnavailableCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    IntentPlatformFee:
+      type: object
+      required:
+      - amount
+      - feeBps
+      - segmenterFeeAmount
+      - segmenterFeePct
+      - feeAccount
+      properties:
+        amount:
+          type: string
+          description: Platform fee as a scaled integer. For example, 1 SOL is 1000000000.
+        feeAccount:
+          type: string
+          description: Token account that will receive the platform fee
+        feeBps:
+          type: integer
+          format: int32
+          description: Platform fee in basis points
+          minimum: 0
+        segmenterFeeAmount:
+          type: string
+          description: Segmenter fee as a scaled integer. For example, 1 SOL is 1000000000.
+        segmenterFeePct:
+          type: integer
+          format: int32
+          description: Segmenter fee in percent
+          minimum: 0
+    SubmitIntentBadRequestCode:
+      type: string
+      enum:
+      - invalid_input_mint
+      - invalid_output_mint
+      - same_input_and_output_mint
+      - invalid_in_amount
+      - invalid_out_amount
+      - invalid_fee_account
+      - invalid_open_instruction_fee_budget_too_low
+      - invalid_open_transaction
+      - invalid_open_instruction_data
+      - failed_to_simulate_open_transaction
+      - open_transaction_simulation_failed
+    IntentInternalServerErrorCode:
+      type: string
+      enum:
+      - failed_to_compute_route
+      - failed_to_construct_intent
     IntentBadRequestCode:
       type: string
       enum:
@@ -447,6 +371,82 @@ components:
       - route_not_found
       - price_impact_too_high
       - invalid_price_impact_tolerance_pct
+    SlippageTolerance:
+      oneOf:
+      - type: integer
+        format: int32
+        description: Slippage tolerance specified in basis points
+        minimum: 0
+      - type: string
+        description: Slippage tolerance will be determined by the server
+        enum:
+        - auto
+    IntentExpiry:
+      oneOf:
+      - type: object
+        description: 'The intent will expire after the specified number of slots have passed since the open
+
+          transaction was processed. For example, if the open transaction was processed in slot 100, a
+
+          value of 10 means the intent will be fillable through slot 110. After slot 110, the intent
+
+          will no longer be fillable.'
+        required:
+        - slotsAfterOpen
+        properties:
+          slotsAfterOpen:
+            type: integer
+            format: int32
+            description: 'The intent will expire after the specified number of slots have passed since the open
+
+              transaction was processed. For example, if the open transaction was processed in slot 100, a
+
+              value of 10 means the intent will be fillable through slot 110. After slot 110, the intent
+
+              will no longer be fillable.'
+            minimum: 0
+    IntentSwapResponse:
+      type: object
+      required:
+      - programId
+      - orderAddress
+      - openTransactionSignature
+      properties:
+        openTransactionSignature:
+          type: string
+          description: Base58-encoded open transaction signature
+        orderAddress:
+          type: string
+          description: Base58-encoded order address
+        programId:
+          type: string
+          description: Base58-encoded program ID of the program that facilitates the swap
+    IntentInternalServerErrorResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/IntentInternalServerErrorCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    IntentBadRequestResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/IntentBadRequestCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
   securitySchemes:
     api_key:
       type: apiKey

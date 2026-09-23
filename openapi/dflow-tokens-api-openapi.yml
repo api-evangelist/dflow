@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: DFlow Aggregator admin tokens API
+  title: DFlow Aggregator Tokens API
   description: DFlow Aggregator API
   license:
     name: BUSL-1.1
@@ -10,16 +10,14 @@ servers:
 security:
 - api_key: []
 tags:
-- name: tokens
+- name: Tokens
   description: Token endpoints
 paths:
   /tokens:
     get:
       tags:
-      - tokens
-      summary: 'Returns a list of supported token mints, specically any mints that a pool for trading was
-
-        available atleast once in the lifetime of the server.'
+      - Tokens
+      summary: Returns a list of supported token mints, specically any mints that a pool for…
       operationId: tokens_handler
       responses:
         '200':
@@ -37,10 +35,8 @@ paths:
   /tokens-with-decimals:
     get:
       tags:
-      - tokens
-      summary: 'Returns a list of supported token mints and their decimals, specically any mints that a pool for trading was
-
-        available atleast once in the lifetime of the server.'
+      - Tokens
+      summary: Returns a list of supported token mints and their decimals, specically any…
       operationId: tokens_with_decimals_handler
       responses:
         '200':
@@ -72,10 +68,6 @@ components:
           - 9
         - - EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
           - 6
-    TokensServiceUnavailableCode:
-      type: string
-      enum:
-      - mint_info_not_initialized
     TokensServiceUnavailableResponse:
       type: object
       required:
@@ -89,6 +81,10 @@ components:
       example:
         code: <enum<string>>
         msg: <string>
+    TokensServiceUnavailableCode:
+      type: string
+      enum:
+      - mint_info_not_initialized
     Vec:
       type: array
       items:
