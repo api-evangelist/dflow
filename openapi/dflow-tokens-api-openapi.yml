@@ -53,6 +53,23 @@ paths:
                 $ref: '#/components/schemas/TokensServiceUnavailableResponse'
 components:
   schemas:
+    TokensServiceUnavailableCode:
+      type: string
+      enum:
+      - mint_info_not_initialized
+    TokensServiceUnavailableResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/TokensServiceUnavailableCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
     TokensWithDecimalsDoc:
       type: array
       items:
@@ -68,23 +85,6 @@ components:
           - 9
         - - EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
           - 6
-    TokensServiceUnavailableResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/TokensServiceUnavailableCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
-    TokensServiceUnavailableCode:
-      type: string
-      enum:
-      - mint_info_not_initialized
     Vec:
       type: array
       items:

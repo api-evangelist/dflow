@@ -48,6 +48,10 @@ specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-07-18'
 image: https://dflow.net/og-image.png
+x-docs-platform: mintlify
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-09-25
+x-docs-hosting: vercel
 tags:
 - Company
 - Crypto Web3
@@ -60,6 +64,7 @@ tags:
 - MEV Protection
 - Prediction Markets
 - Agent Ready
+- Real-Time
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -67,7 +72,7 @@ maintainers:
   email: info@apis.io
 apis:
 - aid: dflow:dflow-admin-api
-  name: DFlow admin API
+  name: DFlow Admin API
   description: The admin API from DFlow — 1 operation(s) for admin.
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
@@ -83,7 +88,7 @@ apis:
   - type: AsyncAPI
     url: asyncapi/dflow-trading-asyncapi.yml
 - aid: dflow:dflow-intent-api
-  name: DFlow intent API
+  name: DFlow Intent API
   description: Intent trading endpoints
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
@@ -99,7 +104,7 @@ apis:
   - type: AsyncAPI
     url: asyncapi/dflow-trading-asyncapi.yml
 - aid: dflow:dflow-order-api
-  name: DFlow order API
+  name: DFlow Order API
   description: Order API endpoints
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
@@ -115,7 +120,7 @@ apis:
   - type: AsyncAPI
     url: asyncapi/dflow-trading-asyncapi.yml
 - aid: dflow:dflow-prediction-market-api
-  name: DFlow prediction_market API
+  name: DFlow Prediction Market API
   description: Prediction market endpoints
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
@@ -131,7 +136,7 @@ apis:
   - type: AsyncAPI
     url: asyncapi/dflow-trading-asyncapi.yml
 - aid: dflow:dflow-swap-api
-  name: DFlow swap API
+  name: DFlow Swap API
   description: Swap API endpoints
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
@@ -147,7 +152,7 @@ apis:
   - type: AsyncAPI
     url: asyncapi/dflow-trading-asyncapi.yml
 - aid: dflow:dflow-tokens-api
-  name: DFlow tokens API
+  name: DFlow Tokens API
   description: Token endpoints
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net
@@ -163,7 +168,7 @@ apis:
   - type: AsyncAPI
     url: asyncapi/dflow-trading-asyncapi.yml
 - aid: dflow:dflow-venues-api
-  name: DFlow venues API
+  name: DFlow Venues API
   description: Venue endpoints
   humanURL: https://pond.dflow.net/resources/trading-api/introduction
   baseURL: https://quote-api.dflow.net

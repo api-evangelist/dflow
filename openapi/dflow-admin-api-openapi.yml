@@ -34,6 +34,15 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    HealthCheckServiceUnavailableCode:
+      type: string
+      enum:
+      - amm_map_not_initialized
+      - amm_map_lagging
+      - mint_info_not_initialized
+      - reference_price_map_not_initialized
+      - blockhash_unavailable
+      - internal
     HealthCheckServiceUnavailableResponse:
       type: object
       required:
@@ -47,15 +56,6 @@ components:
       example:
         code: <enum<string>>
         msg: <string>
-    HealthCheckServiceUnavailableCode:
-      type: string
-      enum:
-      - amm_map_not_initialized
-      - amm_map_lagging
-      - mint_info_not_initialized
-      - reference_price_map_not_initialized
-      - blockhash_unavailable
-      - internal
   securitySchemes:
     api_key:
       type: apiKey
