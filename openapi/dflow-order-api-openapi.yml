@@ -551,63 +551,6 @@ paths:
                 $ref: '#/components/schemas/OrderStatusInternalServerErrorResponse'
 components:
   schemas:
-    OrderStatusInternalServerErrorCode:
-      type: string
-      enum:
-      - internal_server_error
-    OrderStatusNotFoundCode:
-      type: string
-      enum:
-      - not_found
-    DynamicRoutePlanLeg:
-      type: object
-      required:
-      - venue
-      - marketKey
-      - data
-      - inputMint
-      - outputMint
-      - inAmount
-      - outAmount
-      - inputMintDecimals
-      - outputMintDecimals
-      properties:
-        data:
-          type: string
-          description: Data for the leg
-        inAmount:
-          type: string
-          description: Maximum input amount for the leg as a scaled integer. For example, 1 SOL is 1000000000.
-        inputMint:
-          type: string
-          description: Base58-encoded input mint address
-        inputMintDecimals:
-          type: integer
-          format: int32
-          description: Decimals for the input mint
-          minimum: 0
-        marketKey:
-          type: string
-          description: Key identifying the market on the venue
-        outAmount:
-          type: string
-          description: Expected output amount for the leg as a scaled integer. For example, 1 SOL is 1000000000.
-        outputMint:
-          type: string
-          description: Base58-encoded output mint address
-        outputMintDecimals:
-          type: integer
-          format: int32
-          description: Decimals for the output mint
-          minimum: 0
-        venue:
-          type: string
-          description: Venue for the leg
-    OrderInternalServerErrorCode:
-      type: string
-      enum:
-      - failed_to_compute_route
-      - failed_to_construct_order
     OrderStatus:
       type: string
       enum:
@@ -617,37 +560,6 @@ components:
       - open
       - pendingClose
       - closed
-    OrderStatusInternalServerErrorResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/OrderStatusInternalServerErrorCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
-    OrderServiceUnavailableCode:
-      type: string
-      enum:
-      - amm_map_not_initialized
-      - amm_map_lagging
-    OrderStatusNotFoundResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/OrderStatusNotFoundCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
     SingleMarketRoutePlanLeg:
       type: object
       required:
@@ -692,51 +604,168 @@ components:
       oneOf:
       - $ref: '#/components/schemas/DynamicRoutePlanLeg'
       - $ref: '#/components/schemas/SingleMarketRoutePlanLeg'
-    AddressLookupTableResponse:
+    OrderStatusResponse:
       type: object
       required:
-      - address
-      - addresses
-      properties:
-        address:
-          type: string
-          description: Base58-encoded address of the lookup table account
-        addresses:
-          type: object
-          description: 'Map of index to base58-encoded address for each entry in the lookup table that is used by
-
-            the transaction. Key is the index of the address in the lookup table and value is the
-
-            address.'
-          additionalProperties:
-            type: string
-          propertyNames:
-            type: integer
-            minimum: 0
-    Fill:
-      type: object
-      required:
-      - signature
-      - inputMint
+      - status
       - inAmount
-      - outputMint
       - outAmount
       properties:
+        fills:
+          type: array
+          items:
+            $ref: '#/components/schemas/Fill'
+          description: Fills for the order. Specified if and only if the order has at least one fill.
         inAmount:
           type: string
-          description: Input amount including fees, as a scaled integer. For example, 1 SOL is 1000000000.
-        inputMint:
-          type: string
-          description: Input mint for the fill
+          description: Total input amount filled, as a scaled integer. For example, 1 SOL is 1000000000.
         outAmount:
           type: string
-          description: Output amount including fees, as a scaled integer. For example, 1 SOL is 1000000000.
+          description: Total output amount filled, as a scaled integer. For example, 1 SOL is 1000000000.
+        reverts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Revert'
+          description: Reverts for the order. Specified if and only if the order has at least one revert.
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+          description: Status of the order
+    OrderStatusBadRequestResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/OrderStatusBadRequestCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    OrderBadRequestCode:
+      type: string
+      enum:
+      - invalid_user_public_key
+      - invalid_sponsor
+      - invalid_revert_wallet
+      - invalid_prediction_market_init_payer
+      - requested_input_amount_is_zero
+      - invalid_input_mint
+      - invalid_output_mint
+      - same_input_and_output_mint
+      - invalid_slippage_bps
+      - prediction_slippage_bps_above_max
+      - prediction_slippage_bps_below_routing_slippage
+      - invalid_platform_fee_bps
+      - invalid_platform_fee_scale
+      - invalid_fee_account
+      - platform_fee_account_not_specified
+      - platform_fee_account_not_specified_for_platform_fee_scale
+      - invalid_positive_slippage_fee_account
+      - cannot_disable_sync_and_async_execution
+      - invalid_dex
+      - invalid_max_route_length_for_jit_route
+      - cannot_exclude_jit_router_for_jit_route
+      - route_not_found
+      - zero_out_amount
+      - price_impact_too_high
+      - both_priority_fee_params_specified
+      - both_destination_params_specified
+      - both_sponsor_and_prediction_market_init_payer_specified
+      - invalid_destination_token_account
+      - invalid_destination_wallet
+      - destination_token_account_not_supported
+      - invalid_output_close_authority
+      - output_close_authority_with_native_sol_output
+      - output_close_authority_with_destination_token_account
+      - invalid_input_mint_for_restrict_revert_mint
+      - invalid_jito_sandwich_mitigation_account
+      - invalid_outcome_account_rent_recipient
+      - unverified_wallet_not_allowed
+      - unsupported_prediction_market_sponsor_mode
+      - invalid_price_impact_tolerance_pct
+      - skip_pumpfun_cashback_claim_with_sponsor_executor
+      - allow_bonding_curve_underconsumption_with_sponsor_executor
+      - both_max_accounts_and_reserve_accounts_specified
+      - both_max_transaction_size_and_reserve_transaction_size_specified
+      - max_accounts_too_small
+      - max_transaction_size_too_small
+      - reserve_accounts_too_large
+      - reserve_transaction_size_too_large
+    DynamicRoutePlanLeg:
+      type: object
+      required:
+      - venue
+      - marketKey
+      - data
+      - inputMint
+      - outputMint
+      - inAmount
+      - outAmount
+      - inputMintDecimals
+      - outputMintDecimals
+      properties:
+        data:
+          type: string
+          description: Data for the leg
+        inAmount:
+          type: string
+          description: Maximum input amount for the leg as a scaled integer. For example, 1 SOL is 1000000000.
+        inputMint:
+          type: string
+          description: Base58-encoded input mint address
+        inputMintDecimals:
+          type: integer
+          format: int32
+          description: Decimals for the input mint
+          minimum: 0
+        marketKey:
+          type: string
+          description: Key identifying the market on the venue
+        outAmount:
+          type: string
+          description: Expected output amount for the leg as a scaled integer. For example, 1 SOL is 1000000000.
         outputMint:
           type: string
-          description: Output mint for the fill
-        signature:
+          description: Base58-encoded output mint address
+        outputMintDecimals:
+          type: integer
+          format: int32
+          description: Decimals for the output mint
+          minimum: 0
+        venue:
           type: string
-          description: Base58-encoded signature of the fill transaction
+          description: Venue for the leg
+    PlatformFee:
+      type: object
+      required:
+      - amount
+      - feeBps
+      - mode
+      properties:
+        amount:
+          type: string
+          description: 'Platform fee as a scaled integer. For example, 1 SOL is 1000000000. For output mint fees,
+
+            this is the expected amount that will be paid, but the exact amount will vary depending on
+
+            how much output the swap produces. For input mint fees, this is the exact amount that will
+
+            be paid.'
+        feeBps:
+          type: integer
+          format: int32
+          description: Platform fee in basis points
+          minimum: 0
+        mode:
+          $ref: '#/components/schemas/PlatformFeeMode'
+          description: Mode for the platform fee
+    OrderServiceUnavailableCode:
+      type: string
+      enum:
+      - amm_map_not_initialized
+      - amm_map_lagging
     PrioritizationType:
       oneOf:
       - type: object
@@ -762,6 +791,32 @@ components:
                 format: int64
                 description: Compute unit price assigned to the transaction
                 minimum: 0
+    OrderStatusInternalServerErrorResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/OrderStatusInternalServerErrorCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    OrderServiceUnavailableResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/OrderServiceUnavailableCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
     SlippageTolerance:
       oneOf:
       - type: integer
@@ -772,11 +827,136 @@ components:
         description: Slippage tolerance will be determined by the server
         enum:
         - auto
+    OrderInternalServerErrorCode:
+      type: string
+      enum:
+      - failed_to_compute_route
+      - failed_to_construct_order
     PlatformFeeMode:
       type: string
       enum:
       - outputMint
       - inputMint
+    OrderInternalServerErrorResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/OrderInternalServerErrorCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    OrderStatusBadRequestCode:
+      type: string
+      enum:
+      - invalid_signature
+    ExecutionMode:
+      type: string
+      enum:
+      - sync
+      - async
+    AddressLookupTableResponse:
+      type: object
+      required:
+      - address
+      - addresses
+      properties:
+        address:
+          type: string
+          description: Base58-encoded address of the lookup table account
+        addresses:
+          type: object
+          description: 'Map of index to base58-encoded address for each entry in the lookup table that is used by
+
+            the transaction. Key is the index of the address in the lookup table and value is the
+
+            address.'
+          additionalProperties:
+            type: string
+          propertyNames:
+            type: integer
+            minimum: 0
+    OrderPrioritizationFeeLamports:
+      oneOf:
+      - type: string
+        enum:
+        - auto
+        - medium
+        - high
+        - veryHigh
+        - disabled
+      - type: integer
+        format: int32
+        minimum: 0
+    OrderStatusNotFoundResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/OrderStatusNotFoundCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    Fill:
+      type: object
+      required:
+      - signature
+      - inputMint
+      - inAmount
+      - outputMint
+      - outAmount
+      properties:
+        inAmount:
+          type: string
+          description: Input amount including fees, as a scaled integer. For example, 1 SOL is 1000000000.
+        inputMint:
+          type: string
+          description: Input mint for the fill
+        outAmount:
+          type: string
+          description: Output amount including fees, as a scaled integer. For example, 1 SOL is 1000000000.
+        outputMint:
+          type: string
+          description: Output mint for the fill
+        signature:
+          type: string
+          description: Base58-encoded signature of the fill transaction
+    OrderStatusNotFoundCode:
+      type: string
+      enum:
+      - not_found
+    Revert:
+      type: object
+      required:
+      - signature
+      - mint
+      - amount
+      properties:
+        amount:
+          type: string
+          description: Amount returned to the user, as a scaled integer. For example, 1 SOL is 1000000000.
+        mint:
+          type: string
+          description: Mint returned to the user
+        signature:
+          type: string
+          description: Base58-encoded signature of the revert transaction
+    OrderStatusInternalServerErrorCode:
+      type: string
+      enum:
+      - internal_server_error
+    IncludeJitoSandwichMitigationAccount:
+      oneOf:
+      - type: boolean
+      - type: string
     OrderResponse:
       type: object
       required:
@@ -916,120 +1096,6 @@ components:
           description: 'Base64-encoded transaction. The user must sign before sending it to Solana. Specified
 
             if and only if the request included the user''s public key.'
-    IncludeJitoSandwichMitigationAccount:
-      oneOf:
-      - type: boolean
-      - type: string
-    ExecutionMode:
-      type: string
-      enum:
-      - sync
-      - async
-    Revert:
-      type: object
-      required:
-      - signature
-      - mint
-      - amount
-      properties:
-        amount:
-          type: string
-          description: Amount returned to the user, as a scaled integer. For example, 1 SOL is 1000000000.
-        mint:
-          type: string
-          description: Mint returned to the user
-        signature:
-          type: string
-          description: Base58-encoded signature of the revert transaction
-    OrderBadRequestCode:
-      type: string
-      enum:
-      - invalid_user_public_key
-      - invalid_sponsor
-      - invalid_revert_wallet
-      - invalid_prediction_market_init_payer
-      - requested_input_amount_is_zero
-      - invalid_input_mint
-      - invalid_output_mint
-      - same_input_and_output_mint
-      - invalid_slippage_bps
-      - prediction_slippage_bps_above_max
-      - prediction_slippage_bps_below_routing_slippage
-      - invalid_platform_fee_bps
-      - invalid_platform_fee_scale
-      - invalid_fee_account
-      - platform_fee_account_not_specified
-      - platform_fee_account_not_specified_for_platform_fee_scale
-      - invalid_positive_slippage_fee_account
-      - cannot_disable_sync_and_async_execution
-      - invalid_dex
-      - invalid_max_route_length_for_jit_route
-      - cannot_exclude_jit_router_for_jit_route
-      - route_not_found
-      - zero_out_amount
-      - price_impact_too_high
-      - both_priority_fee_params_specified
-      - both_destination_params_specified
-      - both_sponsor_and_prediction_market_init_payer_specified
-      - invalid_destination_token_account
-      - invalid_destination_wallet
-      - destination_token_account_not_supported
-      - invalid_output_close_authority
-      - output_close_authority_with_native_sol_output
-      - output_close_authority_with_destination_token_account
-      - invalid_input_mint_for_restrict_revert_mint
-      - invalid_jito_sandwich_mitigation_account
-      - invalid_outcome_account_rent_recipient
-      - unverified_wallet_not_allowed
-      - unsupported_prediction_market_sponsor_mode
-      - invalid_price_impact_tolerance_pct
-      - skip_pumpfun_cashback_claim_with_sponsor_executor
-      - allow_bonding_curve_underconsumption_with_sponsor_executor
-      - both_max_accounts_and_reserve_accounts_specified
-      - both_max_transaction_size_and_reserve_transaction_size_specified
-      - max_accounts_too_small
-      - max_transaction_size_too_small
-      - reserve_accounts_too_large
-      - reserve_transaction_size_too_large
-    OrderStatusBadRequestResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/OrderStatusBadRequestCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
-    OrderServiceUnavailableResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/OrderServiceUnavailableCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
-    OrderInternalServerErrorResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/OrderInternalServerErrorCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
     OrderBadRequestResponse:
       type: object
       required:
@@ -1043,72 +1109,6 @@ components:
       example:
         code: <enum<string>>
         msg: <string>
-    PlatformFee:
-      type: object
-      required:
-      - amount
-      - feeBps
-      - mode
-      properties:
-        amount:
-          type: string
-          description: 'Platform fee as a scaled integer. For example, 1 SOL is 1000000000. For output mint fees,
-
-            this is the expected amount that will be paid, but the exact amount will vary depending on
-
-            how much output the swap produces. For input mint fees, this is the exact amount that will
-
-            be paid.'
-        feeBps:
-          type: integer
-          format: int32
-          description: Platform fee in basis points
-          minimum: 0
-        mode:
-          $ref: '#/components/schemas/PlatformFeeMode'
-          description: Mode for the platform fee
-    OrderStatusResponse:
-      type: object
-      required:
-      - status
-      - inAmount
-      - outAmount
-      properties:
-        fills:
-          type: array
-          items:
-            $ref: '#/components/schemas/Fill'
-          description: Fills for the order. Specified if and only if the order has at least one fill.
-        inAmount:
-          type: string
-          description: Total input amount filled, as a scaled integer. For example, 1 SOL is 1000000000.
-        outAmount:
-          type: string
-          description: Total output amount filled, as a scaled integer. For example, 1 SOL is 1000000000.
-        reverts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Revert'
-          description: Reverts for the order. Specified if and only if the order has at least one revert.
-        status:
-          $ref: '#/components/schemas/OrderStatus'
-          description: Status of the order
-    OrderStatusBadRequestCode:
-      type: string
-      enum:
-      - invalid_signature
-    OrderPrioritizationFeeLamports:
-      oneOf:
-      - type: string
-        enum:
-        - auto
-        - medium
-        - high
-        - veryHigh
-        - disabled
-      - type: integer
-        format: int32
-        minimum: 0
   securitySchemes:
     api_key:
       type: apiKey

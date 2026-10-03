@@ -59,19 +59,13 @@ paths:
                 $ref: '#/components/schemas/PredictionMarketInitServiceUnavailableResponse'
 components:
   schemas:
-    PredictionMarketInitInternalServerErrorResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/PredictionMarketInitInternalServerErrorCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
+    PredictionMarketInitBadRequestCode:
+      type: string
+      enum:
+      - invalid_payer
+      - invalid_outcome_mint
+      - prediction_market_already_initialized
+      - unknown_outcome_mint
     PredictionMarketInitServiceUnavailableResponse:
       type: object
       required:
@@ -85,13 +79,28 @@ components:
       example:
         code: <enum<string>>
         msg: <string>
-    PredictionMarketInitBadRequestCode:
+    PredictionMarketInitBadRequestResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/PredictionMarketInitBadRequestCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    PredictionMarketInitServiceUnavailableCode:
       type: string
       enum:
-      - invalid_payer
-      - invalid_outcome_mint
-      - prediction_market_already_initialized
-      - unknown_outcome_mint
+      - not_ready
+      - lagging
+    PredictionMarketInitInternalServerErrorCode:
+      type: string
+      enum:
+      - failed_to_construct_transaction
     PredictionMarketInitResponse:
       type: object
       required:
@@ -116,23 +125,14 @@ components:
           description: 'Base64-encoded transaction to initialize the market for the requested outcome mint. The
 
             payer must sign before sending it to Solana.'
-    PredictionMarketInitInternalServerErrorCode:
-      type: string
-      enum:
-      - failed_to_construct_transaction
-    PredictionMarketInitServiceUnavailableCode:
-      type: string
-      enum:
-      - not_ready
-      - lagging
-    PredictionMarketInitBadRequestResponse:
+    PredictionMarketInitInternalServerErrorResponse:
       type: object
       required:
       - msg
       - code
       properties:
         code:
-          $ref: '#/components/schemas/PredictionMarketInitBadRequestCode'
+          $ref: '#/components/schemas/PredictionMarketInitInternalServerErrorCode'
         msg:
           type: string
       example:

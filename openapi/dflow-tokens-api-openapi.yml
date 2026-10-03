@@ -53,6 +53,21 @@ paths:
                 $ref: '#/components/schemas/TokensServiceUnavailableResponse'
 components:
   schemas:
+    TokensWithDecimalsDoc:
+      type: array
+      items:
+        type: array
+        items: {}
+        prefixItems:
+        - type: string
+        - type: integer
+        maxItems: 2
+        minItems: 2
+      examples:
+      - - - So11111111111111111111111111111111111111112
+          - 9
+        - - EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+          - 6
     TokensServiceUnavailableCode:
       type: string
       enum:
@@ -70,21 +85,6 @@ components:
       example:
         code: <enum<string>>
         msg: <string>
-    TokensWithDecimalsDoc:
-      type: array
-      items:
-        type: array
-        items: {}
-        prefixItems:
-        - type: string
-        - type: integer
-        maxItems: 2
-        minItems: 2
-      examples:
-      - - - So11111111111111111111111111111111111111112
-          - 9
-        - - EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
-          - 6
     Vec:
       type: array
       items:
