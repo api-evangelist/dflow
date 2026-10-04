@@ -271,122 +271,83 @@ paths:
                 $ref: '#/components/schemas/SwapInternalServerErrorResponse'
 components:
   schemas:
-    SingleMarketRoutePlanLeg:
+    QuoteBadRequestResponse:
       type: object
       required:
-      - venue
-      - marketKey
-      - inputMint
-      - outputMint
-      - inAmount
-      - outAmount
-      - inputMintDecimals
-      - outputMintDecimals
+      - msg
+      - code
       properties:
-        inAmount:
+        code:
+          $ref: '#/components/schemas/QuoteBadRequestCode'
+        contextSlot:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          minimum: 0
+        msg:
           type: string
-          description: Maximum input amount for the leg as a scaled integer. For example, 1 SOL is 1000000000.
-        inputMint:
+        routingSlot:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          minimum: 0
+      example:
+        code: <enum<string>>
+        msg: <string>
+    PlatformFee:
+      type: object
+      required:
+      - amount
+      - feeBps
+      - mode
+      properties:
+        amount:
           type: string
-          description: Base58-encoded input mint address
-        inputMintDecimals:
+          description: 'Platform fee as a scaled integer. For example, 1 SOL is 1000000000. For output mint fees,
+
+            this is the expected amount that will be paid, but the exact amount will vary depending on
+
+            how much output the swap produces. For input mint fees, this is the exact amount that will
+
+            be paid.'
+        feeBps:
           type: integer
           format: int32
-          description: Decimals for the input mint
+          description: Platform fee in basis points
           minimum: 0
-        marketKey:
-          type: string
-          description: Key identifying the market on the venue
-        outAmount:
-          type: string
-          description: Expected output amount for the leg as a scaled integer. For example, 1 SOL is 1000000000.
-        outputMint:
-          type: string
-          description: Base58-encoded output mint address
-        outputMintDecimals:
-          type: integer
-          format: int32
-          description: Decimals for the output mint
-          minimum: 0
-        venue:
-          type: string
-          description: Venue for the leg
-    PrioritizationFeeLamports:
+        mode:
+          $ref: '#/components/schemas/PlatformFeeMode'
+          description: Mode for the platform fee
+    IncludeJitoSandwichMitigationAccount:
       oneOf:
-      - type: object
-        description: A multiplier applied to the automatically-determined fee. The total is capped at 0.005 SOL.
-        required:
-        - autoMultiplier
-        properties:
-          autoMultiplier:
-            type: integer
-            format: int32
-            description: A multiplier applied to the automatically-determined fee. The total is capped at 0.005 SOL.
-            minimum: 0
-      - type: object
-        description: A variable prioritization fee determined by the server based on the specified priority level
-        required:
-        - priorityLevelWithMaxLamports
-        properties:
-          priorityLevelWithMaxLamports:
-            type: object
-            description: A variable prioritization fee determined by the server based on the specified priority level
-            required:
-            - priorityLevel
-            - maxLamports
-            properties:
-              maxLamports:
-                type: integer
-                format: int32
-                description: Maximum lamports to cap the prioritization fee determined by the server
-                minimum: 0
-              priorityLevel:
-                $ref: '#/components/schemas/PriorityLevel'
-                description: Priority level for the prioritization fee
+      - type: boolean
       - type: string
-        description: A variable prioritization fee determined by the server. The total is capped at 0.005 SOL.
+    BlockhashWithMetadata:
+      type: object
+      required:
+      - blockhash
+      - lastValidBlockHeight
+      properties:
+        blockhash:
+          type: string
+          description: Base58-encoded blockhash
+        lastValidBlockHeight:
+          type: integer
+          format: int64
+          description: The last block height at which a transaction that uses the blockhash is valid
+          minimum: 0
+    SlippageTolerance:
+      oneOf:
+      - type: integer
+        format: int32
+        description: Slippage tolerance specified in basis points
+        minimum: 0
+      - type: string
+        description: Slippage tolerance will be determined by the server
         enum:
         - auto
-      - type: object
-        description: A fixed prioritization fee in lamports
-        required:
-        - lamports
-        properties:
-          lamports:
-            type: integer
-            format: int32
-            description: A fixed prioritization fee in lamports
-            minimum: 0
-      - type: string
-        description: Prioritization fee should be left unspecified
-        enum:
-        - disabled
-    QuoteInternalServerErrorCode:
-      type: string
-      enum:
-      - failed_to_compute_route
-    InstructionResponse:
-      type: object
-      required:
-      - programId
-      - accounts
-      - data
-      properties:
-        accounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountMetaResponse'
-          description: Metadata describing accounts that should be passed to the program.
-        data:
-          type: string
-          description: Opaque data passed to the program for its own interpretation.
-        programId:
-          type: string
-          description: Pubkey of the program that executes this instruction.
-    RoutePlanLeg:
-      oneOf:
-      - $ref: '#/components/schemas/DynamicRoutePlanLeg'
-      - $ref: '#/components/schemas/SingleMarketRoutePlanLeg'
     SwapRequest:
       type: object
       required:
@@ -488,41 +449,90 @@ components:
         wrapAndUnwrapSol:
           type: boolean
           description: If false, the transaction will use wrapped SOL
-    CreateFeeAccountParams:
+    PrioritizationFeeLamports:
+      oneOf:
+      - type: object
+        description: A multiplier applied to the automatically-determined fee. The total is capped at 0.005 SOL.
+        required:
+        - autoMultiplier
+        properties:
+          autoMultiplier:
+            type: integer
+            format: int32
+            description: A multiplier applied to the automatically-determined fee. The total is capped at 0.005 SOL.
+            minimum: 0
+      - type: object
+        description: A variable prioritization fee determined by the server based on the specified priority level
+        required:
+        - priorityLevelWithMaxLamports
+        properties:
+          priorityLevelWithMaxLamports:
+            type: object
+            description: A variable prioritization fee determined by the server based on the specified priority level
+            required:
+            - priorityLevel
+            - maxLamports
+            properties:
+              maxLamports:
+                type: integer
+                format: int32
+                description: Maximum lamports to cap the prioritization fee determined by the server
+                minimum: 0
+              priorityLevel:
+                $ref: '#/components/schemas/PriorityLevel'
+                description: Priority level for the prioritization fee
+      - type: string
+        description: A variable prioritization fee determined by the server. The total is capped at 0.005 SOL.
+        enum:
+        - auto
+      - type: object
+        description: A fixed prioritization fee in lamports
+        required:
+        - lamports
+        properties:
+          lamports:
+            type: integer
+            format: int32
+            description: A fixed prioritization fee in lamports
+            minimum: 0
+      - type: string
+        description: Prioritization fee should be left unspecified
+        enum:
+        - disabled
+    AccountMetaResponse:
       type: object
       required:
-      - referralAccount
+      - pubkey
+      - isSigner
+      - isWritable
       properties:
-        referralAccount:
+        isSigner:
+          type: boolean
+          description: Is the account a signer?
+        isWritable:
+          type: boolean
+          description: Is the account writable?
+        pubkey:
           type: string
-          description: Base58-encoded address of the referral account associated with the fee account
-    PositiveSlippageParams:
+          description: Pubkey of the account
+    InstructionResponse:
       type: object
       required:
-      - limitPct
+      - programId
+      - accounts
+      - data
       properties:
-        feeAccount:
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountMetaResponse'
+          description: Metadata describing accounts that should be passed to the program.
+        data:
           type: string
-          description: 'Base58-encoded address of the token account that will receive the positive slippage fee.
-
-            This must be a token account for the output mint, regardless of the platform fee mode. If at
-
-            swap execution time this account can''t receive the positive slippage fee, then the positive
-
-            slippage fee transfer is skipped. If the platform fee mode is `outputMint` and the platform
-
-            fee account is specified, then this must be unspecified (in which case the platform fee
-
-            account will be used) or match the platform fee account. Otherwise, this must be specified.'
-        limitPct:
-          type: integer
-          format: int32
-          description: 'Limit on the positive slippage fee in percent. The positive slippage fee is limited to the
-
-            lesser of (1) the excess actual out amount above the quoted amount and (2) this percentage
-
-            of the actual out amount after platform fee.'
-          minimum: 0
+          description: Opaque data passed to the program for its own interpretation.
+        programId:
+          type: string
+          description: Pubkey of the program that executes this instruction.
     SwapResponse:
       type: object
       required:
@@ -554,10 +564,256 @@ components:
         swapTransaction:
           type: string
           description: Base64-encoded swap transaction. The user must sign before sending it to Solana.
+    PrioritizationType:
+      oneOf:
+      - type: object
+        description: Prioritization fee specified via the compute budget program
+        required:
+        - computeBudget
+        properties:
+          computeBudget:
+            type: object
+            description: Prioritization fee specified via the compute budget program
+            required:
+            - microLamports
+            properties:
+              estimatedMicroLamports:
+                type:
+                - integer
+                - 'null'
+                format: int64
+                description: Compute unit price estimated by the server for the transaction
+                minimum: 0
+              microLamports:
+                type: integer
+                format: int64
+                description: Compute unit price assigned to the transaction
+                minimum: 0
+    PositiveSlippageParams:
+      type: object
+      required:
+      - limitPct
+      properties:
+        feeAccount:
+          type: string
+          description: 'Base58-encoded address of the token account that will receive the positive slippage fee.
+
+            This must be a token account for the output mint, regardless of the platform fee mode. If at
+
+            swap execution time this account can''t receive the positive slippage fee, then the positive
+
+            slippage fee transfer is skipped. If the platform fee mode is `outputMint` and the platform
+
+            fee account is specified, then this must be unspecified (in which case the platform fee
+
+            account will be used) or match the platform fee account. Otherwise, this must be specified.'
+        limitPct:
+          type: integer
+          format: int32
+          description: 'Limit on the positive slippage fee in percent. The positive slippage fee is limited to the
+
+            lesser of (1) the excess actual out amount above the quoted amount and (2) this percentage
+
+            of the actual out amount after platform fee.'
+          minimum: 0
+    DestinationTokenAccountParam:
+      oneOf:
+      - type: object
+        description: 'Use the specified owner''s associated token account for the output mint as the destination
+
+          token account. If the destination token account is uninitialized at swap execution time, the
+
+          swap will create it. This cannot be used if the output is native SOL.'
+        required:
+        - associatedTokenAccount
+        properties:
+          associatedTokenAccount:
+            type: object
+            description: 'Use the specified owner''s associated token account for the output mint as the destination
+
+              token account. If the destination token account is uninitialized at swap execution time, the
+
+              swap will create it. This cannot be used if the output is native SOL.'
+            required:
+            - owner
+            properties:
+              owner:
+                type: string
+                description: Base58-encoded address of the owner of the destination token account
+      - type: object
+        description: 'Use the specified base58-encoded address as the destination token account. The account must
+
+          already be initialized at swap execution time or else the transaction will fail.'
+        required:
+        - address
+        properties:
+          address:
+            type: string
+            description: 'Use the specified base58-encoded address as the destination token account. The account must
+
+              already be initialized at swap execution time or else the transaction will fail.'
+    QuoteBadRequestCode:
+      type: string
+      enum:
+      - requested_input_amount_is_zero
+      - invalid_input_mint
+      - invalid_output_mint
+      - same_input_and_output_mint
+      - invalid_slippage_bps
+      - invalid_platform_fee_bps
+      - invalid_dex
+      - invalid_max_route_length_for_jit_route
+      - cannot_exclude_jit_router_for_jit_route
+      - route_not_found
+      - use_order_endpoint_for_prediction_markets
+      - price_impact_too_high
+      - invalid_price_impact_tolerance_pct
+    SwapBadRequestCode:
+      type: string
+      enum:
+      - invalid_out_amount
+      - invalid_user_public_key
+      - invalid_sponsor
+      - sponsored_swap_cannot_create_fee_account
+      - invalid_platform_fee_amount
+      - invalid_fee_account
+      - invalid_positive_slippage_fee_account
+      - invalid_referral_account
+      - invalid_destination_token_account
+      - invalid_destination_token_account_for_native_sol
+      - invalid_output_close_authority
+      - output_close_authority_with_native_sol_output
+      - output_close_authority_with_destination_token_account
+      - both_priority_fee_params_specified
+      - route_is_empty
+      - route_too_long
+      - invalid_route_plan_leg
+      - invalid_jito_sandwich_mitigation_account
+      - skip_pumpfun_cashback_claim_with_sponsor_executor
+    PriorityLevel:
+      type: string
+      enum:
+      - medium
+      - high
+      - veryHigh
+    SingleMarketRoutePlanLeg:
+      type: object
+      required:
+      - venue
+      - marketKey
+      - inputMint
+      - outputMint
+      - inAmount
+      - outAmount
+      - inputMintDecimals
+      - outputMintDecimals
+      properties:
+        inAmount:
+          type: string
+          description: Maximum input amount for the leg as a scaled integer. For example, 1 SOL is 1000000000.
+        inputMint:
+          type: string
+          description: Base58-encoded input mint address
+        inputMintDecimals:
+          type: integer
+          format: int32
+          description: Decimals for the input mint
+          minimum: 0
+        marketKey:
+          type: string
+          description: Key identifying the market on the venue
+        outAmount:
+          type: string
+          description: Expected output amount for the leg as a scaled integer. For example, 1 SOL is 1000000000.
+        outputMint:
+          type: string
+          description: Base58-encoded output mint address
+        outputMintDecimals:
+          type: integer
+          format: int32
+          description: Decimals for the output mint
+          minimum: 0
+        venue:
+          type: string
+          description: Venue for the leg
+    DynamicRoutePlanLeg:
+      type: object
+      required:
+      - venue
+      - marketKey
+      - data
+      - inputMint
+      - outputMint
+      - inAmount
+      - outAmount
+      - inputMintDecimals
+      - outputMintDecimals
+      properties:
+        data:
+          type: string
+          description: Data for the leg
+        inAmount:
+          type: string
+          description: Maximum input amount for the leg as a scaled integer. For example, 1 SOL is 1000000000.
+        inputMint:
+          type: string
+          description: Base58-encoded input mint address
+        inputMintDecimals:
+          type: integer
+          format: int32
+          description: Decimals for the input mint
+          minimum: 0
+        marketKey:
+          type: string
+          description: Key identifying the market on the venue
+        outAmount:
+          type: string
+          description: Expected output amount for the leg as a scaled integer. For example, 1 SOL is 1000000000.
+        outputMint:
+          type: string
+          description: Base58-encoded output mint address
+        outputMintDecimals:
+          type: integer
+          format: int32
+          description: Decimals for the output mint
+          minimum: 0
+        venue:
+          type: string
+          description: Venue for the leg
+    QuoteInternalServerErrorCode:
+      type: string
+      enum:
+      - failed_to_compute_route
     SwapInternalServerErrorCode:
       type: string
       enum:
       - failed_to_compute_swap
+    SwapBadRequestResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/SwapBadRequestCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    PlatformFeeMode:
+      type: string
+      enum:
+      - outputMint
+      - inputMint
+    CreateFeeAccountParams:
+      type: object
+      required:
+      - referralAccount
+      properties:
+        referralAccount:
+          type: string
+          description: Base58-encoded address of the referral account associated with the fee account
     SwapInstructionsResponse:
       type: object
       required:
@@ -619,215 +875,6 @@ components:
         swapInstruction:
           $ref: '#/components/schemas/InstructionResponse'
           description: The instruction that performs the swap
-    DynamicRoutePlanLeg:
-      type: object
-      required:
-      - venue
-      - marketKey
-      - data
-      - inputMint
-      - outputMint
-      - inAmount
-      - outAmount
-      - inputMintDecimals
-      - outputMintDecimals
-      properties:
-        data:
-          type: string
-          description: Data for the leg
-        inAmount:
-          type: string
-          description: Maximum input amount for the leg as a scaled integer. For example, 1 SOL is 1000000000.
-        inputMint:
-          type: string
-          description: Base58-encoded input mint address
-        inputMintDecimals:
-          type: integer
-          format: int32
-          description: Decimals for the input mint
-          minimum: 0
-        marketKey:
-          type: string
-          description: Key identifying the market on the venue
-        outAmount:
-          type: string
-          description: Expected output amount for the leg as a scaled integer. For example, 1 SOL is 1000000000.
-        outputMint:
-          type: string
-          description: Base58-encoded output mint address
-        outputMintDecimals:
-          type: integer
-          format: int32
-          description: Decimals for the output mint
-          minimum: 0
-        venue:
-          type: string
-          description: Venue for the leg
-    AccountMetaResponse:
-      type: object
-      required:
-      - pubkey
-      - isSigner
-      - isWritable
-      properties:
-        isSigner:
-          type: boolean
-          description: Is the account a signer?
-        isWritable:
-          type: boolean
-          description: Is the account writable?
-        pubkey:
-          type: string
-          description: Pubkey of the account
-    PlatformFee:
-      type: object
-      required:
-      - amount
-      - feeBps
-      - mode
-      properties:
-        amount:
-          type: string
-          description: 'Platform fee as a scaled integer. For example, 1 SOL is 1000000000. For output mint fees,
-
-            this is the expected amount that will be paid, but the exact amount will vary depending on
-
-            how much output the swap produces. For input mint fees, this is the exact amount that will
-
-            be paid.'
-        feeBps:
-          type: integer
-          format: int32
-          description: Platform fee in basis points
-          minimum: 0
-        mode:
-          $ref: '#/components/schemas/PlatformFeeMode'
-          description: Mode for the platform fee
-    PrioritizationType:
-      oneOf:
-      - type: object
-        description: Prioritization fee specified via the compute budget program
-        required:
-        - computeBudget
-        properties:
-          computeBudget:
-            type: object
-            description: Prioritization fee specified via the compute budget program
-            required:
-            - microLamports
-            properties:
-              estimatedMicroLamports:
-                type:
-                - integer
-                - 'null'
-                format: int64
-                description: Compute unit price estimated by the server for the transaction
-                minimum: 0
-              microLamports:
-                type: integer
-                format: int64
-                description: Compute unit price assigned to the transaction
-                minimum: 0
-    SlippageTolerance:
-      oneOf:
-      - type: integer
-        format: int32
-        description: Slippage tolerance specified in basis points
-        minimum: 0
-      - type: string
-        description: Slippage tolerance will be determined by the server
-        enum:
-        - auto
-    BlockhashWithMetadata:
-      type: object
-      required:
-      - blockhash
-      - lastValidBlockHeight
-      properties:
-        blockhash:
-          type: string
-          description: Base58-encoded blockhash
-        lastValidBlockHeight:
-          type: integer
-          format: int64
-          description: The last block height at which a transaction that uses the blockhash is valid
-          minimum: 0
-    SwapBadRequestCode:
-      type: string
-      enum:
-      - invalid_out_amount
-      - invalid_user_public_key
-      - invalid_sponsor
-      - sponsored_swap_cannot_create_fee_account
-      - invalid_platform_fee_amount
-      - invalid_fee_account
-      - invalid_positive_slippage_fee_account
-      - invalid_referral_account
-      - invalid_destination_token_account
-      - invalid_destination_token_account_for_native_sol
-      - invalid_output_close_authority
-      - output_close_authority_with_native_sol_output
-      - output_close_authority_with_destination_token_account
-      - both_priority_fee_params_specified
-      - route_is_empty
-      - route_too_long
-      - invalid_route_plan_leg
-      - invalid_jito_sandwich_mitigation_account
-      - skip_pumpfun_cashback_claim_with_sponsor_executor
-    PlatformFeeMode:
-      type: string
-      enum:
-      - outputMint
-      - inputMint
-    SwapBadRequestResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/SwapBadRequestCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
-    QuoteServiceUnavailableResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/QuoteServiceUnavailableCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
-    PriorityFeesResponse:
-      type: object
-      description: Global priority fee estimates (in micro-lamports per compute unit) for each priority level.
-      required:
-      - mediumMicroLamports
-      - highMicroLamports
-      - veryHighMicroLamports
-      properties:
-        highMicroLamports:
-          type: integer
-          format: int64
-          description: Estimated micro-lamports per compute unit for the high priority level
-          minimum: 0
-        mediumMicroLamports:
-          type: integer
-          format: int64
-          description: Estimated micro-lamports per compute unit for the medium priority level
-          minimum: 0
-        veryHighMicroLamports:
-          type: integer
-          format: int64
-          description: Estimated micro-lamports per compute unit for the very high priority level
-          minimum: 0
     QuoteResponse:
       type: object
       required:
@@ -911,28 +958,61 @@ components:
           format: int32
           description: Max allowed slippage % in basis points
           minimum: 0
-    QuoteBadRequestResponse:
+    QuoteServiceUnavailableCode:
+      type: string
+      enum:
+      - amm_map_not_initialized
+      - amm_map_lagging
+    PriorityFeesResponse:
+      type: object
+      description: Global priority fee estimates (in micro-lamports per compute unit) for each priority level.
+      required:
+      - mediumMicroLamports
+      - highMicroLamports
+      - veryHighMicroLamports
+      properties:
+        highMicroLamports:
+          type: integer
+          format: int64
+          description: Estimated micro-lamports per compute unit for the high priority level
+          minimum: 0
+        mediumMicroLamports:
+          type: integer
+          format: int64
+          description: Estimated micro-lamports per compute unit for the medium priority level
+          minimum: 0
+        veryHighMicroLamports:
+          type: integer
+          format: int64
+          description: Estimated micro-lamports per compute unit for the very high priority level
+          minimum: 0
+    RoutePlanLeg:
+      oneOf:
+      - $ref: '#/components/schemas/DynamicRoutePlanLeg'
+      - $ref: '#/components/schemas/SingleMarketRoutePlanLeg'
+    QuoteServiceUnavailableResponse:
       type: object
       required:
       - msg
       - code
       properties:
         code:
-          $ref: '#/components/schemas/QuoteBadRequestCode'
-        contextSlot:
-          type:
-          - integer
-          - 'null'
-          format: int64
-          minimum: 0
+          $ref: '#/components/schemas/QuoteServiceUnavailableCode'
         msg:
           type: string
-        routingSlot:
-          type:
-          - integer
-          - 'null'
-          format: int64
-          minimum: 0
+      example:
+        code: <enum<string>>
+        msg: <string>
+    SwapInternalServerErrorResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/SwapInternalServerErrorCode'
+        msg:
+          type: string
       example:
         code: <enum<string>>
         msg: <string>
@@ -961,86 +1041,6 @@ components:
       example:
         code: <enum<string>>
         msg: <string>
-    PriorityLevel:
-      type: string
-      enum:
-      - medium
-      - high
-      - veryHigh
-    DestinationTokenAccountParam:
-      oneOf:
-      - type: object
-        description: 'Use the specified owner''s associated token account for the output mint as the destination
-
-          token account. If the destination token account is uninitialized at swap execution time, the
-
-          swap will create it. This cannot be used if the output is native SOL.'
-        required:
-        - associatedTokenAccount
-        properties:
-          associatedTokenAccount:
-            type: object
-            description: 'Use the specified owner''s associated token account for the output mint as the destination
-
-              token account. If the destination token account is uninitialized at swap execution time, the
-
-              swap will create it. This cannot be used if the output is native SOL.'
-            required:
-            - owner
-            properties:
-              owner:
-                type: string
-                description: Base58-encoded address of the owner of the destination token account
-      - type: object
-        description: 'Use the specified base58-encoded address as the destination token account. The account must
-
-          already be initialized at swap execution time or else the transaction will fail.'
-        required:
-        - address
-        properties:
-          address:
-            type: string
-            description: 'Use the specified base58-encoded address as the destination token account. The account must
-
-              already be initialized at swap execution time or else the transaction will fail.'
-    SwapInternalServerErrorResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/SwapInternalServerErrorCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
-    IncludeJitoSandwichMitigationAccount:
-      oneOf:
-      - type: boolean
-      - type: string
-    QuoteServiceUnavailableCode:
-      type: string
-      enum:
-      - amm_map_not_initialized
-      - amm_map_lagging
-    QuoteBadRequestCode:
-      type: string
-      enum:
-      - requested_input_amount_is_zero
-      - invalid_input_mint
-      - invalid_output_mint
-      - same_input_and_output_mint
-      - invalid_slippage_bps
-      - invalid_platform_fee_bps
-      - invalid_dex
-      - invalid_max_route_length_for_jit_route
-      - cannot_exclude_jit_router_for_jit_route
-      - route_not_found
-      - use_order_endpoint_for_prediction_markets
-      - price_impact_too_high
-      - invalid_price_impact_tolerance_pct
   securitySchemes:
     api_key:
       type: apiKey

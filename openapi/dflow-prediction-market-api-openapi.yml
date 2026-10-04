@@ -59,26 +59,10 @@ paths:
                 $ref: '#/components/schemas/PredictionMarketInitServiceUnavailableResponse'
 components:
   schemas:
-    PredictionMarketInitBadRequestCode:
+    PredictionMarketInitInternalServerErrorCode:
       type: string
       enum:
-      - invalid_payer
-      - invalid_outcome_mint
-      - prediction_market_already_initialized
-      - unknown_outcome_mint
-    PredictionMarketInitServiceUnavailableResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/PredictionMarketInitServiceUnavailableCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
+      - failed_to_construct_transaction
     PredictionMarketInitBadRequestResponse:
       type: object
       required:
@@ -92,15 +76,31 @@ components:
       example:
         code: <enum<string>>
         msg: <string>
+    PredictionMarketInitInternalServerErrorResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/PredictionMarketInitInternalServerErrorCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
     PredictionMarketInitServiceUnavailableCode:
       type: string
       enum:
       - not_ready
       - lagging
-    PredictionMarketInitInternalServerErrorCode:
+    PredictionMarketInitBadRequestCode:
       type: string
       enum:
-      - failed_to_construct_transaction
+      - invalid_payer
+      - invalid_outcome_mint
+      - prediction_market_already_initialized
+      - unknown_outcome_mint
     PredictionMarketInitResponse:
       type: object
       required:
@@ -125,14 +125,14 @@ components:
           description: 'Base64-encoded transaction to initialize the market for the requested outcome mint. The
 
             payer must sign before sending it to Solana.'
-    PredictionMarketInitInternalServerErrorResponse:
+    PredictionMarketInitServiceUnavailableResponse:
       type: object
       required:
       - msg
       - code
       properties:
         code:
-          $ref: '#/components/schemas/PredictionMarketInitInternalServerErrorCode'
+          $ref: '#/components/schemas/PredictionMarketInitServiceUnavailableCode'
         msg:
           type: string
       example:

@@ -186,58 +186,24 @@ paths:
                 $ref: '#/components/schemas/SubmitIntentBadRequestResponse'
 components:
   schemas:
-    SubmitIntentBadRequestCode:
+    IntentServiceUnavailableCode:
       type: string
       enum:
-      - invalid_input_mint
-      - invalid_output_mint
-      - same_input_and_output_mint
-      - invalid_in_amount
-      - invalid_out_amount
-      - invalid_fee_account
-      - invalid_open_instruction_fee_budget_too_low
-      - invalid_open_transaction
-      - invalid_open_instruction_data
-      - failed_to_simulate_open_transaction
-      - open_transaction_simulation_failed
-    IntentBadRequestCode:
-      type: string
-      enum:
-      - requested_input_amount_is_zero
-      - invalid_input_mint
-      - invalid_output_mint
-      - invalid_slippage_bps
-      - invalid_platform_fee_bps
-      - invalid_user_public_key
-      - same_input_and_output_mint
-      - invalid_fee_account
-      - invalid_referral_account
-      - requested_fee_budget_too_low
-      - invalid_max_auto_fee_budget
-      - route_not_found
-      - price_impact_too_high
-      - invalid_price_impact_tolerance_pct
-    IntentSwapResponse:
+      - amm_map_not_initialized
+      - amm_map_lagging
+    SubmitIntentBadRequestResponse:
       type: object
       required:
-      - programId
-      - orderAddress
-      - openTransactionSignature
+      - msg
+      - code
       properties:
-        openTransactionSignature:
+        code:
+          $ref: '#/components/schemas/SubmitIntentBadRequestCode'
+        msg:
           type: string
-          description: Base58-encoded open transaction signature
-        orderAddress:
-          type: string
-          description: Base58-encoded order address
-        programId:
-          type: string
-          description: Base58-encoded program ID of the program that facilitates the swap
-    IntentInternalServerErrorCode:
-      type: string
-      enum:
-      - failed_to_compute_route
-      - failed_to_construct_intent
+      example:
+        code: <enum<string>>
+        msg: <string>
     IntentExpiry:
       oneOf:
       - type: object
@@ -262,19 +228,6 @@ components:
 
               will no longer be fillable.'
             minimum: 0
-    IntentServiceUnavailableResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/IntentServiceUnavailableCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
     IntentQuoteResponse:
       type: object
       required:
@@ -353,31 +306,25 @@ components:
           format: int32
           description: Max allowed slippage % in basis points
           minimum: 0
-    SubmitIntentBadRequestResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/SubmitIntentBadRequestCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
-    IntentSwapRequest:
-      type: object
-      required:
-      - quoteResponse
-      - signedOpenTransaction
-      properties:
-        quoteResponse:
-          $ref: '#/components/schemas/IntentQuoteResponse'
-          description: The response from the quote endpoint
-        signedOpenTransaction:
-          type: string
-          description: Base64-encoded intent opening transaction, signed by the user
+    SubmitIntentBadRequestCode:
+      type: string
+      enum:
+      - invalid_input_mint
+      - invalid_output_mint
+      - same_input_and_output_mint
+      - invalid_in_amount
+      - invalid_out_amount
+      - invalid_fee_account
+      - invalid_open_instruction_fee_budget_too_low
+      - invalid_open_transaction
+      - invalid_open_instruction_data
+      - failed_to_simulate_open_transaction
+      - open_transaction_simulation_failed
+    IntentInternalServerErrorCode:
+      type: string
+      enum:
+      - failed_to_compute_route
+      - failed_to_construct_intent
     IntentBadRequestResponse:
       type: object
       required:
@@ -391,19 +338,39 @@ components:
       example:
         code: <enum<string>>
         msg: <string>
-    IntentInternalServerErrorResponse:
+    IntentSwapResponse:
       type: object
       required:
-      - msg
-      - code
+      - programId
+      - orderAddress
+      - openTransactionSignature
       properties:
-        code:
-          $ref: '#/components/schemas/IntentInternalServerErrorCode'
-        msg:
+        openTransactionSignature:
           type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
+          description: Base58-encoded open transaction signature
+        orderAddress:
+          type: string
+          description: Base58-encoded order address
+        programId:
+          type: string
+          description: Base58-encoded program ID of the program that facilitates the swap
+    IntentBadRequestCode:
+      type: string
+      enum:
+      - requested_input_amount_is_zero
+      - invalid_input_mint
+      - invalid_output_mint
+      - invalid_slippage_bps
+      - invalid_platform_fee_bps
+      - invalid_user_public_key
+      - same_input_and_output_mint
+      - invalid_fee_account
+      - invalid_referral_account
+      - requested_fee_budget_too_low
+      - invalid_max_auto_fee_budget
+      - route_not_found
+      - price_impact_too_high
+      - invalid_price_impact_tolerance_pct
     SlippageTolerance:
       oneOf:
       - type: integer
@@ -442,11 +409,44 @@ components:
           format: int32
           description: Segmenter fee in percent
           minimum: 0
-    IntentServiceUnavailableCode:
-      type: string
-      enum:
-      - amm_map_not_initialized
-      - amm_map_lagging
+    IntentInternalServerErrorResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/IntentInternalServerErrorCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    IntentServiceUnavailableResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/IntentServiceUnavailableCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    IntentSwapRequest:
+      type: object
+      required:
+      - quoteResponse
+      - signedOpenTransaction
+      properties:
+        quoteResponse:
+          $ref: '#/components/schemas/IntentQuoteResponse'
+          description: The response from the quote endpoint
+        signedOpenTransaction:
+          type: string
+          description: Base64-encoded intent opening transaction, signed by the user
   securitySchemes:
     api_key:
       type: apiKey
