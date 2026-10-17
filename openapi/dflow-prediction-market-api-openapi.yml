@@ -59,10 +59,48 @@ paths:
                 $ref: '#/components/schemas/PredictionMarketInitServiceUnavailableResponse'
 components:
   schemas:
-    PredictionMarketInitInternalServerErrorCode:
+    PredictionMarketInitServiceUnavailableResponse:
+      type: object
+      required:
+      - msg
+      - code
+      properties:
+        code:
+          $ref: '#/components/schemas/PredictionMarketInitServiceUnavailableCode'
+        msg:
+          type: string
+      example:
+        code: <enum<string>>
+        msg: <string>
+    PredictionMarketInitServiceUnavailableCode:
       type: string
       enum:
-      - failed_to_construct_transaction
+      - not_ready
+      - lagging
+    PredictionMarketInitResponse:
+      type: object
+      required:
+      - transaction
+      - lastValidBlockHeight
+      - computeUnitLimit
+      properties:
+        computeUnitLimit:
+          type: integer
+          format: int32
+          description: Compute unit limit assigned to the transaction
+          minimum: 0
+        lastValidBlockHeight:
+          type: integer
+          format: int64
+          description: 'The last block height at which the blockhash assigned to the transaction is valid. Useful to
+
+            determine whether the transaction has expired.'
+          minimum: 0
+        transaction:
+          type: string
+          description: 'Base64-encoded transaction to initialize the market for the requested outcome mint. The
+
+            payer must sign before sending it to Solana.'
     PredictionMarketInitBadRequestResponse:
       type: object
       required:
@@ -89,11 +127,6 @@ components:
       example:
         code: <enum<string>>
         msg: <string>
-    PredictionMarketInitServiceUnavailableCode:
-      type: string
-      enum:
-      - not_ready
-      - lagging
     PredictionMarketInitBadRequestCode:
       type: string
       enum:
@@ -101,43 +134,10 @@ components:
       - invalid_outcome_mint
       - prediction_market_already_initialized
       - unknown_outcome_mint
-    PredictionMarketInitResponse:
-      type: object
-      required:
-      - transaction
-      - lastValidBlockHeight
-      - computeUnitLimit
-      properties:
-        computeUnitLimit:
-          type: integer
-          format: int32
-          description: Compute unit limit assigned to the transaction
-          minimum: 0
-        lastValidBlockHeight:
-          type: integer
-          format: int64
-          description: 'The last block height at which the blockhash assigned to the transaction is valid. Useful to
-
-            determine whether the transaction has expired.'
-          minimum: 0
-        transaction:
-          type: string
-          description: 'Base64-encoded transaction to initialize the market for the requested outcome mint. The
-
-            payer must sign before sending it to Solana.'
-    PredictionMarketInitServiceUnavailableResponse:
-      type: object
-      required:
-      - msg
-      - code
-      properties:
-        code:
-          $ref: '#/components/schemas/PredictionMarketInitServiceUnavailableCode'
-        msg:
-          type: string
-      example:
-        code: <enum<string>>
-        msg: <string>
+    PredictionMarketInitInternalServerErrorCode:
+      type: string
+      enum:
+      - failed_to_construct_transaction
   securitySchemes:
     api_key:
       type: apiKey
