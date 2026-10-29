@@ -64,6 +64,141 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-DFlow is a company surfaced as a portfolio company of multicoin-capital and added to the API Evangelist network as a stub for enrichment. Sector: crypto-web3. This profile is a lead awaiting the enrichment pipeline.
+DFlow is a trading protocol and aggregator for spot trading natively on Solana, offering a Trading API that powers tens of billions of dollars in transacted value for traders, applications, and financial institutions. It provides imperative and declarative (intent-based) swaps, JIT routing across liquidity venues, MEV / sandwich protection, priority-fee and slippage controls, builder platform-fee monetization (platformFeeBps), sponsored (gasless) swaps, WebSocket market-data streams (quotes, order-book depth, priority fees), and prediction-market initialization. DFlow is agent-native: a single-binary agent CLI with an encrypted local wallet, published Claude Code Skills, and a hosted documentation MCP server. Authentication is via an x-api-key header; REST responses can be cryptographically signed with ed25519 per RFC 9421. Backed by Multicoin Capital.
 
-Backed by: multicoin-capital — https://dflow.net
+**Areas:** Company · Web3 · Solana · Trading API · DeFi · DEX Aggregator · Token Swap · Blockchain · MEV Protection · Prediction Markets · Agent Ready · Real-Time
+
+## DFlow on APIs.io
+
+Everything profiled for DFlow is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/dflow/](https://apis.io/providers/dflow/)** — or go straight to one of the APIs or properties below.
+
+### APIs (7)
+
+- [DFlow Admin API](https://apis.io/apis/dflow/dflow-admin-api/) — The admin API from DFlow — 1 operation(s) for admin.
+- [DFlow Intent API](https://apis.io/apis/dflow/dflow-intent-api/) — Intent trading endpoints
+- [DFlow Order API](https://apis.io/apis/dflow/dflow-order-api/) — Order API endpoints
+- [DFlow Prediction Market API](https://apis.io/apis/dflow/dflow-prediction-market-api/) — Prediction market endpoints
+- [DFlow Swap API](https://apis.io/apis/dflow/dflow-swap-api/) — Swap API endpoints
+- [DFlow Tokens API](https://apis.io/apis/dflow/dflow-tokens-api/) — Token endpoints
+- [DFlow Venues API](https://apis.io/apis/dflow/dflow-venues-api/) — Venue endpoints
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [DFlow Trading API WebSocket Streams](https://apis.io/asyncapis/dflow/dflow-trading-asyncapi/)
+
+#### Event channels (3)
+
+Individual events and webhooks the provider emits.
+
+- [/book-stream](https://apis.io/channels/dflow/book-stream/)
+- [/priority-fees/stream](https://apis.io/channels/dflow/priority-fees-stream/)
+- [/quote-stream](https://apis.io/channels/dflow/quote-stream/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [DFlow](https://apis.io/servers/dflow/dflow/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Dflow Agentic Access](https://apis.io/agentic-access/dflow/dflow-agentic-access/)
+
+#### Collections (7)
+
+Postman and Open Collection request collections.
+
+- [DFlow Aggregator admin API](https://apis.io/collections/dflow/open-dflow-admin-api/)
+- [DFlow Aggregator admin intent API](https://apis.io/collections/dflow/open-dflow-intent-api/)
+- [DFlow Aggregator admin order API](https://apis.io/collections/dflow/open-dflow-order-api/)
+- [DFlow Aggregator admin prediction_market API](https://apis.io/collections/dflow/open-dflow-prediction-market-api/)
+- [DFlow Aggregator admin swap API](https://apis.io/collections/dflow/open-dflow-swap-api/)
+- [DFlow Aggregator admin tokens API](https://apis.io/collections/dflow/open-dflow-tokens-api/)
+- [DFlow Aggregator admin venues API](https://apis.io/collections/dflow/open-dflow-venues-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Dflow Aggregator Overlay](https://apis.io/overlays/dflow/dflow-aggregator-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Dflow Authentication](https://apis.io/security/dflow/dflow-authentication/)
+- [Dflow Domain Security](https://apis.io/security/dflow/dflow-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://dflow.net)
+- [Documentation](https://pond.dflow.net/resources/introduction)
+- [Getting started](https://pond.dflow.net/get-started/what-is-dflow)
+- [API reference](https://pond.dflow.net/resources/trading-api/introduction)
+- [Sign up](https://forms.gle/eX3cghbMF8VBB9qa9)
+- [Support](https://t.me/+GubbVyulzDFjZTkx)
+- [Blog](https://dflow.net/blog/)
+- [GitHub](https://github.com/DFlowProtocol)
+
+## API Evangelist rating
+
+**Kin Score 38.4** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 52.3 |
+| Contract governance | 4.5 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 78.6 |
+| Access clarity | 13.2 |
+
+**Agent readiness 29.9** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 15.7** — Securities & Market Data
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/dflow/](https://apis.io/providers/dflow/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for DFlow: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/dflow/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
